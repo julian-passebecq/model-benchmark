@@ -126,6 +126,8 @@ function freeGroup(category: string) {
     value.includes("function") ||
     value.includes("container") ||
     value.includes("web") ||
+    value.includes("python") ||
+    value.includes("hosted app") ||
     value.includes("kubernetes")
   ) return "Compute & web";
   if (
@@ -148,7 +150,8 @@ function freeGroup(category: string) {
     value.includes("ci") ||
     value.includes("ide") ||
     value.includes("infrastructure") ||
-    value.includes("orchestration")
+    value.includes("orchestration") ||
+    value.includes("observability")
   ) return "CI & tooling";
   return "Other";
 }
