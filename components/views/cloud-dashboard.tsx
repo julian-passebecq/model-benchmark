@@ -141,6 +141,7 @@ function freeGroup(category: string) {
     value.includes("data transformation") ||
     value.includes("managed data") ||
     value.includes("object storage") ||
+    value.includes("streaming") ||
     value.includes("bi /")
   ) return "Data & BI";
   if (
@@ -174,7 +175,7 @@ export function CloudDashboard({
   onInspect: (record: InspectorRecord) => void;
 }) {
   const [view, setView] = useState("Platforms");
-  const [freeTier, setFreeTier] = useState("All");
+  const [freeTier, setFreeTier] = useState("True free");
   const [freeCategory, setFreeCategory] = useState("All");
   const q = query.trim().toLowerCase();
 
