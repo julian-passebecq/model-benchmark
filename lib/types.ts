@@ -388,3 +388,14 @@ export type DataStackLayer = {
   concepts: string[];
   note: string;
 };
+
+
+export type LabRecipe = {
+  id: string;
+  title: string;
+  goal: string;
+  primary: string[];
+  stack: string[];
+  decision: string;
+  caveat: string;
+};
