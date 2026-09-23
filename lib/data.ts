@@ -3,9 +3,12 @@ import dataStack from "../data/data-stack.json";
 import cloud from "../data/cloud.json";
 import hardware from "../data/hardware.json";
 import evolution from "../data/evolution.json";
+import codingAgents from "../data/coding-agents.json";
 
 import type {
+  BenchmarkMeta,
   BenchmarkRun,
+  CodingAgentFrontierPoint,
   CloudPlatform,
   DataEngine,
   DataFormat,
@@ -15,10 +18,15 @@ import type {
   MobileSoc,
   ModelBenchmark,
   QueryPrice,
+  TerminalBenchEffortPoint,
   VmShape
 } from "./types";
 
 export const modelBenchmarks = models.benchmarks as ModelBenchmark[];
+export const terminalBenchEffort = codingAgents.terminalBenchEffort as TerminalBenchEffortPoint[];
+export const terminalBenchMeta = codingAgents.terminalBenchMeta as BenchmarkMeta;
+export const codingAgentFrontier = codingAgents.codingAgentFrontier as CodingAgentFrontierPoint[];
+export const codingAgentFrontierMeta = codingAgents.codingAgentFrontierMeta as BenchmarkMeta;
 
 export const dataEngines = dataStack.engines as DataEngine[];
 export const dataFormats = dataStack.formats as DataFormat[];
