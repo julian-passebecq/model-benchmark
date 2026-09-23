@@ -1,9 +1,33 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import { Boxes, CloudCog, Coins, Container, Network, Workflow } from "lucide-react";
-import { cloudPlatforms, orchestrationPatterns, queryPrices, vmShapes } from "../../lib/data";
-import type { CloudPlatform, InspectorRecord, QueryPrice, VmShape } from "../../lib/types";
+import {
+  Boxes,
+  CheckCircle2,
+  CloudCog,
+  Coins,
+  Container,
+  Database,
+  Gift,
+  Laptop,
+  Network,
+  Server,
+  Workflow
+} from "lucide-react";
+import {
+  cloudPlatforms,
+  freeLabServices,
+  orchestrationPatterns,
+  queryPrices,
+  vmShapes
+} from "../../lib/data";
+import type {
+  CloudPlatform,
+  FreeLabService,
+  InspectorRecord,
+  QueryPrice,
+  VmShape
+} from "../../lib/types";
 import { EmptyState, MetricCard, SectionHeader, ToggleGroup } from "../ui";
 
 function platformInspector(item: CloudPlatform): InspectorRecord {
@@ -56,6 +80,71 @@ function vmInspector(item: VmShape): InspectorRecord {
   };
 }
 
+function freeLabInspector(item: FreeLabService): InspectorRecord {
+  return {
+    eyebrow: item.provider.toUpperCase() + " / FREE LAB",
+    title: item.name,
+    description: item.goodFor,
+    stats: [
+      { label: "Tier", value: item.tierType },
+      { label: "Duration", value: item.duration },
+      { label: "Quota", value: item.quota },
+      { label: "Account / card", value: item.cardRequired },
+      { label: "Commercial", value: item.commercialUse }
+    ],
+    source: item.source,
+    note: item.limits,
+    tags: [item.category, item.tierType]
+  };
+}
+
+function freeGroup(category: string) {
+  const value = category.toLowerCase();
+  if (
+    value.includes("vm") ||
+    value.includes("function") ||
+    value.includes("container") ||
+    value.includes("web") ||
+    value.includes("kubernetes")
+  ) return "Compute & web";
+  if (
+    value.includes("database") ||
+    value.includes("postgres") ||
+    value.includes("nosql") ||
+    value.includes("cache") ||
+    value.includes("key-value")
+  ) return "Databases";
+  if (
+    value.includes("warehouse") ||
+    value.includes("lakehouse") ||
+    value.includes("data transformation") ||
+    value.includes("managed data") ||
+    value.includes("object storage") ||
+    value.includes("bi /")
+  ) return "Data & BI";
+  if (
+    value.includes("ci") ||
+    value.includes("ide") ||
+    value.includes("infrastructure") ||
+    value.includes("orchestration")
+  ) return "CI & tooling";
+  return "Other";
+}
+
+function tierMatches(item: FreeLabService, filter: string) {
+  if (filter === "All") return true;
+  if (filter === "True free") return item.tierType === "true-free";
+  if (filter === "Trial") return item.tierType === "trial";
+  return item.tierType === "local-free" || item.tierType === "open-source";
+}
+
+function tierLabel(tier: FreeLabService["tierType"]) {
+  if (tier === "true-free") return "TRUE FREE";
+  if (tier === "trial") return "TRIAL";
+  if (tier === "local-free") return "LOCAL FREE";
+  return "OPEN SOURCE";
+}
+
 export function CloudDashboard({
   query,
   onInspect
@@ -64,6 +153,8 @@ export function CloudDashboard({
   onInspect: (record: InspectorRecord) => void;
 }) {
   const [view, setView] = useState("Platforms");
+  const [freeTier, setFreeTier] = useState("All");
+  const [freeCategory, setFreeCategory] = useState("All");
   const q = query.trim().toLowerCase();
 
   const platforms = useMemo(
@@ -78,23 +169,80 @@ export function CloudDashboard({
     () => vmShapes.filter((item) => !q || JSON.stringify(item).toLowerCase().includes(q)),
     [q]
   );
+  const freeLabs = useMemo(
+    () => freeLabServices.filter((item) => {
+      const queryMatch = !q || JSON.stringify(item).toLowerCase().includes(q);
+      const tierMatch = tierMatches(item, freeTier);
+      const groupMatch = freeCategory === "All" || freeGroup(item.category) === freeCategory;
+      return queryMatch && tierMatch && groupMatch;
+    }),
+    [q, freeTier, freeCategory]
+  );
 
-  const activeCount = view === "Platforms" ? platforms.length : view === "Query pricing" ? prices.length : vms.length;
+  const activeCount =
+    view === "Platforms" ? platforms.length :
+    view === "Query pricing" ? prices.length :
+    view === "VM shapes" ? vms.length :
+    freeLabs.length;
+
+  const hostedFreeCount = freeLabServices.filter((item) => item.tierType === "true-free").length;
+  const trialCount = freeLabServices.filter((item) => item.tierType === "trial").length;
+  const localCount = freeLabServices.filter((item) => item.tierType === "local-free" || item.tierType === "open-source").length;
+  const realVmCount = freeLabServices.filter((item) => item.tierType === "true-free" && item.category === "VM / compute").length;
 
   return (
     <div className="dashboard-grid">
-      <section className="metric-strip four">
-        <MetricCard label="PLATFORMS" value={String(cloudPlatforms.length)} sub="lakehouse + warehouse + cloud stacks" />
-        <MetricCard label="PRICING MODELS" value="5+" sub="capacity, credits, bytes, DBUs, instances" />
-        <MetricCard label="ORCHESTRATION LAYERS" value={String(orchestrationPatterns.length)} sub="container → declarative pipeline" />
-        <MetricCard label="VM TEMPLATES" value={String(vmShapes.length)} sub="bind exact region/SKU in JSON" />
-      </section>
+      {view === "Free labs" ? (
+        <section className="metric-strip four">
+          <MetricCard label="HOSTED TRUE FREE" value={String(hostedFreeCount)} sub="recurring/no-expiry quota" />
+          <MetricCard label="TRUE FREE VM" value={String(realVmCount)} sub="Oracle + Google-style VM quota" />
+          <MetricCard label="TRIAL / CREDITS" value={String(trialCount)} sub="kept separate from permanent free" />
+          <MetricCard label="LOCAL / OSS" value={String(localCount)} sub="free software; bring your own compute" />
+        </section>
+      ) : (
+        <section className="metric-strip four">
+          <MetricCard label="PLATFORMS" value={String(cloudPlatforms.length)} sub="lakehouse + warehouse + cloud stacks" />
+          <MetricCard label="PRICING MODELS" value="5+" sub="capacity, credits, bytes, DBUs, instances" />
+          <MetricCard label="ORCHESTRATION LAYERS" value={String(orchestrationPatterns.length)} sub="container → declarative pipeline" />
+          <MetricCard label="FREE LAB CATALOG" value={String(freeLabServices.length)} sub="hosted + trial + local / OSS" />
+        </section>
+      )}
 
       <section className="panel span-12">
         <div className="split-header">
-          <SectionHeader eyebrow="CLOUD DATA PLATFORMS" title="Compare architecture before comparing brand names" meta={activeCount + " visible records"} />
-          <ToggleGroup value={view} values={["Platforms", "Query pricing", "VM shapes"]} onChange={setView} label="Cloud view" />
+          <SectionHeader
+            eyebrow={view === "Free labs" ? "FREE CLOUD + DEVELOPER LABS" : "CLOUD DATA PLATFORMS"}
+            title={view === "Free labs" ? "What can I genuinely run for $0?" : "Compare architecture before comparing brand names"}
+            meta={activeCount + " visible records"}
+          />
+          <ToggleGroup
+            value={view}
+            values={["Platforms", "Query pricing", "VM shapes", "Free labs"]}
+            onChange={setView}
+            label="Cloud view"
+          />
         </div>
+
+        {view === "Free labs" ? (
+          <div className="free-lab-controls">
+            <ToggleGroup
+              value={freeTier}
+              values={["All", "True free", "Trial", "Local / OSS"]}
+              onChange={setFreeTier}
+              label="Free tier type"
+            />
+            <select
+              className="compact-select"
+              value={freeCategory}
+              onChange={(event) => setFreeCategory(event.target.value)}
+              aria-label="Free lab category"
+            >
+              {["All", "Compute & web", "Databases", "Data & BI", "CI & tooling", "Other"].map((item) => (
+                <option key={item}>{item}</option>
+              ))}
+            </select>
+          </div>
+        ) : null}
 
         {activeCount === 0 ? <EmptyState query={query} /> : null}
 
@@ -162,64 +310,141 @@ export function CloudDashboard({
             ))}
           </div>
         ) : null}
+
+        {view === "Free labs" && freeLabs.length ? (
+          <div className="data-table-wrap free-tier-table">
+            <table className="data-table feature-table">
+              <thead>
+                <tr>
+                  <th>Service</th>
+                  <th>Type</th>
+                  <th>Category</th>
+                  <th>Duration</th>
+                  <th>Included quota</th>
+                  <th>Best for</th>
+                </tr>
+              </thead>
+              <tbody>
+                {freeLabs.toSorted((a, b) => {
+                  const order = { "true-free": 0, trial: 1, "local-free": 2, "open-source": 3 };
+                  return order[a.tierType] - order[b.tierType] || a.provider.localeCompare(b.provider);
+                }).map((item) => (
+                  <tr key={item.id} onClick={() => onInspect(freeLabInspector(item))}>
+                    <td><strong>{item.name}</strong><small className="table-sub">{item.provider}</small></td>
+                    <td><span className={"tier-badge " + item.tierType}>{tierLabel(item.tierType)}</span></td>
+                    <td>{item.category}</td>
+                    <td>{item.duration}</td>
+                    <td className="quota-cell">{item.quota}</td>
+                    <td>{item.goodFor}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        ) : null}
       </section>
 
-      <section className="panel span-8">
-        <SectionHeader eyebrow="ABSTRACTION STACK" title="Docker, Kubernetes, workflow DAGs and managed pipelines solve different problems" />
-        <div className="orchestration-ladder">
-          {orchestrationPatterns.map((item, index) => (
-            <button
-              type="button"
-              className="ladder-row"
-              key={item.name}
-              onClick={() => onInspect({
-                eyebrow: "ORCHESTRATION LAYER",
-                title: item.name,
-                description: item.when,
-                stats: [
-                  { label: "Tools", value: item.tools },
-                  { label: "Abstraction", value: item.abstraction },
-                  { label: "Layer", value: "0" + (index + 1) }
-                ],
-                tags: ["architecture", "orchestration"]
-              })}
-            >
-              <span className="ladder-index">0{index + 1}</span>
-              <div>
-                <strong>{item.name}</strong>
-                <small>{item.tools}</small>
-              </div>
-              <p>{item.abstraction}</p>
-              <span>{item.when}</span>
-            </button>
-          ))}
-        </div>
-      </section>
+      {view === "Free labs" ? (
+        <>
+          <section className="panel span-8">
+            <SectionHeader eyebrow="ZERO-COST LAB RECIPES" title="Combine free services by learning goal" />
+            <div className="lab-recipes">
+              <article>
+                <Server size={18} />
+                <div><strong>Linux / infrastructure lab</strong><p>Oracle or GCP free VM → Docker → OpenTofu → k3s → GitHub Actions. This is the closest route to a persistent $0 self-managed cloud lab.</p></div>
+              </article>
+              <article>
+                <Database size={18} />
+                <div><strong>FastAPI backend lab</strong><p>Render/Koyeb/Azure Container Apps → Neon/Supabase/MongoDB/Turso → Upstash Redis → Cloudflare R2 for files.</p></div>
+              </article>
+              <article>
+                <Workflow size={18} />
+                <div><strong>Data-engineering lab</strong><p>Databricks Free Edition → dbt Developer → BigQuery Sandbox or MotherDuck → Aiven Kafka when you want a managed streaming source.</p></div>
+              </article>
+              <article>
+                <Laptop size={18} />
+                <div><strong>BI / Microsoft lab</strong><p>Power BI Desktop + DAX Studio + Tabular Editor 2 locally; add the 60-day Fabric trial when you need OneLake, notebooks, Warehouse and Data Factory.</p></div>
+              </article>
+            </div>
+          </section>
 
-      <aside className="panel span-4">
-        <SectionHeader eyebrow="COST MODEL" title="Normalize before comparing" />
-        <div className="knowledge-stack">
-          <article><Coins size={18} /><div><strong>Same unit first</strong><p>Convert credits, DBUs, capacity units and per-byte scans into a workload-level cost before making a price comparison.</p></div></article>
-          <article><Network size={18} /><div><strong>Egress can dominate</strong><p>Cross-region and cross-cloud movement changes the economics of otherwise cheap compute.</p></div></article>
-          <article><Container size={18} /><div><strong>VM ≠ managed service</strong><p>An hourly VM rate excludes orchestration, autoscaling, patching, storage, network and engineer time.</p></div></article>
-          <article><Workflow size={18} /><div><strong>Measure end-to-end</strong><p>Useful benchmarks include queue time, cold start, scan bytes, retries, warehouse suspension and concurrency.</p></div></article>
-        </div>
-      </aside>
+          <aside className="panel span-4">
+            <SectionHeader eyebrow="FREE ≠ FREE" title="Read the tier label before designing around it" />
+            <div className="knowledge-stack">
+              <article><CheckCircle2 size={18} /><div><strong>True free</strong><p>A recurring monthly quota or no-expiry sandbox. It can still have idle reclaim, region restrictions, hard caps or non-commercial terms.</p></div></article>
+              <article><Coins size={18} /><div><strong>Trial / credits</strong><p>Fabric, Snowflake and AWS evaluation plans are useful labs but eventually expire. They are intentionally not grouped with true free services.</p></div></article>
+              <article><Laptop size={18} /><div><strong>Local / OSS</strong><p>DAX Studio, Tabular Editor 2, dbt, Airflow, OpenTofu and k3s can be free software while the machine or cloud VM running them still costs money.</p></div></article>
+              <article><Network size={18} /><div><strong>Hidden bill dimensions</strong><p>Egress, object operations, storage, build minutes, cold starts and dependent services are often outside the headline free compute quota.</p></div></article>
+            </div>
+          </aside>
 
-      <section className="panel span-12">
-        <SectionHeader eyebrow="REFERENCE ARCHITECTURE" title="One problem, five implementation styles" />
-        <div className="architecture-flow">
-          <div className="arch-node source"><Boxes size={18} /><strong>Object / source data</strong><small>files · CDC · APIs</small></div>
-          <span>→</span>
-          <div className="arch-node"><strong>Ingest</strong><small>managed pipeline / streaming</small></div>
-          <span>→</span>
-          <div className="arch-node"><strong>Open table layer</strong><small>Delta · Iceberg · Parquet</small></div>
-          <span>→</span>
-          <div className="arch-node"><strong>Compute</strong><small>SQL · Spark · serverless</small></div>
-          <span>→</span>
-          <div className="arch-node"><strong>Serve</strong><small>BI · APIs · ML</small></div>
-        </div>
-      </section>
+          <section className="panel span-12">
+            <SectionHeader eyebrow="FREE-TIER DECISION TABLE" title="Use the catalog as a lab planner, not a marketing list" />
+            <div className="summary-bullets">
+              <span><Gift size={16} /><strong>Need a real VM?</strong> Start with Oracle Always Free or GCP e2-micro and inspect regional/capacity limits.</span>
+              <span><Database size={16} /><strong>Need hosted SQL?</strong> Neon, Supabase, Turso, CockroachDB and Azure SQL cover different Postgres/SQLite/distributed/SQL Server patterns.</span>
+              <span><Boxes size={16} /><strong>Need object data?</strong> Cloudflare R2 is useful for Parquet/object-storage labs because the catalog tracks storage, operations and egress separately.</span>
+              <span><Workflow size={16} /><strong>Need Spark?</strong> Databricks Free Edition gives managed Spark/lakehouse learning; local Spark remains the unrestricted self-managed option.</span>
+            </div>
+          </section>
+        </>
+      ) : (
+        <>
+          <section className="panel span-8">
+            <SectionHeader eyebrow="ABSTRACTION STACK" title="Docker, Kubernetes, workflow DAGs and managed pipelines solve different problems" />
+            <div className="orchestration-ladder">
+              {orchestrationPatterns.map((item, index) => (
+                <button
+                  type="button"
+                  className="ladder-row"
+                  key={item.name}
+                  onClick={() => onInspect({
+                    eyebrow: "ORCHESTRATION LAYER",
+                    title: item.name,
+                    description: item.when,
+                    stats: [
+                      { label: "Tools", value: item.tools },
+                      { label: "Abstraction", value: item.abstraction },
+                      { label: "Layer", value: "0" + (index + 1) }
+                    ],
+                    tags: ["architecture", "orchestration"]
+                  })}
+                >
+                  <span className="ladder-index">0{index + 1}</span>
+                  <div><strong>{item.name}</strong><small>{item.tools}</small></div>
+                  <p>{item.abstraction}</p>
+                  <span>{item.when}</span>
+                </button>
+              ))}
+            </div>
+          </section>
+
+          <aside className="panel span-4">
+            <SectionHeader eyebrow="COST MODEL" title="Normalize before comparing" />
+            <div className="knowledge-stack">
+              <article><Coins size={18} /><div><strong>Same unit first</strong><p>Convert credits, DBUs, capacity units and per-byte scans into a workload-level cost before making a price comparison.</p></div></article>
+              <article><Network size={18} /><div><strong>Egress can dominate</strong><p>Cross-region and cross-cloud movement changes the economics of otherwise cheap compute.</p></div></article>
+              <article><Container size={18} /><div><strong>VM ≠ managed service</strong><p>An hourly VM rate excludes orchestration, autoscaling, patching, storage, network and engineer time.</p></div></article>
+              <article><Workflow size={18} /><div><strong>Measure end-to-end</strong><p>Useful benchmarks include queue time, cold start, scan bytes, retries, warehouse suspension and concurrency.</p></div></article>
+            </div>
+          </aside>
+
+          <section className="panel span-12">
+            <SectionHeader eyebrow="REFERENCE ARCHITECTURE" title="One problem, five implementation styles" />
+            <div className="architecture-flow">
+              <div className="arch-node source"><Boxes size={18} /><strong>Object / source data</strong><small>files · CDC · APIs</small></div>
+              <span>→</span>
+              <div className="arch-node"><strong>Ingest</strong><small>managed pipeline / streaming</small></div>
+              <span>→</span>
+              <div className="arch-node"><strong>Open table layer</strong><small>Delta · Iceberg · Parquet</small></div>
+              <span>→</span>
+              <div className="arch-node"><strong>Compute</strong><small>SQL · Spark · serverless</small></div>
+              <span>→</span>
+              <div className="arch-node"><strong>Serve</strong><small>BI · APIs · ML</small></div>
+            </div>
+          </section>
+        </>
+      )}
     </div>
   );
 }
