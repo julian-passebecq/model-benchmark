@@ -14,11 +14,9 @@ import type {
   BenchmarkRun,
   CodingAgentFrontierPoint,
   CloudPlatform,
-  CommunityTool,
   DataEngine,
   DataFormat,
   EvolutionItem,
-  FreeTierOffer,
   FreeTierUseCaseGuide,
   FreeLabService,
   HardwareItem,
@@ -62,8 +60,6 @@ export const queryScenarios = dataStack.queryScenarios as QueryScenario[];
 export const cloudPlatforms = cloud.platforms as CloudPlatform[];
 export const queryPrices = cloud.queryPrices as QueryPrice[];
 export const vmShapes = cloud.vmShapes as VmShape[];
-export const freeTiers = cloud.freeTiers as FreeTierOffer[];
-export const communityTools = cloud.communityTools as CommunityTool[];
 export const orchestrationPatterns = cloud.orchestrationPatterns;
 export const selfHostScenarios = cloud.selfHostScenarios as SelfHostScenario[];
 
