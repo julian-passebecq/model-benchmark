@@ -299,19 +299,58 @@ export function CloudDashboard({
         ) : null}
 
         {view === "Query pricing" && prices.length ? (
-          <div className="pricing-grid">
-            {prices.map((item) => (
-              <button type="button" className="pricing-card" key={item.id} onClick={() => onInspect(priceInspector(item))}>
-                <div>
-                  <span className="micro-label">{item.platform}</span>
-                  <h3>{item.service}</h3>
-                </div>
-                <strong>{item.usd === null ? "VARIABLE" : "$" + item.usd}</strong>
-                <span>{item.unit}</span>
-                <p>{item.note}</p>
-                <small>{item.region}</small>
-              </button>
-            ))}
+          <div className="query-pricing-stack">
+            <div className="pricing-grid">
+              {prices.map((item) => (
+                <button type="button" className="pricing-card" key={item.id} onClick={() => onInspect(priceInspector(item))}>
+                  <div>
+                    <span className="micro-label">{item.platform}</span>
+                    <h3>{item.service}</h3>
+                  </div>
+                  <strong>{item.usd === null ? "VARIABLE" : "$" + item.usd}</strong>
+                  <span>{item.unit}</span>
+                  <p>{item.note}</p>
+                  <small>{item.region}</small>
+                </button>
+              ))}
+            </div>
+
+            <div>
+              <SectionHeader
+                eyebrow="SCAN-PRICED SERVICES"
+                title="What repeated full scans cost before storage / egress"
+                meta="only directly scan-priced rows are calculated"
+              />
+              <div className="data-table-wrap">
+                <table className="data-table">
+                  <thead>
+                    <tr>
+                      <th>Service</th>
+                      <th>Listed scan unit</th>
+                      <th>1 unit</th>
+                      <th>5 units</th>
+                      <th>10 units</th>
+                      <th>Included free allowance</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {prices.filter((item) => item.usd !== null).map((item) => (
+                      <tr key={item.id} onClick={() => onInspect(priceInspector(item))}>
+                        <td><strong>{item.service}</strong><small className="table-sub">{item.platform}</small></td>
+                        <td>{item.unit}</td>
+                        <td>{"$" + Number(item.usd).toFixed(2)}</td>
+                        <td>{"$" + (Number(item.usd) * 5).toFixed(2)}</td>
+                        <td>{"$" + (Number(item.usd) * 10).toFixed(2)}</td>
+                        <td>{item.freeTier}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+              <div className="query-price-note">
+                These multipliers use each provider's listed billing unit. BigQuery uses TiB while Athena/R2 SQL use TB-style scan units, so this is a billing-model lens rather than a byte-perfect benchmark.
+              </div>
+            </div>
           </div>
         ) : null}
 
