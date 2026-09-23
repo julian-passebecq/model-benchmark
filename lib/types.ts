@@ -343,3 +343,15 @@ export type QueryScenario = {
   distributed: boolean;
   notes: string;
 };
+
+
+export type FreeTierUseCaseGuide = {
+  id: string;
+  title: string;
+  category: string;
+  goal: string;
+  serviceIds: string[];
+  recommendedPattern: string;
+  watchFor: string;
+  nextStep: string;
+};
