@@ -7,6 +7,7 @@ import codingAgents from "../data/coding-agents.json";
 import freeLabs from "../data/free-labs.json";
 import runtimeLab from "../data/runtime-lab.json";
 import serverless from "../data/serverless.json";
+import useCaseGuides from "../data/use-case-guides.json";
 
 import type {
   BenchmarkMeta,
@@ -18,6 +19,7 @@ import type {
   DataFormat,
   EvolutionItem,
   FreeTierOffer,
+  FreeTierUseCaseGuide,
   FreeLabService,
   HardwareItem,
   LanguageRuntime,
@@ -42,6 +44,8 @@ export const codingAgentFrontierMeta = codingAgents.codingAgentFrontierMeta as B
 
 export const freeLabServices = freeLabs.services as FreeLabService[];
 export const freeLabsAsOf = freeLabs.asOf as string;
+export const freeTierUseCaseGuides = useCaseGuides.guides as FreeTierUseCaseGuide[];
+export const freeTierUseCaseGuidesAsOf = useCaseGuides.asOf as string;
 export const runtimeProfiles = runtimeLab.profiles as RuntimeProfile[];
 export const runtimeBenchmarkTemplates = runtimeLab.benchmarkTemplates as RuntimeBenchmarkTemplate[];
 export const runtimeSummary = runtimeLab.summary as string[];
