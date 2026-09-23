@@ -19,6 +19,7 @@ import {
   benchmarkRuns,
   dataEngines,
   dataFormats,
+  dataStackLayers,
   languageRuntimes,
   queryScenarios,
   runtimeBenchmarkTemplates,
@@ -29,6 +30,7 @@ import {
 import type {
   DataEngine,
   DataFormat,
+  DataStackLayer,
   InspectorRecord,
   LanguageRuntime,
   QueryScenario,
@@ -69,6 +71,20 @@ function formatInspector(item: DataFormat): InspectorRecord {
     tags: [item.partitionEvolution ? "partition evolution" : "static partition model", item.storageLayer],
     source: item.source,
     note: item.tradeoff
+  };
+}
+
+function stackLayerInspector(item: DataStackLayer): InspectorRecord {
+  return {
+    eyebrow: "DATA STACK LAYER " + String(item.order).padStart(2, "0"),
+    title: item.layer,
+    description: item.question,
+    stats: [
+      { label: "Examples", value: item.examples.join(" · ") },
+      { label: "Key concepts", value: item.concepts.join(" · ") }
+    ],
+    tags: item.examples.slice(0, 5),
+    note: item.note
   };
 }
 
@@ -180,6 +196,10 @@ export function DataDashboard({
     () => dataFormats.filter((item) => !q || JSON.stringify(item).toLowerCase().includes(q)),
     [q]
   );
+  const stackLayers = useMemo(
+    () => dataStackLayers.filter((item) => !q || JSON.stringify(item).toLowerCase().includes(q)),
+    [q]
+  );
   const runs = useMemo(
     () => benchmarkRuns.filter((item) => !q || JSON.stringify(item).toLowerCase().includes(q)),
     [q]
@@ -208,6 +228,7 @@ export function DataDashboard({
   const activeCount =
     view === "Engines" ? engines.length :
     view === "Formats" ? formats.length :
+    view === "Stack map" ? stackLayers.length :
     view === "Benchmarks" ? runs.length :
     view === "Runtime lab" ? runtimes.length + recipes.length + scenarios.length :
     view === "Releases" ? releases.length :
@@ -241,19 +262,45 @@ export function DataDashboard({
       <section className="panel span-12">
         <div className="split-header">
           <SectionHeader
-            eyebrow={view === "Runtime lab" ? "PYTHON / SPARK PERFORMANCE LAB" : view === "Releases" ? "DATA STACK RELEASE TRACKER" : "MODERN DATA STACK"}
-            title={view === "Runtime lab" ? "Compare execution models before comparing stopwatch numbers" : view === "Releases" ? "Current versions, production baselines and what changed" : "Engine, storage and abstraction explorer"}
+            eyebrow={view === "Runtime lab" ? "PYTHON / SPARK PERFORMANCE LAB" : view === "Releases" ? "DATA STACK RELEASE TRACKER" : view === "Stack map" ? "LAYERED DATA ARCHITECTURE" : "MODERN DATA STACK"}
+            title={view === "Runtime lab" ? "Compare execution models before comparing stopwatch numbers" : view === "Releases" ? "Current versions, production baselines and what changed" : view === "Stack map" ? "Stop comparing tools that solve different layers" : "Engine, storage and abstraction explorer"}
             meta={activeCount + " visible records"}
           />
           <ToggleGroup
             value={view}
-            values={["Engines", "Formats", "Benchmarks", "Runtime lab", "Releases", "Languages"]}
+            values={["Stack map", "Engines", "Formats", "Benchmarks", "Runtime lab", "Releases", "Languages"]}
             onChange={setView}
             label="Data stack view"
           />
         </div>
 
         {activeCount === 0 ? <EmptyState query={query} /> : null}
+
+        {view === "Stack map" && stackLayers.length ? (
+          <div className="stack-layer-map">
+            {stackLayers.toSorted((a, b) => a.order - b.order).map((item, index) => (
+              <div className="stack-layer-row" key={item.id}>
+                <button type="button" className="stack-layer-card" onClick={() => onInspect(stackLayerInspector(item))}>
+                  <span className="stack-layer-index">{String(item.order).padStart(2, "0")}</span>
+                  <div className="stack-layer-main">
+                    <span className="micro-label">{item.question}</span>
+                    <h3>{item.layer}</h3>
+                    <div className="use-case-service-chips">
+                      {item.examples.map((example) => <i key={example}>{example}</i>)}
+                    </div>
+                  </div>
+                  <div className="stack-layer-concepts">
+                    {item.concepts.slice(0, 5).map((concept) => <span key={concept}>{concept}</span>)}
+                  </div>
+                </button>
+                {index < stackLayers.length - 1 ? <div className="stack-layer-arrow">↑</div> : null}
+              </div>
+            ))}
+            <div className="query-price-note">
+              Read bottom-up for infrastructure → consumption, or top-down from a workload requirement. A comparison such as Polars vs Iceberg is usually a category error: Polars is an execution/DataFrame layer while Iceberg is table metadata.
+            </div>
+          </div>
+        ) : null}
 
         {view === "Engines" && engines.length ? (
           <div className="comparison-grid data-engine-grid">
