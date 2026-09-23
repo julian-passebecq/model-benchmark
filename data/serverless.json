@@ -1,0 +1,80 @@
+{
+  "asOf": "2026-09-23",
+  "services": [
+    {
+      "id":"aws-lambda",
+      "name":"AWS Lambda",
+      "provider":"AWS",
+      "unit":"Requests + GB-seconds",
+      "freeQuota":"1M requests + 400,000 GB-seconds/month",
+      "billing":"Request count, configured memory/CPU and execution duration; dependent services billed separately",
+      "packaging":"Zip or container image",
+      "runtimes":"Python, Node.js, Java, .NET, Ruby, custom runtimes",
+      "scaleToZero":true,
+      "container":true,
+      "goodFor":"Event-driven functions, S3/EventBridge processing, lightweight APIs and asynchronous jobs",
+      "watchFor":"Cold starts, execution limits, event-source charges, networking and downstream services",
+      "source":{"label":"AWS Lambda pricing","url":"https://aws.amazon.com/lambda/pricing/","asOf":"2026-09-23"}
+    },
+    {
+      "id":"azure-functions",
+      "name":"Azure Functions Consumption",
+      "provider":"Microsoft Azure",
+      "unit":"Executions + GB-seconds",
+      "freeQuota":"1M executions + 400,000 GB-seconds/month on eligible Consumption usage",
+      "billing":"Executions and observed memory-duration; storage/networking are separate",
+      "packaging":"Code deployment or container depending on hosting model",
+      "runtimes":"Python, JavaScript/TypeScript, .NET, Java, PowerShell and custom handlers",
+      "scaleToZero":true,
+      "container":true,
+      "goodFor":"Event Grid/Service Bus triggers, APIs, scheduled Python jobs and Azure-native automation",
+      "watchFor":"Storage account costs, hosting-plan differences and cold-start behavior",
+      "source":{"label":"Azure Functions pricing","url":"https://azure.microsoft.com/pricing/details/functions/","asOf":"2026-09-23"}
+    },
+    {
+      "id":"gcp-cloud-run",
+      "name":"Google Cloud Run",
+      "provider":"Google Cloud",
+      "unit":"vCPU-seconds + GiB-seconds + requests",
+      "freeQuota":"180,000 vCPU-seconds + 360,000 GiB-seconds + 2M requests/month for request-based services",
+      "billing":"CPU, memory and requests while instances are billable; pricing depends on region/billing mode",
+      "packaging":"OCI container or source deployment",
+      "runtimes":"Any language/binary that runs in a container; source builds support common runtimes",
+      "scaleToZero":true,
+      "container":true,
+      "goodFor":"FastAPI, containerized APIs, web services, batch jobs and portable serverless containers",
+      "watchFor":"Minimum instances, egress, build/registry costs and regional pricing",
+      "source":{"label":"Cloud Run pricing","url":"https://cloud.google.com/run/pricing","asOf":"2026-09-23"}
+    },
+    {
+      "id":"cloudflare-workers-serverless",
+      "name":"Cloudflare Workers",
+      "provider":"Cloudflare",
+      "unit":"Requests + CPU time",
+      "freeQuota":"100,000 requests/day on Workers Free; 10 ms CPU/invocation for standard free requests",
+      "billing":"Request and CPU-time model; static assets have separate included behavior",
+      "packaging":"JavaScript/Wasm worker bundle",
+      "runtimes":"JavaScript/TypeScript/Wasm ecosystem; Python support depends on Workers runtime capabilities",
+      "scaleToZero":true,
+      "container":false,
+      "goodFor":"Edge APIs, middleware, auth, routing, webhooks and very lightweight global compute",
+      "watchFor":"CPU-time limits make heavy analytics or conventional container workloads a poor fit",
+      "source":{"label":"Cloudflare Workers limits","url":"https://developers.cloudflare.com/workers/platform/limits/","asOf":"2026-09-23"}
+    },
+    {
+      "id":"azure-container-apps",
+      "name":"Azure Container Apps Consumption",
+      "provider":"Microsoft Azure",
+      "unit":"vCPU-seconds + GiB-seconds + requests",
+      "freeQuota":"180,000 vCPU-seconds + 360,000 GiB-seconds + 2M requests/month",
+      "billing":"Consumption of active/idle replicas plus requests; ancillary Azure services are separate",
+      "packaging":"OCI container",
+      "runtimes":"Any containerized runtime",
+      "scaleToZero":true,
+      "container":true,
+      "goodFor":"FastAPI, workers, microservices and jobs that need more container semantics than Functions",
+      "watchFor":"Container registry, networking, logs and storage can be separately billable",
+      "source":{"label":"Azure Container Apps pricing","url":"https://azure.microsoft.com/pricing/details/container-apps/","asOf":"2026-09-23"}
+    }
+  ]
+}
