@@ -12,7 +12,11 @@ Primary measures:
 - `current`: whether the reference chart marks the configuration as current;
 - `dataQuality`: provenance class.
 
-Future useful fields can be added for token pricing, latency quantiles, tool-call counts and context size.
+Token pricing is stored separately from benchmark evidence. When a benchmark record has API price fields, it must also carry `pricingSourceLabel`, `pricingSourceUrl`, and `pricingAsOf`.
+
+The Models dashboard can then estimate a configurable token-only request cost while keeping the benchmark's recorded agent cost/task unchanged. This avoids treating a list price as if it were the full agent invoice.
+
+Future useful fields can be added for latency quantiles, tool-call counts and context size.
 
 ## data-stack.json
 
