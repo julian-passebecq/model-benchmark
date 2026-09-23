@@ -356,3 +356,19 @@ export type FreeTierUseCaseGuide = {
   watchFor: string;
   nextStep: string;
 };
+
+
+export type TechnologyRelease = {
+  id: string;
+  name: string;
+  category: string;
+  latestStable: string;
+  releaseDate: string;
+  status: string;
+  productionBaseline: string;
+  nextPreview: string;
+  highlights: string[];
+  whyItMatters: string;
+  compatibility: string;
+  source: SourceRef;
+};
