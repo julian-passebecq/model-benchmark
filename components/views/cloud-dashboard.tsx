@@ -17,6 +17,7 @@ import {
 import {
   cloudPlatforms,
   freeLabServices,
+  labRecipes,
   freeTierUseCaseGuides,
   orchestrationPatterns,
   queryPrices,
@@ -201,6 +202,7 @@ export function CloudDashboard({
   const [view, setView] = useState("Platforms");
   const [freeTier, setFreeTier] = useState("True free");
   const [freeCategory, setFreeCategory] = useState("All");
+  const [labGoal, setLabGoal] = useState(labRecipes[0]?.id ?? "");
   const [selectedGuideId, setSelectedGuideId] = useState(freeTierUseCaseGuides[0]?.id ?? "");
   const [queryDatasetTb, setQueryDatasetTb] = useState(1);
   const [queryRunsPerMonth, setQueryRunsPerMonth] = useState(10);
@@ -256,6 +258,12 @@ export function CloudDashboard({
   const trialCount = freeLabServices.filter((item) => item.tierType === "trial").length;
   const localCount = freeLabServices.filter((item) => item.tierType === "local-free" || item.tierType === "open-source").length;
   const realVmCount = freeLabServices.filter((item) => item.tierType === "true-free" && item.category === "VM / compute").length;
+  const selectedRecipe = labRecipes.find((item) => item.id === labGoal) ?? labRecipes[0];
+  const selectedRecipeServices = selectedRecipe
+    ? selectedRecipe.primary
+        .map((id) => freeLabServices.find((service) => service.id === id))
+        .filter((item): item is FreeLabService => Boolean(item))
+    : [];
 
   return (
     <div className="dashboard-grid">
@@ -298,7 +306,62 @@ export function CloudDashboard({
         </div>
 
         {view === "Free labs" ? (
-          <div className="free-lab-controls">
+          <div className="free-lab-stack">
+            <div className="lab-planner">
+              <div className="lab-planner-head">
+                <div>
+                  <span className="micro-label">USE-CASE PLANNER</span>
+                  <h3>Start from the thing you want to learn or deploy</h3>
+                  <p>Instead of browsing dozens of free plans, pick a goal and compare the few services that fit it.</p>
+                </div>
+                <select
+                  className="compact-select lab-goal-select"
+                  value={labGoal}
+                  onChange={(event) => setLabGoal(event.target.value)}
+                  aria-label="Select zero-cost lab goal"
+                >
+                  {labRecipes.map((recipe) => <option key={recipe.id} value={recipe.id}>{recipe.title}</option>)}
+                </select>
+              </div>
+
+              {selectedRecipe ? (
+                <div className="lab-planner-body">
+                  <div className="lab-planner-summary">
+                    <strong>{selectedRecipe.title}</strong>
+                    <p>{selectedRecipe.goal}</p>
+                    <div className="recipe-stack-line">
+                      {selectedRecipe.stack.map((item, index) => (
+                        <span key={item}>
+                          {item}
+                          {index < selectedRecipe.stack.length - 1 ? <i>→</i> : null}
+                        </span>
+                      ))}
+                    </div>
+                    <div className="planner-note"><strong>Decision:</strong> {selectedRecipe.decision}</div>
+                    <div className="planner-note caveat"><strong>Watch:</strong> {selectedRecipe.caveat}</div>
+                  </div>
+
+                  <div className="planner-service-grid">
+                    {selectedRecipeServices.map((service) => (
+                      <button
+                        type="button"
+                        key={service.id}
+                        className="planner-service-card"
+                        onClick={() => onInspect(freeLabInspector(service))}
+                      >
+                        <span className={"tier-badge " + service.tierType}>{tierLabel(service.tierType)}</span>
+                        <strong>{service.name}</strong>
+                        <small>{service.provider} · {service.category}</small>
+                        <p>{service.goodFor}</p>
+                        <div>{service.quota}</div>
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              ) : null}
+            </div>
+
+            <div className="free-lab-controls">
             <ToggleGroup
               value={freeTier}
               values={["All", "True free", "Trial", "Local / OSS"]}
@@ -315,6 +378,7 @@ export function CloudDashboard({
                 <option key={item}>{item}</option>
               ))}
             </select>
+            </div>
           </div>
         ) : null}
 
