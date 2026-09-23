@@ -32,6 +32,7 @@ export type ModelBenchmark = {
   pricingSourceLabel?: string;
   pricingSourceUrl?: string;
   pricingAsOf?: string;
+  pricingContext?: string;
   benchmark: string;
   current: boolean;
   dataQuality: "reference-image" | "upstream" | "manual";
