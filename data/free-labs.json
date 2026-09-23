@@ -921,7 +921,7 @@
       "tierType": "true-free",
       "duration": "Recurring monthly personal-account quota",
       "cardRequired": "No payment details required to use included personal quota",
-      "quota": "GitHub Free personal accounts include 120 compute hours/month and 15 GB-month storage",
+      "quota": "120 core-hours/month (about 60 wall-clock hours on a 2-core codespace) + 15 GB-month storage for GitHub Free personal accounts",
       "goodFor": "Cloud VS Code/devcontainers, reproducible Python/data tooling, temporary Linux environments and project onboarding",
       "limits": "Personal accounts only; organization-owned Codespaces have separate billing; quota is metered by machine core multiplier",
       "commercialUse": "Check GitHub Codespaces billing/organization policy",
@@ -948,6 +948,82 @@
       "source": {
         "label": "Grafana Cloud pricing",
         "url": "https://grafana.com/pricing/",
+        "asOf": "2026-09-23"
+      }
+    },
+    {
+      "id": "google-colab-free",
+      "name": "Google Colab Free",
+      "provider": "Google",
+      "category": "Notebook / hosted Python",
+      "tierType": "true-free",
+      "duration": "Ongoing free access with dynamic resource limits",
+      "cardRequired": "Google account; no paid Colab plan required",
+      "quota": "Hosted Jupyter notebooks with free access to CPU and limited GPU/TPU resources; accelerator availability and usage limits vary dynamically",
+      "goodFor": "Python, pandas, ML, quick notebooks, GPU/TPU experiments and teaching without local setup",
+      "limits": "Resources are not guaranteed; GPU types, idle timeout, VM lifetime and usage limits change dynamically",
+      "commercialUse": "Check current Colab terms and restricted-activity policy",
+      "platforms": "Hosted · browser · Jupyter",
+      "source": {
+        "label": "Google Colab FAQ",
+        "url": "https://research.google.com/colaboratory/faq.html",
+        "asOf": "2026-09-23"
+      }
+    },
+    {
+      "id": "kaggle-notebooks-free",
+      "name": "Kaggle Notebooks",
+      "provider": "Kaggle / Google",
+      "category": "Notebook / hosted Python",
+      "tierType": "true-free",
+      "duration": "Ongoing free notebook environment",
+      "cardRequired": "Kaggle account",
+      "quota": "Free notebook compute with optional NVIDIA Tesla P100 GPU or TPU v3-8; accelerator capacity can be queued/limited",
+      "goodFor": "Python data science, public datasets, ML competitions, GPU/TPU learning and reproducible notebooks",
+      "limits": "Session and accelerator availability are controlled by Kaggle; not intended as an always-on app/VM",
+      "commercialUse": "Check Kaggle terms for your use case",
+      "platforms": "Hosted · browser · notebooks",
+      "source": {
+        "label": "Kaggle Notebooks",
+        "url": "https://www.kaggle.com/docs/notebooks",
+        "asOf": "2026-09-23"
+      }
+    },
+    {
+      "id": "streamlit-community-cloud",
+      "name": "Streamlit Community Cloud",
+      "provider": "Snowflake / Streamlit",
+      "category": "Python / hosted app",
+      "tierType": "true-free",
+      "duration": "Ongoing free Community Cloud",
+      "cardRequired": "GitHub account",
+      "quota": "Free hosted Streamlit app deployment connected directly to GitHub repositories",
+      "goodFor": "Python dashboards, portfolio apps, data demos and lightweight interactive analytics",
+      "limits": "Designed for community/data apps rather than general-purpose containers or background services; resource limits apply",
+      "commercialUse": "Community Cloud is positioned for community sharing; review current terms for work/production use",
+      "platforms": "Hosted · browser · GitHub deploy",
+      "source": {
+        "label": "Streamlit Community Cloud",
+        "url": "https://docs.streamlit.io/deploy/streamlit-community-cloud",
+        "asOf": "2026-09-23"
+      }
+    },
+    {
+      "id": "anaconda-core-notebooks",
+      "name": "Anaconda Core Free + Cloud Notebooks",
+      "provider": "Anaconda",
+      "category": "Notebook / hosted Python",
+      "tierType": "true-free",
+      "duration": "Ongoing Free plan for eligible users",
+      "cardRequired": "Anaconda account",
+      "quota": "Free Anaconda Core package management plus cloud Notebooks and 5 GB cloud storage",
+      "goodFor": "Python/conda learning, browser notebooks, packaged data-science environments and introductory projects",
+      "limits": "Anaconda licensing depends on organization type/size; organizations with more than 200 employees/contractors generally require a paid Business license unless exempt",
+      "commercialUse": "Free use eligibility depends on organization size/type; verify current Anaconda terms",
+      "platforms": "Hosted notebooks + Windows · macOS · Linux local distribution",
+      "source": {
+        "label": "Anaconda pricing",
+        "url": "https://www.anaconda.com/pricing",
         "asOf": "2026-09-23"
       }
     }
