@@ -111,6 +111,7 @@ export type CloudPlatform = {
   aiMl: string;
   bi: string;
   openFormats: string;
+  freeAccessServiceId?: string;
   bestFor: string;
   tradeoff: string;
   source: SourceRef;
