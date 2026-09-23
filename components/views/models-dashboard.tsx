@@ -693,6 +693,159 @@ function CodingFrontierView({
   );
 }
 
+function ApiPricingView({
+  query,
+  onInspect
+}: {
+  query: string;
+  onInspect: (record: InspectorRecord) => void;
+}) {
+  const [inputTokens, setInputTokens] = useState(100000);
+  const [outputTokens, setOutputTokens] = useState(20000);
+  const [cachedPercent, setCachedPercent] = useState(50);
+
+  const pricedModels = useMemo(() => {
+    const families = new Map<string, ModelBenchmark>();
+    for (const item of modelBenchmarks) {
+      if (item.inputUsdPer1M === null || item.outputUsdPer1M === null) continue;
+      const key = item.provider + "::" + item.family;
+      if (!families.has(key) || (item.current && !families.get(key)?.current)) families.set(key, item);
+    }
+    const q = query.trim().toLowerCase();
+    return Array.from(families.values()).filter((item) =>
+      !q || [item.provider, item.family, item.label].join(" ").toLowerCase().includes(q)
+    );
+  }, [query]);
+
+  const scenarioCost = (item: ModelBenchmark) => {
+    if (item.inputUsdPer1M === null || item.outputUsdPer1M === null) return null;
+    const cachedTokens = inputTokens * Math.min(100, Math.max(0, cachedPercent)) / 100;
+    const uncachedTokens = inputTokens - cachedTokens;
+    const cachedRate = item.cachedInputUsdPer1M ?? item.inputUsdPer1M;
+    return (
+      uncachedTokens / 1_000_000 * item.inputUsdPer1M +
+      cachedTokens / 1_000_000 * cachedRate +
+      outputTokens / 1_000_000 * item.outputUsdPer1M
+    );
+  };
+
+  const inspectPricing = (item: ModelBenchmark): InspectorRecord => {
+    const cost = scenarioCost(item);
+    return {
+      eyebrow: item.provider.toUpperCase() + " / API PRICING",
+      title: item.family,
+      description: "List-price token economics for a configurable request shape.",
+      stats: [
+        { label: "Input / 1M", value: "$" + Number(item.inputUsdPer1M).toFixed(2) },
+        { label: "Cached input / 1M", value: item.cachedInputUsdPer1M == null ? "same / not tracked" : "$" + item.cachedInputUsdPer1M.toFixed(3) },
+        { label: "Output / 1M", value: "$" + Number(item.outputUsdPer1M).toFixed(2) },
+        { label: "Scenario", value: inputTokens.toLocaleString() + " in · " + outputTokens.toLocaleString() + " out · " + cachedPercent + "% cached" },
+        { label: "Scenario cost", value: cost === null ? "—" : "$" + cost.toFixed(4) }
+      ],
+      tags: [item.provider, item.family, "token pricing"],
+      source: item.pricingSourceUrl
+        ? { label: item.pricingSourceLabel ?? "API pricing", url: item.pricingSourceUrl, asOf: item.pricingAsOf }
+        : undefined,
+      note: "Token list prices are not the same as recorded agent cost per task. Tool calls, reasoning tokens, long-context multipliers, cache writes, retries, fast/batch tiers and harness behavior can change the final bill."
+    };
+  };
+
+  const rows = pricedModels
+    .map((item) => ({ item, cost: scenarioCost(item) ?? Number.POSITIVE_INFINITY }))
+    .toSorted((a, b) => a.cost - b.cost);
+  const cheapest = rows[0];
+  const maxOutput = pricedModels.toSorted((a, b) => Number(b.outputUsdPer1M) - Number(a.outputUsdPer1M))[0];
+
+  return (
+    <>
+      <section className="metric-strip four">
+        <MetricCard label="PRICED MODEL FAMILIES" value={String(pricedModels.length)} sub="unique provider/model price records" />
+        <MetricCard label="REQUEST SHAPE" value={(inputTokens / 1000).toFixed(0) + "K / " + (outputTokens / 1000).toFixed(0) + "K"} sub="input / output tokens" />
+        <MetricCard label="LOWEST SCENARIO COST" value={cheapest ? "$" + cheapest.cost.toFixed(4) : "—"} sub={cheapest?.item.family ?? "No priced match"} />
+        <MetricCard label="HIGHEST OUTPUT RATE" value={maxOutput?.outputUsdPer1M == null ? "—" : "$" + maxOutput.outputUsdPer1M.toFixed(2) + "/M"} sub={maxOutput?.family ?? "No priced match"} />
+      </section>
+
+      <section className="panel span-12">
+        <SectionHeader eyebrow="API TOKEN ECONOMICS" title="Estimate token-only cost without confusing it with agent cost" meta="official list-price snapshots" />
+        <div className="token-cost-controls">
+          <label>
+            Input tokens
+            <input type="number" min="0" step="1000" value={inputTokens} onChange={(event) => setInputTokens(Math.max(0, Number(event.target.value) || 0))} />
+          </label>
+          <label>
+            Output tokens
+            <input type="number" min="0" step="1000" value={outputTokens} onChange={(event) => setOutputTokens(Math.max(0, Number(event.target.value) || 0))} />
+          </label>
+          <label>
+            Cached input
+            <span><input type="number" min="0" max="100" step="5" value={cachedPercent} onChange={(event) => setCachedPercent(Math.min(100, Math.max(0, Number(event.target.value) || 0)))} />%</span>
+          </label>
+          <div>
+            <span className="micro-label">IMPORTANT</span>
+            <p>Pure token estimate only. Compare it beside benchmark task cost, not as a substitute for it.</p>
+          </div>
+        </div>
+
+        {rows.length ? (
+          <div className="data-table-wrap">
+            <table className="data-table feature-table token-pricing-table">
+              <thead>
+                <tr>
+                  <th>Model family</th>
+                  <th>Provider</th>
+                  <th>Input / 1M</th>
+                  <th>Cached input / 1M</th>
+                  <th>Output / 1M</th>
+                  <th>Scenario token cost</th>
+                  <th>Recorded benchmark task</th>
+                  <th>Pricing verified</th>
+                </tr>
+              </thead>
+              <tbody>
+                {rows.map(({ item, cost }) => (
+                  <tr key={item.provider + item.family} onClick={() => onInspect(inspectPricing(item))}>
+                    <td><strong>{item.family}</strong></td>
+                    <td>{item.provider}</td>
+                    <td>{"$" + Number(item.inputUsdPer1M).toFixed(2)}</td>
+                    <td>{item.cachedInputUsdPer1M == null ? "—" : "$" + item.cachedInputUsdPer1M.toFixed(3)}</td>
+                    <td>{"$" + Number(item.outputUsdPer1M).toFixed(2)}</td>
+                    <td><strong>{"$" + cost.toFixed(4)}</strong></td>
+                    <td>{"$" + item.costPerTask.toFixed(item.costPerTask < 1 ? 3 : 2)}<small className="table-sub">{item.benchmark + " · " + item.effort}</small></td>
+                    <td>{item.pricingAsOf ?? "source linked"}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        ) : <EmptyState query={query} />}
+
+        <div className="query-price-note">
+          The benchmark-task column is a recorded agent run and can include much more than the request shape above. The calculator is useful for understanding list-price sensitivity to input/output mix and caching, not for reconstructing benchmark invoices.
+        </div>
+      </section>
+
+      <section className="panel span-8">
+        <SectionHeader eyebrow="COST DECOMPOSITION" title="Why $/M tokens and $/agent task diverge" />
+        <div className="summary-bullets">
+          <span><CircleDollarSign size={16} /><strong>Output is expensive</strong> Long reasoning/coding responses can dominate a request even when input is cheap.</span>
+          <span><Clock3 size={16} /><strong>Reasoning changes volume</strong> Higher effort may consume more internal/output tokens and more tool iterations.</span>
+          <span><ListFilter size={16} /><strong>Caching matters</strong> Reused prompts can materially lower recurring input cost where the provider exposes cache pricing.</span>
+          <span><Waypoints size={16} /><strong>Agent harness matters</strong> Search, computer use, retries, sub-agents and tool calls can move total cost far beyond text-token arithmetic.</span>
+        </div>
+      </section>
+
+      <aside className="panel span-4">
+        <SectionHeader eyebrow="PRICE PROVENANCE" title="Keep benchmark and price evidence separate" />
+        <div className="knowledge-stack">
+          <article><CircleDollarSign size={18} /><div><strong>Official price source</strong><p>Token rates carry their own provider source and verification date instead of inheriting the benchmark source.</p></div></article>
+          <article><ScatterChart size={18} /><div><strong>Benchmark source</strong><p>Score and recorded task cost remain tied to the benchmark/harness that produced them.</p></div></article>
+          <article><Gauge size={18} /><div><strong>Processing tier</strong><p>Standard, batch/flex, fast, regional and long-context pricing can differ. The stored rate must say which list-price snapshot it represents.</p></div></article>
+        </div>
+      </aside>
+    </>
+  );
+}
+
 export function ModelsDashboard({
   query,
   onInspect
@@ -713,7 +866,7 @@ export function ModelsDashboard({
           />
           <ToggleGroup
             value={benchmarkView}
-            values={["Browser Use v2", "Terminal-Bench 4.0", "Coding Agent Index"]}
+            values={["Browser Use v2", "Terminal-Bench 4.0", "Coding Agent Index", "API pricing"]}
             onChange={setBenchmarkView}
             label="Benchmark dataset"
           />
@@ -723,6 +876,7 @@ export function ModelsDashboard({
       {benchmarkView === "Browser Use v2" ? <BrowserUseView query={query} onInspect={onInspect} /> : null}
       {benchmarkView === "Terminal-Bench 4.0" ? <TerminalBenchView query={query} onInspect={onInspect} /> : null}
       {benchmarkView === "Coding Agent Index" ? <CodingFrontierView query={query} onInspect={onInspect} /> : null}
+      {benchmarkView === "API pricing" ? <ApiPricingView query={query} onInspect={onInspect} /> : null}
     </div>
   );
 }
