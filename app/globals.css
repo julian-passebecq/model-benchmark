@@ -2517,3 +2517,18 @@ kbd,
   font-size: 8px;
   line-height: 1.5;
 }
+
+
+.vm-shape-stack {
+  display: grid;
+  gap: 18px;
+}
+
+.self-host-table {
+  min-width: 1120px;
+}
+
+.self-host-table td {
+  line-height: 1.45;
+  vertical-align: top;
+}
