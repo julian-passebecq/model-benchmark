@@ -2491,3 +2491,13 @@ kbd,
     grid-template-columns: 1fr;
   }
 }
+
+
+.serverless-table {
+  min-width: 1250px;
+}
+
+.serverless-table td {
+  line-height: 1.45;
+  vertical-align: top;
+}
