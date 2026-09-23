@@ -740,7 +740,8 @@ function ApiPricingView({
         { label: "Cached input / 1M", value: item.cachedInputUsdPer1M == null ? "same / not tracked" : "$" + item.cachedInputUsdPer1M.toFixed(3) },
         { label: "Output / 1M", value: "$" + Number(item.outputUsdPer1M).toFixed(2) },
         { label: "Scenario", value: inputTokens.toLocaleString() + " in · " + outputTokens.toLocaleString() + " out · " + cachedPercent + "% cached" },
-        { label: "Scenario cost", value: cost === null ? "—" : "$" + cost.toFixed(4) }
+        { label: "Scenario cost", value: cost === null ? "—" : "$" + cost.toFixed(4) },
+        { label: "Pricing context", value: item.pricingContext ?? "List-price snapshot" }
       ],
       tags: [item.provider, item.family, "token pricing"],
       source: item.pricingSourceUrl
