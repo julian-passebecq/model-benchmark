@@ -836,6 +836,120 @@
         "url": "https://www.pythonanywhere.com/pricing/",
         "asOf": "2026-09-23"
       }
+    },
+    {
+      "id": "polars-cloud-trial",
+      "name": "Polars Cloud Trial",
+      "provider": "Polars",
+      "category": "Managed data services",
+      "tierType": "trial",
+      "duration": "30 days",
+      "cardRequired": "No credit card for Polars Cloud trial",
+      "quota": "Full Polars Cloud feature access during trial, including serverless/distributed execution",
+      "goodFor": "Testing distributed Polars beyond a single machine with the same Polars programming model",
+      "limits": "AWS infrastructure used by connected workspaces can still incur AWS charges during the Polars trial",
+      "commercialUse": "Evaluation terms apply",
+      "platforms": "Hosted control plane · AWS workspace · Python/API",
+      "source": {
+        "label": "Polars Cloud trial",
+        "url": "https://docs.pola.rs/polars-cloud/organization/start-trial/",
+        "asOf": "2026-09-23"
+      }
+    },
+    {
+      "id": "polars-onprem-free",
+      "name": "Polars On-Prem Self-Serve Free Tier",
+      "provider": "Polars",
+      "category": "Managed data services",
+      "tierType": "local-free",
+      "duration": "Ongoing monthly software allowance",
+      "cardRequired": "No credit card required",
+      "quota": "10,000 CPU-hours/month of Polars distributed-engine entitlement; 1 concurrent cluster, up to 1,024 cores and 64 nodes",
+      "goodFor": "Running distributed Polars on your own Kubernetes infrastructure without a Polars platform fee inside the allowance",
+      "limits": "You still provide and pay for the underlying Kubernetes/compute infrastructure",
+      "commercialUse": "Check current Polars Self-Serve terms",
+      "platforms": "Kubernetes / your infrastructure",
+      "source": {
+        "label": "Polars On-Prem billing",
+        "url": "https://docs.cloud.pola.rs/polars-on-premises/billing/",
+        "asOf": "2026-09-23"
+      }
+    },
+    {
+      "id": "modal-starter",
+      "name": "Modal Starter",
+      "provider": "Modal",
+      "category": "Python / hosted app",
+      "tierType": "true-free",
+      "duration": "Recurring monthly included compute",
+      "cardRequired": "Starter plan available at $0",
+      "quota": "$30/month included compute, up to 100 containers, 10 GPU concurrency and limited scheduled/web functions",
+      "goodFor": "Serverless Python, FastAPI-style endpoints, batch jobs, notebooks, CPU/GPU experiments and ML inference",
+      "limits": "Beyond included compute is usage-priced; Starter has feature/concurrency limits",
+      "commercialUse": "Check Modal Starter terms for production use",
+      "platforms": "Hosted · Python SDK / CLI / web",
+      "source": {
+        "label": "Modal pricing",
+        "url": "https://modal.com/pricing",
+        "asOf": "2026-09-23"
+      }
+    },
+    {
+      "id": "prefect-hobby",
+      "name": "Prefect Cloud Hobby",
+      "provider": "Prefect",
+      "category": "Orchestration / hosted",
+      "tierType": "true-free",
+      "duration": "Free forever",
+      "cardRequired": "No paid plan required",
+      "quota": "2 users, up to 5 deployments, 500 minutes/month of Prefect Serverless and 7-day run retention",
+      "goodFor": "Python workflow orchestration, scheduling, logging and lightweight data-pipeline labs",
+      "limits": "No custom work pools on Hobby and limited deployments/serverless minutes",
+      "commercialUse": "Check current Prefect Hobby terms",
+      "platforms": "Hosted UI · Python SDK / CLI",
+      "source": {
+        "label": "Prefect pricing",
+        "url": "https://www.prefect.io/pricing",
+        "asOf": "2026-09-23"
+      }
+    },
+    {
+      "id": "github-codespaces",
+      "name": "GitHub Codespaces",
+      "provider": "GitHub",
+      "category": "IDE / cloud development",
+      "tierType": "true-free",
+      "duration": "Recurring monthly personal-account quota",
+      "cardRequired": "No payment details required to use included personal quota",
+      "quota": "GitHub Free personal accounts include 120 compute hours/month and 15 GB-month storage",
+      "goodFor": "Cloud VS Code/devcontainers, reproducible Python/data tooling, temporary Linux environments and project onboarding",
+      "limits": "Personal accounts only; organization-owned Codespaces have separate billing; quota is metered by machine core multiplier",
+      "commercialUse": "Check GitHub Codespaces billing/organization policy",
+      "platforms": "Browser · VS Code · remote Linux devcontainer",
+      "source": {
+        "label": "GitHub Codespaces billing",
+        "url": "https://docs.github.com/en/billing/concepts/product-billing/github-codespaces",
+        "asOf": "2026-09-23"
+      }
+    },
+    {
+      "id": "grafana-cloud-free",
+      "name": "Grafana Cloud Free",
+      "provider": "Grafana Labs",
+      "category": "Observability / hosted",
+      "tierType": "true-free",
+      "duration": "Always free",
+      "cardRequired": "No credit card required",
+      "quota": "10k active metrics series/month, 50 GB logs, 50 GB traces and 14-day retention for core telemetry signals",
+      "goodFor": "Monitoring FastAPI, containers, VMs, Spark support services and learning metrics/logs/traces",
+      "limits": "Usage and retention caps; advanced support/governance are paid",
+      "commercialUse": "Free tier is positioned for personal projects and early-stage startups; check current terms",
+      "platforms": "Hosted UI · agents / OpenTelemetry / APIs",
+      "source": {
+        "label": "Grafana Cloud pricing",
+        "url": "https://grafana.com/pricing/",
+        "asOf": "2026-09-23"
+      }
     }
   ]
 }
