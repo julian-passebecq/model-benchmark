@@ -1064,6 +1064,63 @@
         "url": "https://developers.cloudflare.com/r2-data-catalog/platform/pricing/",
         "asOf": "2026-09-23"
       }
+    },
+    {
+      "id": "gcp-cloud-run-free",
+      "name": "Google Cloud Run Free Tier",
+      "provider": "Google Cloud",
+      "category": "Containers / apps",
+      "tierType": "true-free",
+      "duration": "Ongoing monthly free quota",
+      "cardRequired": "Google Cloud billing account typically required",
+      "quota": "2 million requests/month listed in Google Cloud Free Tier; compute and networking allowances/charges also apply",
+      "goodFor": "FastAPI, containerized Python, Polars/DuckDB APIs, web services and scheduled container jobs",
+      "limits": "Regional billing and CPU/memory/egress rules matter; free requests do not make every resource dimension free",
+      "commercialUse": "Allowed subject to Google Cloud terms",
+      "platforms": "Hosted · OCI containers · browser / API / CLI",
+      "source": {
+        "label": "Google Cloud Free Tier",
+        "url": "https://cloud.google.com/free",
+        "asOf": "2026-09-23"
+      }
+    },
+    {
+      "id": "gcp-cloud-storage-free",
+      "name": "Google Cloud Storage Free Tier",
+      "provider": "Google Cloud",
+      "category": "Object storage",
+      "tierType": "true-free",
+      "duration": "Ongoing monthly free quota",
+      "cardRequired": "Google Cloud billing account typically required",
+      "quota": "5 GB-months Standard Storage in eligible US regions plus included operation quotas; outbound allowance is limited",
+      "goodFor": "Parquet/JSON/CSV lab storage, static assets and small object-store experiments",
+      "limits": "Free storage applies only in eligible US regions; operation and egress quotas are separate",
+      "commercialUse": "Allowed subject to Google Cloud terms",
+      "platforms": "Hosted · object storage API / CLI / SDK",
+      "source": {
+        "label": "Google Cloud Free Program",
+        "url": "https://docs.cloud.google.com/free/docs/free-cloud-features",
+        "asOf": "2026-09-23"
+      }
+    },
+    {
+      "id": "oracle-autonomous-free",
+      "name": "Oracle Autonomous AI Database Always Free",
+      "provider": "Oracle Cloud",
+      "category": "Warehouse / query",
+      "tierType": "true-free",
+      "duration": "Always Free / no fixed expiry while offer remains available",
+      "cardRequired": "Oracle account verification generally required",
+      "quota": "Up to two Always Free Autonomous AI Databases with included CPU/storage under Always Free restrictions",
+      "goodFor": "Oracle SQL, autonomous warehouse/transaction database learning, APEX and SQL Developer labs",
+      "limits": "Home-region and Always Free resource restrictions apply; capacity and feature limits differ from paid database tiers",
+      "commercialUse": "Allowed subject to Oracle Cloud terms",
+      "platforms": "Hosted · browser / SQL / API",
+      "source": {
+        "label": "Oracle Always Free Autonomous AI Database",
+        "url": "https://docs.oracle.com/en-us/iaas/autonomous-database-serverless/doc/autonomous-always-free.html",
+        "asOf": "2026-09-23"
+      }
     }
   ]
 }
