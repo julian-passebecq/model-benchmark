@@ -110,7 +110,8 @@ function freeLabInspector(item: FreeLabService): InspectorRecord {
       { label: "Duration", value: item.duration },
       { label: "Quota", value: item.quota },
       { label: "Account / card", value: item.cardRequired },
-      { label: "Commercial", value: item.commercialUse }
+      { label: "Commercial", value: item.commercialUse },
+      { label: "Access / OS", value: item.platforms ?? "Hosted / cross-platform" }
     ],
     source: item.source,
     note: item.limits,
@@ -376,6 +377,8 @@ export function CloudDashboard({
                   <th>Type</th>
                   <th>Category</th>
                   <th>Duration</th>
+                  <th>Access / OS</th>
+                  <th>Card / account</th>
                   <th>Included quota</th>
                   <th>Best for</th>
                 </tr>
@@ -390,6 +393,8 @@ export function CloudDashboard({
                     <td><span className={"tier-badge " + item.tierType}>{tierLabel(item.tierType)}</span></td>
                     <td>{item.category}</td>
                     <td>{item.duration}</td>
+                    <td>{item.platforms ?? "Hosted / cross-platform"}</td>
+                    <td>{item.cardRequired}</td>
                     <td className="quota-cell">{item.quota}</td>
                     <td>{item.goodFor}</td>
                   </tr>
