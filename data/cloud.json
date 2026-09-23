@@ -202,17 +202,18 @@
     {
       "id": "aws-general",
       "cloud": "AWS",
-      "family": "General purpose",
-      "vcpu": 8,
-      "ramGb": 32,
+      "family": "EC2 t3.large",
+      "vcpu": 2,
+      "ramGb": 8,
       "accelerator": "None",
-      "workload": "Services, orchestration, medium data workloads",
-      "usdHour": null,
-      "region": "Choose region",
-      "note": "Template shape; bind to a concrete EC2 type in data updates.",
+      "workload": "Small self-hosted dbt/Airflow/Postgres/API lab; burstable general-purpose VM",
+      "usdHour": 0.0835,
+      "region": "us-east-1",
+      "note": "Linux on-demand snapshot. T3 is burstable; sustained CPU above baseline can change economics. Storage, snapshots, IPs and egress are separate.",
       "source": {
-        "label": "EC2 pricing",
-        "url": "https://aws.amazon.com/ec2/pricing/"
+        "label": "AWS EC2 T3 pricing",
+        "url": "https://aws.amazon.com/ec2/instance-types/t3/",
+        "asOf": "2026-09-23"
       }
     },
     {
@@ -234,17 +235,18 @@
     {
       "id": "gcp-general",
       "cloud": "Google Cloud",
-      "family": "General purpose",
-      "vcpu": 8,
-      "ramGb": 32,
+      "family": "Compute Engine e2-standard-2",
+      "vcpu": 2,
+      "ramGb": 8,
       "accelerator": "None",
-      "workload": "Services and analytical support workloads",
-      "usdHour": null,
-      "region": "Choose region",
-      "note": "Template shape; bind to a concrete Compute Engine machine type.",
+      "workload": "Small self-hosted dbt/Airflow/Postgres/API lab; general-purpose VM",
+      "usdHour": 0.06701142,
+      "region": "us-central1 (Iowa)",
+      "note": "On-demand snapshot. Persistent disk, external IP/network egress and other attached services are separate.",
       "source": {
-        "label": "Compute Engine pricing",
-        "url": "https://cloud.google.com/compute/vm-instance-pricing"
+        "label": "Google Cloud E2 pricing",
+        "url": "https://cloud.google.com/products/compute/pricing/general-purpose",
+        "asOf": "2026-09-23"
       }
     },
     {
