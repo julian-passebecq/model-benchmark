@@ -289,3 +289,57 @@ export type SelfHostScenario = {
   workload: string;
   caveat: string;
 };
+
+
+export type FreeTierOffer = {
+  id: string;
+  provider: string;
+  product: string;
+  category: string;
+  tierType: "always-free" | "trial" | "credit";
+  trueFree: boolean;
+  summary: string;
+  limits: string;
+  bestFor: string;
+  creditCard: string;
+  commercial: string;
+  source: SourceRef;
+  score: number;
+};
+
+export type CommunityTool = {
+  id: string;
+  name: string;
+  category: string;
+  license: string;
+  cloudEquivalent: string;
+  bestFor: string;
+};
+
+export type RuntimeFramework = {
+  id: string;
+  name: string;
+  language: string;
+  kind: string;
+  execution: string;
+  coldStart: string;
+  concurrency: string;
+  dataScale: string;
+  bestFor: string;
+  avoidWhen: string;
+  managedExamples: string[];
+  source: SourceRef;
+};
+
+export type QueryScenario = {
+  id: string;
+  name: string;
+  engine: string;
+  language: string;
+  scale: string;
+  operation: string;
+  latencyClass: string;
+  memoryModel: string;
+  distributed: boolean;
+  notes: string;
+};
