@@ -19,6 +19,7 @@ import {
   freeLabServices,
   orchestrationPatterns,
   queryPrices,
+  serverlessServices,
   vmShapes
 } from "../../lib/data";
 import type {
@@ -26,6 +27,7 @@ import type {
   FreeLabService,
   InspectorRecord,
   QueryPrice,
+  ServerlessService,
   VmShape
 } from "../../lib/types";
 import { EmptyState, MetricCard, SectionHeader, ToggleGroup } from "../ui";
@@ -60,6 +62,24 @@ function priceInspector(item: QueryPrice): InspectorRecord {
     source: item.source,
     note: item.note,
     tags: ["refreshable", "pricing"]
+  };
+}
+
+function serverlessInspector(item: ServerlessService): InspectorRecord {
+  return {
+    eyebrow: item.provider.toUpperCase() + " / SERVERLESS",
+    title: item.name,
+    description: item.goodFor,
+    stats: [
+      { label: "Billing unit", value: item.unit },
+      { label: "Free quota", value: item.freeQuota },
+      { label: "Packaging", value: item.packaging },
+      { label: "Runtimes", value: item.runtimes },
+      { label: "Scale to zero", value: item.scaleToZero ? "Yes" : "No" }
+    ],
+    tags: [item.container ? "container-capable" : "function/edge runtime", item.scaleToZero ? "scale-to-zero" : "provisioned"],
+    source: item.source,
+    note: item.watchFor
   };
 }
 
@@ -165,6 +185,10 @@ export function CloudDashboard({
     () => queryPrices.filter((item) => !q || JSON.stringify(item).toLowerCase().includes(q)),
     [q]
   );
+  const serverless = useMemo(
+    () => serverlessServices.filter((item) => !q || JSON.stringify(item).toLowerCase().includes(q)),
+    [q]
+  );
   const vms = useMemo(
     () => vmShapes.filter((item) => !q || JSON.stringify(item).toLowerCase().includes(q)),
     [q]
@@ -182,6 +206,7 @@ export function CloudDashboard({
   const activeCount =
     view === "Platforms" ? platforms.length :
     view === "Query pricing" ? prices.length :
+    view === "Serverless" ? serverless.length :
     view === "VM shapes" ? vms.length :
     freeLabs.length;
 
@@ -217,7 +242,7 @@ export function CloudDashboard({
           />
           <ToggleGroup
             value={view}
-            values={["Platforms", "Query pricing", "VM shapes", "Free labs"]}
+            values={["Platforms", "Query pricing", "Serverless", "VM shapes", "Free labs"]}
             onChange={setView}
             label="Cloud view"
           />
@@ -285,6 +310,37 @@ export function CloudDashboard({
                 <small>{item.region}</small>
               </button>
             ))}
+          </div>
+        ) : null}
+
+        {view === "Serverless" && serverless.length ? (
+          <div className="data-table-wrap">
+            <table className="data-table feature-table serverless-table">
+              <thead>
+                <tr>
+                  <th>Service</th>
+                  <th>Billing unit</th>
+                  <th>Permanent free allowance</th>
+                  <th>Packaging</th>
+                  <th>Runtime</th>
+                  <th>Scale-to-zero</th>
+                  <th>Best for</th>
+                </tr>
+              </thead>
+              <tbody>
+                {serverless.map((item) => (
+                  <tr key={item.id} onClick={() => onInspect(serverlessInspector(item))}>
+                    <td><strong>{item.name}</strong><small className="table-sub">{item.provider}</small></td>
+                    <td>{item.unit}</td>
+                    <td className="quota-cell">{item.freeQuota}</td>
+                    <td>{item.packaging}</td>
+                    <td>{item.runtimes}</td>
+                    <td>{item.scaleToZero ? "✓" : "—"}</td>
+                    <td>{item.goodFor}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
           </div>
         ) : null}
 
