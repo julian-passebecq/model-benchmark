@@ -1,29 +1,299 @@
 {
   "platforms": [
-    {"id":"databricks","name":"Databricks","vendor":"Databricks","computeModel":"Serverless + classic compute + SQL warehouses","pricingModel":"DBU + cloud infrastructure / serverless usage","serverless":"Strong","lakehouse":"Delta Lake / Unity Catalog","warehouse":"Databricks SQL","streaming":"Spark Structured Streaming","orchestration":"Lakeflow Jobs / declarative pipelines","governance":"Unity Catalog","aiMl":"MLflow, model serving, AI tooling","bi":"Dashboards + partners","openFormats":"Delta; Iceberg interoperability","bestFor":"Unified data engineering + ML/AI lakehouse","tradeoff":"Pricing and runtime choices require governance","source":{"label":"Databricks pricing","url":"https://www.databricks.com/product/pricing"}},
-    {"id":"fabric","name":"Microsoft Fabric","vendor":"Microsoft","computeModel":"Capacity units shared across workloads","pricingModel":"F SKUs / capacity consumption","serverless":"Managed SaaS experience","lakehouse":"OneLake + Delta/Parquet","warehouse":"Fabric Warehouse","streaming":"Real-Time Intelligence","orchestration":"Data Factory pipelines","governance":"Purview integration + OneLake controls","aiMl":"Data Science + Copilot integrations","bi":"Power BI native","openFormats":"Delta / Parquet centric","bestFor":"Microsoft-centric BI + engineering platform consolidation","tradeoff":"Capacity management couples multiple workloads","source":{"label":"Microsoft Fabric pricing","url":"https://azure.microsoft.com/pricing/details/microsoft-fabric/"}},
-    {"id":"bigquery","name":"BigQuery","vendor":"Google Cloud","computeModel":"Serverless SQL + reservations/editions","pricingModel":"On-demand bytes processed or capacity","serverless":"Excellent","lakehouse":"BigLake / open table integrations","warehouse":"BigQuery","streaming":"Pub/Sub + Dataflow + BigQuery ingestion","orchestration":"Workflows / Composer / Dataform","governance":"Dataplex / IAM","aiMl":"BigQuery ML + Vertex AI integration","bi":"Looker ecosystem","openFormats":"Parquet/Iceberg integrations","bestFor":"Serverless analytical SQL at scale","tradeoff":"Query-cost discipline matters for on-demand use","source":{"label":"BigQuery pricing","url":"https://cloud.google.com/bigquery/pricing"}},
-    {"id":"snowflake","name":"Snowflake","vendor":"Snowflake","computeModel":"Independent virtual warehouses + serverless services","pricingModel":"Credits + storage","serverless":"Strong","lakehouse":"Iceberg tables / external storage integrations","warehouse":"Snowflake warehouses","streaming":"Snowpipe / Dynamic Tables / streams","orchestration":"Tasks + Dynamic Tables","governance":"Horizon capabilities","aiMl":"Cortex AI / Snowpark","bi":"Partner ecosystem","openFormats":"Iceberg support","bestFor":"Managed cross-cloud warehouse/data platform","tradeoff":"Credit consumption can be opaque without resource monitoring","source":{"label":"Snowflake pricing","url":"https://www.snowflake.com/en/pricing-options/"}},
-    {"id":"aws","name":"AWS Data Stack","vendor":"Amazon Web Services","computeModel":"Composable services: Athena, EMR, Glue, Redshift, Lambda","pricingModel":"Per-service usage; bytes scanned, instances, DPUs, serverless units","serverless":"Strong across multiple services","lakehouse":"S3 + Glue Catalog + Iceberg ecosystem","warehouse":"Redshift","streaming":"Kinesis / MSK","orchestration":"Step Functions / MWAA / Glue Workflows","governance":"Lake Formation + IAM","aiMl":"SageMaker / Bedrock","bi":"QuickSight","openFormats":"Strong Iceberg/Parquet ecosystem","bestFor":"Composable cloud-native data architectures","tradeoff":"Breadth increases architecture and cost-management complexity","source":{"label":"AWS pricing","url":"https://aws.amazon.com/pricing/"}}
+    {
+      "id": "databricks",
+      "name": "Databricks",
+      "vendor": "Databricks",
+      "computeModel": "Serverless + classic compute + SQL warehouses",
+      "pricingModel": "DBU + cloud infrastructure / serverless usage",
+      "serverless": "Strong",
+      "lakehouse": "Delta Lake / Unity Catalog",
+      "warehouse": "Databricks SQL",
+      "streaming": "Spark Structured Streaming",
+      "orchestration": "Lakeflow Jobs / declarative pipelines",
+      "governance": "Unity Catalog",
+      "aiMl": "MLflow, model serving, AI tooling",
+      "bi": "Dashboards + partners",
+      "openFormats": "Delta; Iceberg interoperability",
+      "bestFor": "Unified data engineering + ML/AI lakehouse",
+      "tradeoff": "Pricing and runtime choices require governance",
+      "source": {
+        "label": "Databricks pricing",
+        "url": "https://www.databricks.com/product/pricing"
+      }
+    },
+    {
+      "id": "fabric",
+      "name": "Microsoft Fabric",
+      "vendor": "Microsoft",
+      "computeModel": "Capacity units shared across workloads",
+      "pricingModel": "F SKUs / capacity consumption",
+      "serverless": "Managed SaaS experience",
+      "lakehouse": "OneLake + Delta/Parquet",
+      "warehouse": "Fabric Warehouse",
+      "streaming": "Real-Time Intelligence",
+      "orchestration": "Data Factory pipelines",
+      "governance": "Purview integration + OneLake controls",
+      "aiMl": "Data Science + Copilot integrations",
+      "bi": "Power BI native",
+      "openFormats": "Delta / Parquet centric",
+      "bestFor": "Microsoft-centric BI + engineering platform consolidation",
+      "tradeoff": "Capacity management couples multiple workloads",
+      "source": {
+        "label": "Microsoft Fabric pricing",
+        "url": "https://azure.microsoft.com/pricing/details/microsoft-fabric/"
+      }
+    },
+    {
+      "id": "bigquery",
+      "name": "BigQuery",
+      "vendor": "Google Cloud",
+      "computeModel": "Serverless SQL + reservations/editions",
+      "pricingModel": "On-demand bytes processed or capacity",
+      "serverless": "Excellent",
+      "lakehouse": "BigLake / open table integrations",
+      "warehouse": "BigQuery",
+      "streaming": "Pub/Sub + Dataflow + BigQuery ingestion",
+      "orchestration": "Workflows / Composer / Dataform",
+      "governance": "Dataplex / IAM",
+      "aiMl": "BigQuery ML + Vertex AI integration",
+      "bi": "Looker ecosystem",
+      "openFormats": "Parquet/Iceberg integrations",
+      "bestFor": "Serverless analytical SQL at scale",
+      "tradeoff": "Query-cost discipline matters for on-demand use",
+      "source": {
+        "label": "BigQuery pricing",
+        "url": "https://cloud.google.com/bigquery/pricing"
+      }
+    },
+    {
+      "id": "snowflake",
+      "name": "Snowflake",
+      "vendor": "Snowflake",
+      "computeModel": "Independent virtual warehouses + serverless services",
+      "pricingModel": "Credits + storage",
+      "serverless": "Strong",
+      "lakehouse": "Iceberg tables / external storage integrations",
+      "warehouse": "Snowflake warehouses",
+      "streaming": "Snowpipe / Dynamic Tables / streams",
+      "orchestration": "Tasks + Dynamic Tables",
+      "governance": "Horizon capabilities",
+      "aiMl": "Cortex AI / Snowpark",
+      "bi": "Partner ecosystem",
+      "openFormats": "Iceberg support",
+      "bestFor": "Managed cross-cloud warehouse/data platform",
+      "tradeoff": "Credit consumption can be opaque without resource monitoring",
+      "source": {
+        "label": "Snowflake pricing",
+        "url": "https://www.snowflake.com/en/pricing-options/"
+      }
+    },
+    {
+      "id": "aws",
+      "name": "AWS Data Stack",
+      "vendor": "Amazon Web Services",
+      "computeModel": "Composable services: Athena, EMR, Glue, Redshift, Lambda",
+      "pricingModel": "Per-service usage; bytes scanned, instances, DPUs, serverless units",
+      "serverless": "Strong across multiple services",
+      "lakehouse": "S3 + Glue Catalog + Iceberg ecosystem",
+      "warehouse": "Redshift",
+      "streaming": "Kinesis / MSK",
+      "orchestration": "Step Functions / MWAA / Glue Workflows",
+      "governance": "Lake Formation + IAM",
+      "aiMl": "SageMaker / Bedrock",
+      "bi": "QuickSight",
+      "openFormats": "Strong Iceberg/Parquet ecosystem",
+      "bestFor": "Composable cloud-native data architectures",
+      "tradeoff": "Breadth increases architecture and cost-management complexity",
+      "source": {
+        "label": "AWS pricing",
+        "url": "https://aws.amazon.com/pricing/"
+      }
+    }
   ],
   "queryPrices": [
-    {"id":"athena-scan","platform":"AWS","service":"Athena","unit":"per TB scanned","usd":5,"freeTier":"Service-specific","region":"Example / check region","note":"Representative list price; compression, partition pruning and region affect actual cost.","source":{"label":"Athena pricing","url":"https://aws.amazon.com/athena/pricing/"}},
-    {"id":"bigquery-ondemand","platform":"Google Cloud","service":"BigQuery on-demand","unit":"bytes processed","usd":null,"freeTier":"Monthly free analysis allowance may apply","region":"Varies","note":"Keep numeric price null in seed data because region/currency and pricing updates should be refreshed from the official pricing page.","source":{"label":"BigQuery pricing","url":"https://cloud.google.com/bigquery/pricing"}},
-    {"id":"snowflake-credit","platform":"Snowflake","service":"Virtual warehouse","unit":"credits consumed","usd":null,"freeTier":"Trial credits may apply","region":"Varies","note":"Credit price depends on edition, cloud and region.","source":{"label":"Snowflake pricing","url":"https://www.snowflake.com/en/pricing-options/"}},
-    {"id":"databricks-dbu","platform":"Databricks","service":"SQL / jobs / serverless","unit":"DBU or serverless usage","usd":null,"freeTier":"Varies by offer","region":"Varies","note":"DBU rate and infrastructure/serverless composition vary by workload and cloud.","source":{"label":"Databricks pricing","url":"https://www.databricks.com/product/pricing"}},
-    {"id":"fabric-capacity","platform":"Microsoft","service":"Fabric","unit":"capacity unit","usd":null,"freeTier":"Trial / licensing context varies","region":"Varies","note":"Capacity pricing depends on SKU and region; Power BI licensing can also matter.","source":{"label":"Fabric pricing","url":"https://azure.microsoft.com/pricing/details/microsoft-fabric/"}}
+    {
+      "id": "athena-scan",
+      "platform": "AWS",
+      "service": "Athena",
+      "unit": "per TB scanned",
+      "usd": 5,
+      "freeTier": "Service-specific",
+      "region": "Example / check region",
+      "note": "Representative list price; compression, partition pruning and region affect actual cost.",
+      "source": {
+        "label": "Athena pricing",
+        "url": "https://aws.amazon.com/athena/pricing/"
+      }
+    },
+    {
+      "id": "bigquery-ondemand",
+      "platform": "Google Cloud",
+      "service": "BigQuery on-demand",
+      "unit": "per TiB scanned (on-demand)",
+      "usd": 6.25,
+      "freeTier": "First 1 TiB query data processed/month free",
+      "region": "US / representative; check selected region",
+      "note": "On-demand queries are billed by bytes processed. Partitioning, clustering and column pruning can reduce billed scan bytes.",
+      "source": {
+        "label": "BigQuery pricing",
+        "url": "https://cloud.google.com/bigquery/pricing"
+      }
+    },
+    {
+      "id": "snowflake-credit",
+      "platform": "Snowflake",
+      "service": "Virtual warehouse",
+      "unit": "credits consumed",
+      "usd": null,
+      "freeTier": "Trial credits may apply",
+      "region": "Varies",
+      "note": "Credit price depends on edition, cloud and region.",
+      "source": {
+        "label": "Snowflake pricing",
+        "url": "https://www.snowflake.com/en/pricing-options/"
+      }
+    },
+    {
+      "id": "databricks-dbu",
+      "platform": "Databricks",
+      "service": "SQL / jobs / serverless",
+      "unit": "DBU or serverless usage",
+      "usd": null,
+      "freeTier": "Varies by offer",
+      "region": "Varies",
+      "note": "DBU rate and infrastructure/serverless composition vary by workload and cloud.",
+      "source": {
+        "label": "Databricks pricing",
+        "url": "https://www.databricks.com/product/pricing"
+      }
+    },
+    {
+      "id": "fabric-capacity",
+      "platform": "Microsoft",
+      "service": "Fabric",
+      "unit": "capacity unit",
+      "usd": null,
+      "freeTier": "Trial / licensing context varies",
+      "region": "Varies",
+      "note": "Capacity pricing depends on SKU and region; Power BI licensing can also matter.",
+      "source": {
+        "label": "Fabric pricing",
+        "url": "https://azure.microsoft.com/pricing/details/microsoft-fabric/"
+      }
+    },
+    {
+      "id": "cloudflare-r2-sql",
+      "platform": "Cloudflare",
+      "service": "R2 SQL",
+      "unit": "per TB compressed data scanned",
+      "usd": 2.5,
+      "freeTier": "10 GB scanned/month included",
+      "region": "Global service / check availability",
+      "note": "R2 SQL bills compressed bytes scanned; R2 storage and read operations are additional, while R2 internet egress is free.",
+      "source": {
+        "label": "R2 SQL pricing",
+        "url": "https://developers.cloudflare.com/r2-sql/platform/pricing/",
+        "asOf": "2026-09-23"
+      }
+    }
   ],
   "vmShapes": [
-    {"id":"aws-general","cloud":"AWS","family":"General purpose","vcpu":8,"ramGb":32,"accelerator":"None","workload":"Services, orchestration, medium data workloads","usdHour":null,"region":"Choose region","note":"Template shape; bind to a concrete EC2 type in data updates.","source":{"label":"EC2 pricing","url":"https://aws.amazon.com/ec2/pricing/"}},
-    {"id":"azure-general","cloud":"Azure","family":"General purpose","vcpu":8,"ramGb":32,"accelerator":"None","workload":"Services, BI gateways, general compute","usdHour":null,"region":"Choose region","note":"Template shape; bind to a concrete Azure VM SKU in data updates.","source":{"label":"Azure VM pricing","url":"https://azure.microsoft.com/pricing/details/virtual-machines/"}},
-    {"id":"gcp-general","cloud":"Google Cloud","family":"General purpose","vcpu":8,"ramGb":32,"accelerator":"None","workload":"Services and analytical support workloads","usdHour":null,"region":"Choose region","note":"Template shape; bind to a concrete Compute Engine machine type.","source":{"label":"Compute Engine pricing","url":"https://cloud.google.com/compute/vm-instance-pricing"}},
-    {"id":"gpu-training","cloud":"Cross-cloud","family":"GPU accelerated","vcpu":32,"ramGb":256,"accelerator":"1+ datacenter GPU","workload":"Training, inference, accelerated ETL","usdHour":null,"region":"Varies","note":"GPU instance pricing changes rapidly; data model intentionally separates shape from refreshed price.","source":{"label":"Cloud GPU comparison seed","url":"https://cloud.google.com/gpu"}}
+    {
+      "id": "aws-general",
+      "cloud": "AWS",
+      "family": "General purpose",
+      "vcpu": 8,
+      "ramGb": 32,
+      "accelerator": "None",
+      "workload": "Services, orchestration, medium data workloads",
+      "usdHour": null,
+      "region": "Choose region",
+      "note": "Template shape; bind to a concrete EC2 type in data updates.",
+      "source": {
+        "label": "EC2 pricing",
+        "url": "https://aws.amazon.com/ec2/pricing/"
+      }
+    },
+    {
+      "id": "azure-general",
+      "cloud": "Azure",
+      "family": "General purpose",
+      "vcpu": 8,
+      "ramGb": 32,
+      "accelerator": "None",
+      "workload": "Services, BI gateways, general compute",
+      "usdHour": null,
+      "region": "Choose region",
+      "note": "Template shape; bind to a concrete Azure VM SKU in data updates.",
+      "source": {
+        "label": "Azure VM pricing",
+        "url": "https://azure.microsoft.com/pricing/details/virtual-machines/"
+      }
+    },
+    {
+      "id": "gcp-general",
+      "cloud": "Google Cloud",
+      "family": "General purpose",
+      "vcpu": 8,
+      "ramGb": 32,
+      "accelerator": "None",
+      "workload": "Services and analytical support workloads",
+      "usdHour": null,
+      "region": "Choose region",
+      "note": "Template shape; bind to a concrete Compute Engine machine type.",
+      "source": {
+        "label": "Compute Engine pricing",
+        "url": "https://cloud.google.com/compute/vm-instance-pricing"
+      }
+    },
+    {
+      "id": "gpu-training",
+      "cloud": "Cross-cloud",
+      "family": "GPU accelerated",
+      "vcpu": 32,
+      "ramGb": 256,
+      "accelerator": "1+ datacenter GPU",
+      "workload": "Training, inference, accelerated ETL",
+      "usdHour": null,
+      "region": "Varies",
+      "note": "GPU instance pricing changes rapidly; data model intentionally separates shape from refreshed price.",
+      "source": {
+        "label": "Cloud GPU comparison seed",
+        "url": "https://cloud.google.com/gpu"
+      }
+    }
   ],
   "orchestrationPatterns": [
-    {"name":"Container","tools":"Docker","abstraction":"Package process + dependencies","when":"Portable reproducible runtime"},
-    {"name":"Container scheduler","tools":"Kubernetes","abstraction":"Desired state for replicated services","when":"Many long-running services and platform control"},
-    {"name":"Workflow DAG","tools":"Airflow / Composer / MWAA","abstraction":"Task dependencies + retries + schedule","when":"Cross-system orchestration"},
-    {"name":"Managed data pipeline","tools":"Lakeflow / Fabric Data Factory / Dataform","abstraction":"Data intent + managed execution","when":"Prefer platform-native observability and optimization"},
-    {"name":"Declarative transformation","tools":"SQL / dbt / managed declarative pipelines","abstraction":"What data should become","when":"Let optimizer/runtime decide execution plan"}
+    {
+      "name": "Container",
+      "tools": "Docker",
+      "abstraction": "Package process + dependencies",
+      "when": "Portable reproducible runtime"
+    },
+    {
+      "name": "Container scheduler",
+      "tools": "Kubernetes",
+      "abstraction": "Desired state for replicated services",
+      "when": "Many long-running services and platform control"
+    },
+    {
+      "name": "Workflow DAG",
+      "tools": "Airflow / Composer / MWAA",
+      "abstraction": "Task dependencies + retries + schedule",
+      "when": "Cross-system orchestration"
+    },
+    {
+      "name": "Managed data pipeline",
+      "tools": "Lakeflow / Fabric Data Factory / Dataform",
+      "abstraction": "Data intent + managed execution",
+      "when": "Prefer platform-native observability and optimization"
+    },
+    {
+      "name": "Declarative transformation",
+      "tools": "SQL / dbt / managed declarative pipelines",
+      "abstraction": "What data should become",
+      "when": "Let optimizer/runtime decide execution plan"
+    }
   ]
 }
