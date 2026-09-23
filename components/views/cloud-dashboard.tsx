@@ -527,6 +527,7 @@ export function CloudDashboard({
                   <th>Card / account</th>
                   <th>Included quota</th>
                   <th>Best for</th>
+                  <th>Verified</th>
                 </tr>
               </thead>
               <tbody>
@@ -543,6 +544,7 @@ export function CloudDashboard({
                     <td>{item.cardRequired}</td>
                     <td className="quota-cell">{item.quota}</td>
                     <td>{item.goodFor}</td>
+                    <td>{item.source.asOf ?? "source linked"}</td>
                   </tr>
                 ))}
               </tbody>
