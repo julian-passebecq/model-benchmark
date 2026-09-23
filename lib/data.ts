@@ -4,6 +4,8 @@ import cloud from "../data/cloud.json";
 import hardware from "../data/hardware.json";
 import evolution from "../data/evolution.json";
 import codingAgents from "../data/coding-agents.json";
+import freeLabs from "../data/free-labs.json";
+import runtimeLab from "../data/runtime-lab.json";
 
 import type {
   BenchmarkMeta,
@@ -13,11 +15,14 @@ import type {
   DataEngine,
   DataFormat,
   EvolutionItem,
+  FreeLabService,
   HardwareItem,
   LanguageRuntime,
   MobileSoc,
   ModelBenchmark,
   QueryPrice,
+  RuntimeBenchmarkTemplate,
+  RuntimeProfile,
   TerminalBenchEffortPoint,
   VmShape
 } from "./types";
@@ -27,6 +32,12 @@ export const terminalBenchEffort = codingAgents.terminalBenchEffort as TerminalB
 export const terminalBenchMeta = codingAgents.terminalBenchMeta as BenchmarkMeta;
 export const codingAgentFrontier = codingAgents.codingAgentFrontier as CodingAgentFrontierPoint[];
 export const codingAgentFrontierMeta = codingAgents.codingAgentFrontierMeta as BenchmarkMeta;
+
+export const freeLabServices = freeLabs.services as FreeLabService[];
+export const freeLabsAsOf = freeLabs.asOf as string;
+export const runtimeProfiles = runtimeLab.profiles as RuntimeProfile[];
+export const runtimeBenchmarkTemplates = runtimeLab.benchmarkTemplates as RuntimeBenchmarkTemplate[];
+export const runtimeSummary = runtimeLab.summary as string[];
 
 export const dataEngines = dataStack.engines as DataEngine[];
 export const dataFormats = dataStack.formats as DataFormat[];
