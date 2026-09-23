@@ -75,6 +75,23 @@ for (const file of files) {
 
   validateTree(file, parsed);
 
+  if (file === "cloud.json" && Array.isArray(parsed.platforms)) {
+    const freeLabsPath = path.join(dataDir, "free-labs.json");
+    let knownServices = new Set();
+    try {
+      const freeLabsData = JSON.parse(fs.readFileSync(freeLabsPath, "utf8"));
+      knownServices = new Set((freeLabsData.services ?? []).map((item) => item.id));
+    } catch (error) {
+      fail(file, "$.platforms", "could not load free-labs.json for freeAccessServiceId validation: " + error.message);
+    }
+    for (let index = 0; index < parsed.platforms.length; index += 1) {
+      const serviceId = parsed.platforms[index].freeAccessServiceId;
+      if (serviceId && !knownServices.has(serviceId)) {
+        fail(file, "$.platforms[" + index + "].freeAccessServiceId", "unknown free-lab service id '" + serviceId + "'");
+      }
+    }
+  }
+
   if (file === "free-labs.json") {
     const allowed = new Set(["true-free", "trial", "local-free", "open-source"]);
     if (!Array.isArray(parsed.services)) {
