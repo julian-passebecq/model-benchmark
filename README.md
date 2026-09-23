@@ -30,6 +30,10 @@ data/
   cloud.json
   hardware.json
   evolution.json
+  coding-agents.json
+  free-labs.json
+  runtime-lab.json
+  serverless.json
 ```
 
 The React views import these files through `lib/data.ts`. Updating a model, cloud price, engine capability or hardware generation does not require rewriting the dashboard components.
@@ -108,3 +112,25 @@ The app already has schema slots for the areas that are most useful to extend:
 GitHub Actions runs TypeScript checking and a production Next.js build on pushes and pull requests.
 
 Current implementation branch: `feature/benchmark-observatory-v1`.
+
+
+## Free lab catalog
+
+The Cloud dashboard now separates four different meanings of “free”:
+
+- **true-free** — recurring/no-expiry hosted quota;
+- **trial** — time-limited or credit-limited evaluation;
+- **local-free** — free desktop/local tooling;
+- **open-source** — self-hosted software where you provide the compute.
+
+The catalog is stored in `data/free-labs.json` and includes compute, databases, warehouses, CI/CD, web/serverless, BI and developer tooling. Each row keeps its quota, duration, account/card requirement, caveat, commercial-use note and official source.
+
+The Cloud dashboard also has a **Serverless** comparison sourced from `data/serverless.json` for Lambda, Azure Functions, Cloud Run, Cloudflare Workers and Azure Container Apps.
+
+## Python / Spark runtime lab
+
+`data/runtime-lab.json` models execution behavior for pandas, Polars, DuckDB, PySpark, Spark with Scala and Spark SQL.
+
+It also defines reproducible benchmark recipes from 1 GB local tests through 1 TB distributed tests, plus a specific built-in-expression vs Python UDF / Pandas UDF / Scala UDF experiment.
+
+The dashboard intentionally stores benchmark **recipes before timings**. A measured result should only be added when dataset, file layout, engine version, cluster/hardware and cold/warm-cache policy are versioned with it.
