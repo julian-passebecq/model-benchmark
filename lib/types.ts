@@ -260,3 +260,20 @@ export type RuntimeBenchmarkTemplate = {
   hardware: string;
   lesson: string;
 };
+
+
+export type ServerlessService = {
+  id: string;
+  name: string;
+  provider: string;
+  unit: string;
+  freeQuota: string;
+  billing: string;
+  packaging: string;
+  runtimes: string;
+  scaleToZero: boolean;
+  container: boolean;
+  goodFor: string;
+  watchFor: string;
+  source: SourceRef;
+};
