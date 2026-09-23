@@ -344,5 +344,447 @@
       "workload": "Container orchestration, manifests, services and lightweight Kubernetes learning",
       "caveat": "A raw VM does not include managed control plane, load balancers, registry, persistent volumes or operations."
     }
+  ],
+  "freeTiers": [
+    {
+      "id": "oci-a1",
+      "provider": "Oracle Cloud",
+      "product": "OCI Ampere A1 Compute",
+      "category": "VM",
+      "tierType": "always-free",
+      "trueFree": true,
+      "summary": "Always Free Arm compute quota",
+      "limits": "First 3,000 OCPU-hours + 18,000 GB-hours memory/month for A1; Oracle docs note Always Free tenancy limits can differ from paid/trial quotas.",
+      "bestFor": "ARM Linux VM, Docker, self-hosted APIs, schedulers, databases",
+      "creditCard": "Usually required for signup verification",
+      "commercial": "Yes, within service terms",
+      "source": {
+        "label": "Oracle Cloud Free Tier",
+        "url": "https://docs.oracle.com/iaas/Content/FreeTier/freetier.htm",
+        "asOf": "2026-06-29"
+      },
+      "score": 95
+    },
+    {
+      "id": "gcp-e2micro",
+      "provider": "Google Cloud",
+      "product": "Compute Engine e2-micro",
+      "category": "VM",
+      "tierType": "always-free",
+      "trueFree": true,
+      "summary": "One small VM equivalent each month in eligible US regions",
+      "limits": "1 non-preemptible e2-micro equivalent/month + 30 GB-month standard persistent disk + 1 GB outbound transfer",
+      "bestFor": "Tiny Linux server, FastAPI demo, cron/service experiments",
+      "creditCard": "Billing account normally required",
+      "commercial": "Yes, within free-tier limits",
+      "source": {
+        "label": "Google Cloud Free Program",
+        "url": "https://docs.cloud.google.com/free/docs/free-cloud-features",
+        "asOf": "2026-09-23"
+      },
+      "score": 82
+    },
+    {
+      "id": "gcp-bigquery",
+      "provider": "Google Cloud",
+      "product": "BigQuery",
+      "category": "Warehouse",
+      "tierType": "always-free",
+      "trueFree": true,
+      "summary": "Permanent monthly query allowance",
+      "limits": "1 TB queries/month in the Google Cloud Free Tier; storage/other limits are separate",
+      "bestFor": "SQL analytics, public datasets, warehouse learning",
+      "creditCard": "Billing setup can be required depending on account/use",
+      "commercial": "Yes, within terms",
+      "source": {
+        "label": "Google Cloud Free Tier",
+        "url": "https://cloud.google.com/free",
+        "asOf": "2026-09-23"
+      },
+      "score": 94
+    },
+    {
+      "id": "gcp-cloudrun",
+      "provider": "Google Cloud",
+      "product": "Cloud Run",
+      "category": "Containers",
+      "tierType": "always-free",
+      "trueFree": true,
+      "summary": "Serverless container request allowance",
+      "limits": "2 million requests/month listed in Google Cloud Free Tier; CPU/memory/network quotas also apply",
+      "bestFor": "FastAPI, containerized web services, webhook/API demos",
+      "creditCard": "Billing account typically required",
+      "commercial": "Yes, within terms",
+      "source": {
+        "label": "Google Cloud Free Tier",
+        "url": "https://cloud.google.com/free",
+        "asOf": "2026-09-23"
+      },
+      "score": 92
+    },
+    {
+      "id": "databricks-free",
+      "provider": "Databricks",
+      "product": "Free Edition",
+      "category": "Data platform",
+      "tierType": "always-free",
+      "trueFree": true,
+      "summary": "Perpetually free learning edition",
+      "limits": "Serverless-only compute, smaller compute/warehouse sizes and fair-usage quotas; not for commercial use",
+      "bestFor": "Spark, SQL, Delta, notebooks, ML/AI learning",
+      "creditCard": "No paid plan required",
+      "commercial": "No — personal/learning use",
+      "source": {
+        "label": "Databricks Free Edition",
+        "url": "https://www.databricks.com/learn/free-edition",
+        "asOf": "2026-09-23"
+      },
+      "score": 97
+    },
+    {
+      "id": "motherduck-lite",
+      "provider": "MotherDuck",
+      "product": "Lite",
+      "category": "Warehouse",
+      "tierType": "always-free",
+      "trueFree": true,
+      "summary": "DuckDB-native cloud analytics free plan",
+      "limits": "10 GB storage + 10 hours Pulse compute/month, up to 3 internal active users and 2 service accounts",
+      "bestFor": "DuckDB cloud analytics, lightweight BI/data apps",
+      "creditCard": "Free plan",
+      "commercial": "Small-scale use subject to plan terms",
+      "source": {
+        "label": "MotherDuck pricing",
+        "url": "https://motherduck.com/product/pricing/",
+        "asOf": "2026-09-23"
+      },
+      "score": 93
+    },
+    {
+      "id": "mongodb-atlas",
+      "provider": "MongoDB",
+      "product": "Atlas Free cluster",
+      "category": "NoSQL DB",
+      "tierType": "always-free",
+      "trueFree": true,
+      "summary": "Free cluster that never expires",
+      "limits": "512 MB storage; one Free cluster per project; limited regions/features",
+      "bestFor": "Document DB, prototypes, small APIs",
+      "creditCard": "No paid cluster required",
+      "commercial": "Small apps/prototypes within limits",
+      "source": {
+        "label": "MongoDB Atlas Free cluster",
+        "url": "https://www.mongodb.com/docs/atlas/tutorial/deploy-free-tier-cluster/",
+        "asOf": "2026-09-23"
+      },
+      "score": 91
+    },
+    {
+      "id": "neon-free",
+      "provider": "Neon",
+      "product": "Free",
+      "category": "PostgreSQL",
+      "tierType": "always-free",
+      "trueFree": true,
+      "summary": "Serverless Postgres with scale-to-zero",
+      "limits": "10 projects, 50 CU-hours/month per project, 0.5 GB/project, 10 branches/project, 5 GB egress/month",
+      "bestFor": "Postgres dev/test, branching workflows, serverless apps",
+      "creditCard": "Free plan",
+      "commercial": "Small projects subject to plan terms",
+      "source": {
+        "label": "Neon Free plan",
+        "url": "https://neon.com/blog/new-usage-based-pricing",
+        "asOf": "2026-09-23"
+      },
+      "score": 96
+    },
+    {
+      "id": "supabase-free",
+      "provider": "Supabase",
+      "product": "Free",
+      "category": "PostgreSQL/BaaS",
+      "tierType": "always-free",
+      "trueFree": true,
+      "summary": "Hosted Postgres + auth + storage + APIs",
+      "limits": "2 active projects, 500 MB DB/project, 50k MAU, 1 GB file storage, 5 GB egress; projects pause after inactivity",
+      "bestFor": "Full-stack apps, auth, Postgres APIs",
+      "creditCard": "Free plan",
+      "commercial": "Small projects subject to plan terms",
+      "source": {
+        "label": "Supabase pricing",
+        "url": "https://supabase.com/pricing",
+        "asOf": "2026-09-23"
+      },
+      "score": 95
+    },
+    {
+      "id": "upstash-free",
+      "provider": "Upstash",
+      "product": "Redis Free",
+      "category": "Cache/Redis",
+      "tierType": "always-free",
+      "trueFree": true,
+      "summary": "Managed serverless Redis",
+      "limits": "256 MB, 500k commands/month, 10 GB bandwidth, 1 free DB",
+      "bestFor": "Caching, sessions, queues, rate limits, agent memory",
+      "creditCard": "No card required for free DB",
+      "commercial": "Small workloads subject to limits",
+      "source": {
+        "label": "Upstash Redis pricing",
+        "url": "https://upstash.com/pricing/redis",
+        "asOf": "2026-09-23"
+      },
+      "score": 92
+    },
+    {
+      "id": "cloudflare-workers",
+      "provider": "Cloudflare",
+      "product": "Workers Free",
+      "category": "Functions/Edge",
+      "tierType": "always-free",
+      "trueFree": true,
+      "summary": "Edge functions with related free quotas",
+      "limits": "Free plan includes limited Workers, Pages Functions, KV and Hyperdrive usage; monthly limits vary by product",
+      "bestFor": "Edge APIs, lightweight workers, routing, static+functions",
+      "creditCard": "Free plan",
+      "commercial": "Yes within plan terms",
+      "source": {
+        "label": "Cloudflare Workers pricing",
+        "url": "https://developers.cloudflare.com/workers/platform/pricing/",
+        "asOf": "2026-08-28"
+      },
+      "score": 94
+    },
+    {
+      "id": "netlify-free",
+      "provider": "Netlify",
+      "product": "Free",
+      "category": "Web hosting",
+      "tierType": "always-free",
+      "trueFree": true,
+      "summary": "Static/web deployment with functions and CDN",
+      "limits": "$0 forever plan with 300 credits/month, deploy previews, custom domains/SSL, Functions, CDN and selected storage features",
+      "bestFor": "React/Next-style web deployment, previews, small APIs",
+      "creditCard": "Free plan",
+      "commercial": "Plan terms apply",
+      "source": {
+        "label": "Netlify pricing",
+        "url": "https://www.netlify.com/pricing/",
+        "asOf": "2026-09-23"
+      },
+      "score": 90
+    },
+    {
+      "id": "vercel-hobby",
+      "provider": "Vercel",
+      "product": "Hobby",
+      "category": "Web hosting",
+      "tierType": "always-free",
+      "trueFree": true,
+      "summary": "Personal web app deployment",
+      "limits": "$0/month Hobby with CI/CD, CDN, Fluid compute, WAF and DDoS mitigation; intended for personal projects",
+      "bestFor": "Next.js/React demos and personal apps",
+      "creditCard": "Free plan",
+      "commercial": "Hobby restrictions apply",
+      "source": {
+        "label": "Vercel pricing",
+        "url": "https://vercel.com/pricing",
+        "asOf": "2026-09-23"
+      },
+      "score": 91
+    },
+    {
+      "id": "pythonanywhere-free",
+      "provider": "PythonAnywhere",
+      "product": "Beginner",
+      "category": "Python hosting",
+      "tierType": "always-free",
+      "trueFree": true,
+      "summary": "Browser Python environment + one web app",
+      "limits": "1 web app, up to 2 consoles, 100 CPU-seconds/day, 512 MB private file storage, restricted outbound internet",
+      "bestFor": "Tiny Flask/FastAPI-like learning apps, scripts, teaching",
+      "creditCard": "Free account",
+      "commercial": "Limited; check terms/workload",
+      "source": {
+        "label": "PythonAnywhere pricing",
+        "url": "https://www.pythonanywhere.com/pricing/",
+        "asOf": "2026-09-23"
+      },
+      "score": 78
+    },
+    {
+      "id": "github-actions",
+      "provider": "GitHub",
+      "product": "Actions",
+      "category": "CI/CD",
+      "tierType": "always-free",
+      "trueFree": true,
+      "summary": "CI/CD is free on standard hosted runners for public repos",
+      "limits": "Public repos: standard GitHub-hosted runners free; private repos receive plan-based included minutes/storage",
+      "bestFor": "Build/test/deploy pipelines, open-source CI",
+      "creditCard": "No charge for public-repo standard runners",
+      "commercial": "Yes under GitHub terms",
+      "source": {
+        "label": "GitHub Actions billing",
+        "url": "https://docs.github.com/en/actions/concepts/billing-and-usage",
+        "asOf": "2026-09-23"
+      },
+      "score": 96
+    },
+    {
+      "id": "fabric-trial",
+      "provider": "Microsoft",
+      "product": "Fabric trial",
+      "category": "Data platform",
+      "tierType": "trial",
+      "trueFree": false,
+      "summary": "Full-feature evaluation window",
+      "limits": "60-day Fabric trial capacity covering most Fabric experiences",
+      "bestFor": "Fabric notebooks, pipelines, warehouse, Power BI, RTI learning",
+      "creditCard": "Account/work eligibility applies",
+      "commercial": "Evaluation",
+      "source": {
+        "label": "Microsoft Fabric trial",
+        "url": "https://learn.microsoft.com/en-us/fabric/fundamentals/fabric-trial",
+        "asOf": "2026-09-23"
+      },
+      "score": 82
+    },
+    {
+      "id": "snowflake-trial",
+      "provider": "Snowflake",
+      "product": "Trial",
+      "category": "Warehouse",
+      "tierType": "trial",
+      "trueFree": false,
+      "summary": "Time/credit-limited evaluation, not permanent free tier",
+      "limits": "Trial credits/expiry vary by current signup offer",
+      "bestFor": "Snowflake SQL, warehouse, Iceberg/Snowpark evaluation",
+      "creditCard": "Trial-dependent",
+      "commercial": "Evaluation",
+      "source": {
+        "label": "Snowflake pricing / trial",
+        "url": "https://www.snowflake.com/en/pricing-options/",
+        "asOf": "2026-09-23"
+      },
+      "score": 72
+    },
+    {
+      "id": "redpanda-trial",
+      "provider": "Redpanda",
+      "product": "Serverless trial",
+      "category": "Kafka/Streaming",
+      "tierType": "trial",
+      "trueFree": false,
+      "summary": "Kafka-compatible managed streaming trial",
+      "limits": "$100 credits for first 30 days on Serverless free trial; data suspended after trial without upgrade",
+      "bestFor": "Kafka API, streaming prototypes",
+      "creditCard": "No card required for trial",
+      "commercial": "Evaluation",
+      "source": {
+        "label": "Redpanda Serverless",
+        "url": "https://docs.redpanda.com/cloud-data-platform/get-started/cluster-types/serverless/",
+        "asOf": "2026-09-23"
+      },
+      "score": 71
+    }
+  ],
+  "communityTools": [
+    {
+      "id": "vscode",
+      "name": "Visual Studio Code",
+      "category": "IDE",
+      "license": "Free / open source core",
+      "cloudEquivalent": "GitHub Codespaces / hosted IDEs",
+      "bestFor": "General development, extensions, remote dev"
+    },
+    {
+      "id": "pycharm",
+      "name": "PyCharm",
+      "category": "IDE",
+      "license": "Free core features + paid Pro capabilities",
+      "cloudEquivalent": "JetBrains remote/cloud workflows",
+      "bestFor": "Python IDE"
+    },
+    {
+      "id": "datagrip",
+      "name": "DataGrip",
+      "category": "IDE / SQL",
+      "license": "Paid product; use community/free alternatives where needed",
+      "cloudEquivalent": "Cloud DB consoles",
+      "bestFor": "SQL/database work"
+    },
+    {
+      "id": "daxstudio",
+      "name": "DAX Studio",
+      "category": "BI tooling",
+      "license": "Free",
+      "cloudEquivalent": "Power BI/Fabric diagnostics complement",
+      "bestFor": "DAX analysis and performance tuning"
+    },
+    {
+      "id": "tabulareditor",
+      "name": "Tabular Editor",
+      "category": "BI tooling",
+      "license": "TE2 community edition available; newer commercial editions paid",
+      "cloudEquivalent": "Power BI/Fabric semantic model tooling",
+      "bestFor": "Tabular model authoring"
+    },
+    {
+      "id": "airflow",
+      "name": "Apache Airflow",
+      "category": "Orchestration",
+      "license": "Open source",
+      "cloudEquivalent": "MWAA / Composer / Astronomer / managed Airflow",
+      "bestFor": "Workflow DAG orchestration"
+    },
+    {
+      "id": "dbtcore",
+      "name": "dbt Core",
+      "category": "Transformation",
+      "license": "Open source",
+      "cloudEquivalent": "dbt Cloud",
+      "bestFor": "SQL transformations, testing, lineage"
+    },
+    {
+      "id": "opentofu",
+      "name": "OpenTofu",
+      "category": "IaC",
+      "license": "Open source",
+      "cloudEquivalent": "Terraform Cloud / cloud resource managers",
+      "bestFor": "Infrastructure as code"
+    },
+    {
+      "id": "k3s",
+      "name": "k3s",
+      "category": "Containers",
+      "license": "Open source",
+      "cloudEquivalent": "Managed Kubernetes",
+      "bestFor": "Lightweight local/edge Kubernetes"
+    },
+    {
+      "id": "spark",
+      "name": "Apache Spark",
+      "category": "Data engine",
+      "license": "Open source",
+      "cloudEquivalent": "Databricks / EMR / Dataproc / Fabric Spark",
+      "bestFor": "Distributed data processing"
+    },
+    {
+      "id": "duckdb",
+      "name": "DuckDB",
+      "category": "Data engine",
+      "license": "Open source",
+      "cloudEquivalent": "MotherDuck",
+      "bestFor": "Embedded/local analytics"
+    },
+    {
+      "id": "polars",
+      "name": "Polars",
+      "category": "DataFrame",
+      "license": "Open source",
+      "cloudEquivalent": "Hosted Python/container services",
+      "bestFor": "Fast single-node DataFrames"
+    }
   ]
 }
