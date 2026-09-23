@@ -17,6 +17,7 @@ import type {
   CloudPlatform,
   DataEngine,
   DataFormat,
+  DataStackLayer,
   EvolutionItem,
   FreeTierUseCaseGuide,
   FreeLabService,
@@ -55,6 +56,7 @@ export const technologyReleasesAsOf = releases.asOf as string;
 
 export const dataEngines = dataStack.engines as DataEngine[];
 export const dataFormats = dataStack.formats as DataFormat[];
+export const dataStackLayers = dataStack.stackLayers as DataStackLayer[];
 export const benchmarkRuns = dataStack.benchmarks as BenchmarkRun[];
 export const languageRuntimes = dataStack.languages as LanguageRuntime[];
 export const abstractionTimeline = dataStack.abstractionTimeline;
