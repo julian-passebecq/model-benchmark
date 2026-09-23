@@ -2501,3 +2501,19 @@ kbd,
   line-height: 1.45;
   vertical-align: top;
 }
+
+
+.query-pricing-stack {
+  display: grid;
+  gap: 18px;
+}
+
+.query-price-note {
+  margin-top: 8px;
+  padding: 8px 10px;
+  border-left: 2px solid var(--yellow);
+  background: rgba(226, 207, 114, 0.04);
+  color: var(--muted);
+  font-size: 8px;
+  line-height: 1.5;
+}
