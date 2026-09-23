@@ -278,3 +278,14 @@ export type ServerlessService = {
   watchFor: string;
   source: SourceRef;
 };
+
+
+export type SelfHostScenario = {
+  id: string;
+  name: string;
+  software: string;
+  labShape: string;
+  managedAlternative: string;
+  workload: string;
+  caveat: string;
+};
