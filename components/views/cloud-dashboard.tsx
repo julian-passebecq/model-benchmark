@@ -604,6 +604,8 @@ export function CloudDashboard({
                         <th>Tier</th>
                         <th>Category</th>
                         <th>Included quota</th>
+                        <th>Access / OS</th>
+                        <th>Account / card</th>
                         <th>Why it fits</th>
                         <th>Verified</th>
                       </tr>
@@ -615,6 +617,8 @@ export function CloudDashboard({
                           <td><span className={"tier-badge " + item.tierType}>{tierLabel(item.tierType)}</span></td>
                           <td>{item.category}</td>
                           <td className="quota-cell">{item.quota}</td>
+                          <td>{item.platforms ?? "Hosted / cross-platform"}</td>
+                          <td>{item.cardRequired}</td>
                           <td>{item.goodFor}</td>
                           <td>{item.source.asOf ?? "source linked"}</td>
                         </tr>
