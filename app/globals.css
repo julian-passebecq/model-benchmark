@@ -2648,3 +2648,13 @@ kbd,
     grid-template-columns: 1fr;
   }
 }
+
+
+.crossover-table {
+  min-width: 1280px;
+}
+
+.crossover-table td {
+  line-height: 1.45;
+  vertical-align: top;
+}
