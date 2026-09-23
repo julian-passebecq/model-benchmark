@@ -23,7 +23,6 @@ import type {
   FreeLabService,
   HardwareItem,
   LanguageRuntime,
-  LabRecipe,
   MobileSoc,
   ModelBenchmark,
   QueryPrice,
@@ -46,7 +45,6 @@ export const codingAgentFrontierMeta = codingAgents.codingAgentFrontierMeta as B
 
 export const freeLabServices = freeLabs.services as FreeLabService[];
 export const freeLabsAsOf = freeLabs.asOf as string;
-export const labRecipes = freeLabs.recipes as LabRecipe[];
 export const freeTierUseCaseGuides = useCaseGuides.guides as FreeTierUseCaseGuide[];
 export const freeTierUseCaseGuidesAsOf = useCaseGuides.asOf as string;
 export const runtimeProfiles = runtimeLab.profiles as RuntimeProfile[];
