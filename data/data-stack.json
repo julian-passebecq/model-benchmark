@@ -1,39 +1,648 @@
 {
   "engines": [
-    {"id":"spark","name":"Apache Spark","kind":"Distributed compute engine","execution":"JVM DAG + whole-stage codegen","distributed":true,"lazy":true,"vectorized":true,"sql":true,"streaming":"Structured Streaming","scale":"Cluster / multi-TB to PB","languages":["Python","Scala","SQL","Java","R"],"bestFor":"Distributed ETL, lakehouse transforms, streaming, large joins","tradeoff":"Operational overhead and startup cost for small local jobs","source":{"label":"Apache Spark docs","url":"https://spark.apache.org/docs/latest/"}},
-    {"id":"duckdb","name":"DuckDB","kind":"In-process OLAP database","execution":"Vectorized columnar engine","distributed":false,"lazy":false,"vectorized":true,"sql":true,"streaming":"Not a distributed stream processor","scale":"Laptop / server; excellent local analytical scans","languages":["SQL","Python","R","Java","Node"],"bestFor":"Local analytics, Parquet/JSON querying, embedded data apps","tradeoff":"Single-node by design; distribution is external","source":{"label":"DuckDB docs","url":"https://duckdb.org/docs/"}},
-    {"id":"polars","name":"Polars","kind":"DataFrame engine","execution":"Rust query engine + lazy optimizer","distributed":false,"lazy":true,"vectorized":true,"sql":true,"streaming":"Streaming execution for supported plans","scale":"Single-node memory / streaming","languages":["Python","Rust","Node"],"bestFor":"Fast DataFrame workloads with predictable expression API","tradeoff":"Smaller ecosystem than pandas/Spark; distributed story is separate","source":{"label":"Polars docs","url":"https://docs.pola.rs/"}},
-    {"id":"datafusion","name":"Apache DataFusion","kind":"Query engine toolkit","execution":"Rust + Arrow vectorized operators","distributed":false,"lazy":true,"vectorized":true,"sql":true,"streaming":"Engine building block","scale":"Embedded / single-node unless wrapped","languages":["Rust","Python"],"bestFor":"Building custom SQL/query engines on Arrow","tradeoff":"Toolkit rather than turnkey lakehouse platform","source":{"label":"DataFusion docs","url":"https://datafusion.apache.org/"}},
-    {"id":"trino","name":"Trino","kind":"Distributed SQL query engine","execution":"MPP distributed SQL","distributed":true,"lazy":true,"vectorized":true,"sql":true,"streaming":"Batch / interactive query","scale":"Large federated warehouse/lake queries","languages":["SQL","JDBC"],"bestFor":"Federated SQL across heterogeneous data sources","tradeoff":"Not a DataFrame library and not a storage layer","source":{"label":"Trino docs","url":"https://trino.io/docs/current/"}},
-    {"id":"pandas","name":"pandas","kind":"DataFrame library","execution":"Python/C/NumPy eager operations","distributed":false,"lazy":false,"vectorized":true,"sql":false,"streaming":"Manual chunking","scale":"Single-node memory","languages":["Python"],"bestFor":"General-purpose Python data analysis and broad ecosystem compatibility","tradeoff":"Memory-bound and often slower on large analytical workloads","source":{"label":"pandas docs","url":"https://pandas.pydata.org/docs/"}}
+    {
+      "id": "spark",
+      "name": "Apache Spark",
+      "kind": "Distributed compute engine",
+      "execution": "JVM DAG + whole-stage codegen",
+      "distributed": true,
+      "lazy": true,
+      "vectorized": true,
+      "sql": true,
+      "streaming": "Structured Streaming",
+      "scale": "Cluster / multi-TB to PB",
+      "languages": [
+        "Python",
+        "Scala",
+        "SQL",
+        "Java",
+        "R"
+      ],
+      "bestFor": "Distributed ETL, lakehouse transforms, streaming, large joins",
+      "tradeoff": "Operational overhead and startup cost for small local jobs",
+      "source": {
+        "label": "Apache Spark docs",
+        "url": "https://spark.apache.org/docs/latest/"
+      }
+    },
+    {
+      "id": "duckdb",
+      "name": "DuckDB",
+      "kind": "In-process OLAP database",
+      "execution": "Vectorized columnar engine",
+      "distributed": false,
+      "lazy": false,
+      "vectorized": true,
+      "sql": true,
+      "streaming": "Not a distributed stream processor",
+      "scale": "Laptop / server; excellent local analytical scans",
+      "languages": [
+        "SQL",
+        "Python",
+        "R",
+        "Java",
+        "Node"
+      ],
+      "bestFor": "Local analytics, Parquet/JSON querying, embedded data apps",
+      "tradeoff": "Single-node by design; distribution is external",
+      "source": {
+        "label": "DuckDB docs",
+        "url": "https://duckdb.org/docs/"
+      }
+    },
+    {
+      "id": "polars",
+      "name": "Polars",
+      "kind": "DataFrame engine",
+      "execution": "Rust query engine + lazy optimizer",
+      "distributed": false,
+      "lazy": true,
+      "vectorized": true,
+      "sql": true,
+      "streaming": "Streaming execution for supported plans",
+      "scale": "Single-node memory / streaming",
+      "languages": [
+        "Python",
+        "Rust",
+        "Node"
+      ],
+      "bestFor": "Fast DataFrame workloads with predictable expression API",
+      "tradeoff": "Smaller ecosystem than pandas/Spark; distributed story is separate",
+      "source": {
+        "label": "Polars docs",
+        "url": "https://docs.pola.rs/"
+      }
+    },
+    {
+      "id": "datafusion",
+      "name": "Apache DataFusion",
+      "kind": "Query engine toolkit",
+      "execution": "Rust + Arrow vectorized operators",
+      "distributed": false,
+      "lazy": true,
+      "vectorized": true,
+      "sql": true,
+      "streaming": "Engine building block",
+      "scale": "Embedded / single-node unless wrapped",
+      "languages": [
+        "Rust",
+        "Python"
+      ],
+      "bestFor": "Building custom SQL/query engines on Arrow",
+      "tradeoff": "Toolkit rather than turnkey lakehouse platform",
+      "source": {
+        "label": "DataFusion docs",
+        "url": "https://datafusion.apache.org/"
+      }
+    },
+    {
+      "id": "trino",
+      "name": "Trino",
+      "kind": "Distributed SQL query engine",
+      "execution": "MPP distributed SQL",
+      "distributed": true,
+      "lazy": true,
+      "vectorized": true,
+      "sql": true,
+      "streaming": "Batch / interactive query",
+      "scale": "Large federated warehouse/lake queries",
+      "languages": [
+        "SQL",
+        "JDBC"
+      ],
+      "bestFor": "Federated SQL across heterogeneous data sources",
+      "tradeoff": "Not a DataFrame library and not a storage layer",
+      "source": {
+        "label": "Trino docs",
+        "url": "https://trino.io/docs/current/"
+      }
+    },
+    {
+      "id": "pandas",
+      "name": "pandas",
+      "kind": "DataFrame library",
+      "execution": "Python/C/NumPy eager operations",
+      "distributed": false,
+      "lazy": false,
+      "vectorized": true,
+      "sql": false,
+      "streaming": "Manual chunking",
+      "scale": "Single-node memory",
+      "languages": [
+        "Python"
+      ],
+      "bestFor": "General-purpose Python data analysis and broad ecosystem compatibility",
+      "tradeoff": "Memory-bound and often slower on large analytical workloads",
+      "source": {
+        "label": "pandas docs",
+        "url": "https://pandas.pydata.org/docs/"
+      }
+    }
   ],
   "formats": [
-    {"id":"parquet","name":"Apache Parquet","kind":"Columnar file format","acid":"No transaction layer","timeTravel":false,"schemaEvolution":"File/schema-level","partitionEvolution":false,"multiEngine":"Excellent","storageLayer":"Files / object storage","bestFor":"Analytics scans and interoperable storage","tradeoff":"No table-level transactions, snapshots or concurrent metadata management","source":{"label":"Apache Parquet","url":"https://parquet.apache.org/"}},
-    {"id":"iceberg","name":"Apache Iceberg","kind":"Open table format","acid":"Snapshot-based table transactions","timeTravel":true,"schemaEvolution":"Strong","partitionEvolution":true,"multiEngine":"Excellent","storageLayer":"Object storage + metadata manifests","bestFor":"Open multi-engine lakehouse tables","tradeoff":"Requires catalog/metadata discipline and engine support","source":{"label":"Apache Iceberg","url":"https://iceberg.apache.org/"}},
-    {"id":"delta","name":"Delta Lake","kind":"Open table format","acid":"Transaction log","timeTravel":true,"schemaEvolution":"Strong","partitionEvolution":false,"multiEngine":"Good and expanding","storageLayer":"Object storage + _delta_log","bestFor":"Lakehouse pipelines, especially Spark/Databricks ecosystems","tradeoff":"Feature depth can vary by engine/client","source":{"label":"Delta Lake","url":"https://delta.io/"}},
-    {"id":"hudi","name":"Apache Hudi","kind":"Open table format","acid":"Timeline / transactional metadata","timeTravel":true,"schemaEvolution":"Strong","partitionEvolution":false,"multiEngine":"Good","storageLayer":"Object storage + metadata","bestFor":"Upserts, incremental processing and CDC-heavy lakes","tradeoff":"More concepts and tuning knobs than immutable-file approaches","source":{"label":"Apache Hudi","url":"https://hudi.apache.org/"}},
-    {"id":"ducklake","name":"DuckLake","kind":"SQL-oriented lakehouse metadata layer","acid":"Database-backed metadata transactions","timeTravel":true,"schemaEvolution":"Designed for table evolution","partitionEvolution":true,"multiEngine":"Early ecosystem","storageLayer":"Object storage + SQL metadata catalog","bestFor":"Simple lakehouse experimentation with DuckDB-style ergonomics","tradeoff":"Newer ecosystem; validate production support for required engines","source":{"label":"DuckLake docs","url":"https://ducklake.select/"}}
+    {
+      "id": "parquet",
+      "name": "Apache Parquet",
+      "kind": "Columnar file format",
+      "acid": "No transaction layer",
+      "timeTravel": false,
+      "schemaEvolution": "File/schema-level",
+      "partitionEvolution": false,
+      "multiEngine": "Excellent",
+      "storageLayer": "Files / object storage",
+      "bestFor": "Analytics scans and interoperable storage",
+      "tradeoff": "No table-level transactions, snapshots or concurrent metadata management",
+      "source": {
+        "label": "Apache Parquet",
+        "url": "https://parquet.apache.org/"
+      }
+    },
+    {
+      "id": "iceberg",
+      "name": "Apache Iceberg",
+      "kind": "Open table format",
+      "acid": "Snapshot-based table transactions",
+      "timeTravel": true,
+      "schemaEvolution": "Strong",
+      "partitionEvolution": true,
+      "multiEngine": "Excellent",
+      "storageLayer": "Object storage + metadata manifests",
+      "bestFor": "Open multi-engine lakehouse tables",
+      "tradeoff": "Requires catalog/metadata discipline and engine support",
+      "source": {
+        "label": "Apache Iceberg",
+        "url": "https://iceberg.apache.org/"
+      }
+    },
+    {
+      "id": "delta",
+      "name": "Delta Lake",
+      "kind": "Open table format",
+      "acid": "Transaction log",
+      "timeTravel": true,
+      "schemaEvolution": "Strong",
+      "partitionEvolution": false,
+      "multiEngine": "Good and expanding",
+      "storageLayer": "Object storage + _delta_log",
+      "bestFor": "Lakehouse pipelines, especially Spark/Databricks ecosystems",
+      "tradeoff": "Feature depth can vary by engine/client",
+      "source": {
+        "label": "Delta Lake",
+        "url": "https://delta.io/"
+      }
+    },
+    {
+      "id": "hudi",
+      "name": "Apache Hudi",
+      "kind": "Open table format",
+      "acid": "Timeline / transactional metadata",
+      "timeTravel": true,
+      "schemaEvolution": "Strong",
+      "partitionEvolution": false,
+      "multiEngine": "Good",
+      "storageLayer": "Object storage + metadata",
+      "bestFor": "Upserts, incremental processing and CDC-heavy lakes",
+      "tradeoff": "More concepts and tuning knobs than immutable-file approaches",
+      "source": {
+        "label": "Apache Hudi",
+        "url": "https://hudi.apache.org/"
+      }
+    },
+    {
+      "id": "ducklake",
+      "name": "DuckLake",
+      "kind": "SQL-oriented lakehouse metadata layer",
+      "acid": "Database-backed metadata transactions",
+      "timeTravel": true,
+      "schemaEvolution": "Designed for table evolution",
+      "partitionEvolution": true,
+      "multiEngine": "Early ecosystem",
+      "storageLayer": "Object storage + SQL metadata catalog",
+      "bestFor": "Simple lakehouse experimentation with DuckDB-style ergonomics",
+      "tradeoff": "Newer ecosystem; validate production support for required engines",
+      "source": {
+        "label": "DuckLake docs",
+        "url": "https://ducklake.select/"
+      }
+    }
   ],
   "benchmarks": [
-    {"id":"scan-1tb-duckdb","scenario":"1 TB Parquet scan","datasetTb":1,"operation":"Filter + aggregate","engine":"DuckDB","seconds":72,"workers":"1 server","sourceType":"illustrative-template","sourceLabel":"Replace with measured run","sourceUrl":"https://duckdb.org/","note":"Illustrative placeholder to make the dashboard usable. Store reproducible measured runs here later."},
-    {"id":"scan-1tb-spark","scenario":"1 TB Parquet scan","datasetTb":1,"operation":"Filter + aggregate","engine":"Spark","seconds":54,"workers":"8 workers","sourceType":"illustrative-template","sourceLabel":"Replace with measured run","sourceUrl":"https://spark.apache.org/","note":"Illustrative placeholder; cluster shape strongly affects results."},
-    {"id":"scan-1tb-polars","scenario":"1 TB Parquet scan","datasetTb":1,"operation":"Filter + aggregate","engine":"Polars","seconds":94,"workers":"1 server","sourceType":"illustrative-template","sourceLabel":"Replace with measured run","sourceUrl":"https://pola.rs/","note":"Illustrative placeholder; memory and streaming configuration matters."},
-    {"id":"join-5tb-spark","scenario":"5 TB lake join","datasetTb":5,"operation":"Large join + group","engine":"Spark","seconds":211,"workers":"16 workers","sourceType":"illustrative-template","sourceLabel":"Replace with measured run","sourceUrl":"https://spark.apache.org/","note":"Template only; intended to be replaced by your own benchmark suite."},
-    {"id":"join-5tb-trino","scenario":"5 TB lake join","datasetTb":5,"operation":"Large join + group","engine":"Trino","seconds":188,"workers":"16 workers","sourceType":"illustrative-template","sourceLabel":"Replace with measured run","sourceUrl":"https://trino.io/","note":"Template only; intended to be replaced by reproducible test data."}
+    {
+      "id": "scan-1tb-duckdb",
+      "scenario": "1 TB Parquet scan",
+      "datasetTb": 1,
+      "operation": "Filter + aggregate",
+      "engine": "DuckDB",
+      "seconds": 72,
+      "workers": "1 server",
+      "sourceType": "illustrative-template",
+      "sourceLabel": "Replace with measured run",
+      "sourceUrl": "https://duckdb.org/",
+      "note": "Illustrative placeholder to make the dashboard usable. Store reproducible measured runs here later."
+    },
+    {
+      "id": "scan-1tb-spark",
+      "scenario": "1 TB Parquet scan",
+      "datasetTb": 1,
+      "operation": "Filter + aggregate",
+      "engine": "Spark",
+      "seconds": 54,
+      "workers": "8 workers",
+      "sourceType": "illustrative-template",
+      "sourceLabel": "Replace with measured run",
+      "sourceUrl": "https://spark.apache.org/",
+      "note": "Illustrative placeholder; cluster shape strongly affects results."
+    },
+    {
+      "id": "scan-1tb-polars",
+      "scenario": "1 TB Parquet scan",
+      "datasetTb": 1,
+      "operation": "Filter + aggregate",
+      "engine": "Polars",
+      "seconds": 94,
+      "workers": "1 server",
+      "sourceType": "illustrative-template",
+      "sourceLabel": "Replace with measured run",
+      "sourceUrl": "https://pola.rs/",
+      "note": "Illustrative placeholder; memory and streaming configuration matters."
+    },
+    {
+      "id": "join-5tb-spark",
+      "scenario": "5 TB lake join",
+      "datasetTb": 5,
+      "operation": "Large join + group",
+      "engine": "Spark",
+      "seconds": 211,
+      "workers": "16 workers",
+      "sourceType": "illustrative-template",
+      "sourceLabel": "Replace with measured run",
+      "sourceUrl": "https://spark.apache.org/",
+      "note": "Template only; intended to be replaced by your own benchmark suite."
+    },
+    {
+      "id": "join-5tb-trino",
+      "scenario": "5 TB lake join",
+      "datasetTb": 5,
+      "operation": "Large join + group",
+      "engine": "Trino",
+      "seconds": 188,
+      "workers": "16 workers",
+      "sourceType": "illustrative-template",
+      "sourceLabel": "Replace with measured run",
+      "sourceUrl": "https://trino.io/",
+      "note": "Template only; intended to be replaced by reproducible test data."
+    }
   ],
   "languages": [
-    {"id":"python","name":"Python","version":"3.x","paradigm":"Dynamic general-purpose","strength":"Developer velocity + ecosystem","dataRole":"Default glue language for analytics, ML and orchestration","performance":45,"ergonomics":95,"ecosystem":100,"source":{"label":"Python","url":"https://www.python.org/"}},
-    {"id":"rust","name":"Rust","version":"stable","paradigm":"Compiled systems","strength":"Memory safety + native performance","dataRole":"Increasingly common underneath modern query/dataframe engines","performance":95,"ergonomics":62,"ecosystem":67,"source":{"label":"Rust","url":"https://www.rust-lang.org/"}},
-    {"id":"java","name":"Java","version":"LTS","paradigm":"Managed JVM","strength":"Mature enterprise runtime","dataRole":"Core runtime for many distributed data systems","performance":82,"ergonomics":65,"ecosystem":94,"source":{"label":"Java","url":"https://www.java.com/"}},
-    {"id":"scala","name":"Scala","version":"3.x","paradigm":"JVM functional/OOP","strength":"Expressive JVM data APIs","dataRole":"Native ecosystem around Spark and streaming stacks","performance":82,"ergonomics":60,"ecosystem":72,"source":{"label":"Scala","url":"https://www.scala-lang.org/"}},
-    {"id":"sql","name":"SQL","version":"dialects","paradigm":"Declarative","strength":"Specify what, optimizer decides how","dataRole":"Stable abstraction across warehouses, lakehouses and BI","performance":88,"ergonomics":92,"ecosystem":100,"source":{"label":"SQL overview","url":"https://en.wikipedia.org/wiki/SQL"}}
+    {
+      "id": "python",
+      "name": "Python",
+      "version": "3.x",
+      "paradigm": "Dynamic general-purpose",
+      "strength": "Developer velocity + ecosystem",
+      "dataRole": "Default glue language for analytics, ML and orchestration",
+      "performance": 45,
+      "ergonomics": 95,
+      "ecosystem": 100,
+      "source": {
+        "label": "Python",
+        "url": "https://www.python.org/"
+      }
+    },
+    {
+      "id": "rust",
+      "name": "Rust",
+      "version": "stable",
+      "paradigm": "Compiled systems",
+      "strength": "Memory safety + native performance",
+      "dataRole": "Increasingly common underneath modern query/dataframe engines",
+      "performance": 95,
+      "ergonomics": 62,
+      "ecosystem": 67,
+      "source": {
+        "label": "Rust",
+        "url": "https://www.rust-lang.org/"
+      }
+    },
+    {
+      "id": "java",
+      "name": "Java",
+      "version": "LTS",
+      "paradigm": "Managed JVM",
+      "strength": "Mature enterprise runtime",
+      "dataRole": "Core runtime for many distributed data systems",
+      "performance": 82,
+      "ergonomics": 65,
+      "ecosystem": 94,
+      "source": {
+        "label": "Java",
+        "url": "https://www.java.com/"
+      }
+    },
+    {
+      "id": "scala",
+      "name": "Scala",
+      "version": "3.x",
+      "paradigm": "JVM functional/OOP",
+      "strength": "Expressive JVM data APIs",
+      "dataRole": "Native ecosystem around Spark and streaming stacks",
+      "performance": 82,
+      "ergonomics": 60,
+      "ecosystem": 72,
+      "source": {
+        "label": "Scala",
+        "url": "https://www.scala-lang.org/"
+      }
+    },
+    {
+      "id": "sql",
+      "name": "SQL",
+      "version": "dialects",
+      "paradigm": "Declarative",
+      "strength": "Specify what, optimizer decides how",
+      "dataRole": "Stable abstraction across warehouses, lakehouses and BI",
+      "performance": 88,
+      "ergonomics": 92,
+      "ecosystem": 100,
+      "source": {
+        "label": "SQL overview",
+        "url": "https://en.wikipedia.org/wiki/SQL"
+      }
+    }
   ],
   "abstractionTimeline": [
-    {"year":1970,"label":"Relational algebra","detail":"Declarative data operations become a durable abstraction."},
-    {"year":1986,"label":"SQL standardization","detail":"Users increasingly express intent instead of execution mechanics."},
-    {"year":2004,"label":"MapReduce","detail":"Distributed processing becomes accessible through a constrained programming model."},
-    {"year":2014,"label":"DataFrame / Spark SQL","detail":"Optimizers can rewrite logical plans across Python/Scala/SQL APIs."},
-    {"year":2020,"label":"Lakehouse table formats","detail":"Storage metadata, transactions and schema evolution move into reusable layers."},
-    {"year":2026,"label":"Declarative pipelines","detail":"Managed systems increasingly infer orchestration, incremental execution and optimization from intent."}
+    {
+      "year": 1970,
+      "label": "Relational algebra",
+      "detail": "Declarative data operations become a durable abstraction."
+    },
+    {
+      "year": 1986,
+      "label": "SQL standardization",
+      "detail": "Users increasingly express intent instead of execution mechanics."
+    },
+    {
+      "year": 2004,
+      "label": "MapReduce",
+      "detail": "Distributed processing becomes accessible through a constrained programming model."
+    },
+    {
+      "year": 2014,
+      "label": "DataFrame / Spark SQL",
+      "detail": "Optimizers can rewrite logical plans across Python/Scala/SQL APIs."
+    },
+    {
+      "year": 2020,
+      "label": "Lakehouse table formats",
+      "detail": "Storage metadata, transactions and schema evolution move into reusable layers."
+    },
+    {
+      "year": 2026,
+      "label": "Declarative pipelines",
+      "detail": "Managed systems increasingly infer orchestration, incremental execution and optimization from intent."
+    }
+  ],
+  "runtimeFrameworks": [
+    {
+      "id": "python-cpython",
+      "name": "CPython",
+      "language": "Python",
+      "kind": "General runtime",
+      "execution": "Interpreter + C extensions",
+      "coldStart": "Low for scripts; framework-dependent for serverless",
+      "concurrency": "Threads limited by GIL for CPU-bound Python; multiprocessing/async common",
+      "dataScale": "Single-node unless delegated to native/distributed engines",
+      "bestFor": "Glue, APIs, orchestration, notebooks, ML/data libraries",
+      "avoidWhen": "Tight CPU loops without vectorized/native libraries",
+      "managedExamples": [
+        "AWS Lambda",
+        "Azure Functions",
+        "Google Cloud Run/Functions"
+      ],
+      "source": {
+        "label": "Python docs",
+        "url": "https://docs.python.org/3/",
+        "asOf": "2026-09-23"
+      }
+    },
+    {
+      "id": "pyspark",
+      "name": "PySpark",
+      "language": "Python + JVM",
+      "kind": "Distributed DataFrame/SQL",
+      "execution": "Python driver/API over Spark JVM engine; Arrow/Pandas UDF paths available",
+      "coldStart": "Higher due to Spark session/cluster startup",
+      "concurrency": "Distributed tasks across executors",
+      "dataScale": "GB → PB depending on cluster",
+      "bestFor": "Large joins, ETL, lakehouse pipelines, streaming",
+      "avoidWhen": "Small local datasets where cluster startup dominates",
+      "managedExamples": [
+        "Databricks",
+        "EMR",
+        "Dataproc",
+        "Microsoft Fabric"
+      ],
+      "source": {
+        "label": "PySpark docs",
+        "url": "https://spark.apache.org/docs/latest/api/python/",
+        "asOf": "2026-09-23"
+      }
+    },
+    {
+      "id": "scala-spark",
+      "name": "Scala + Spark",
+      "language": "Scala/JVM",
+      "kind": "Distributed DataFrame/SQL",
+      "execution": "Native JVM API with Spark optimizer/runtime",
+      "coldStart": "Cluster/session startup still applies",
+      "concurrency": "Distributed tasks across executors",
+      "dataScale": "GB → PB",
+      "bestFor": "Spark-native libraries, JVM-heavy pipelines, lower Python boundary overhead",
+      "avoidWhen": "Teams optimized around Python ecosystem and simple SQL/DataFrames",
+      "managedExamples": [
+        "Databricks",
+        "EMR",
+        "Dataproc"
+      ],
+      "source": {
+        "label": "Spark Scala API",
+        "url": "https://spark.apache.org/docs/latest/api/scala/",
+        "asOf": "2026-09-23"
+      }
+    },
+    {
+      "id": "polars",
+      "name": "Polars",
+      "language": "Python/Rust",
+      "kind": "Single-node DataFrame",
+      "execution": "Rust vectorized engine + lazy optimizer",
+      "coldStart": "Very low",
+      "concurrency": "Multi-threaded single process",
+      "dataScale": "MB → hundreds of GB depending on memory/streaming",
+      "bestFor": "Fast local ETL, DataFrames, APIs, analytical preprocessing",
+      "avoidWhen": "You need transparent multi-node execution",
+      "managedExamples": [
+        "Cloud Run",
+        "Lambda containers",
+        "VMs",
+        "Kubernetes"
+      ],
+      "source": {
+        "label": "Polars docs",
+        "url": "https://docs.pola.rs/",
+        "asOf": "2026-09-23"
+      }
+    },
+    {
+      "id": "duckdb",
+      "name": "DuckDB",
+      "language": "SQL + host language",
+      "kind": "Embedded OLAP",
+      "execution": "Vectorized in-process SQL engine",
+      "coldStart": "Very low",
+      "concurrency": "Parallel single-node query execution",
+      "dataScale": "MB → TB-scale scans on suitable hardware/object storage",
+      "bestFor": "Local analytics, Parquet query, embedded SQL, tests",
+      "avoidWhen": "Multi-node distributed compute is mandatory",
+      "managedExamples": [
+        "MotherDuck",
+        "Cloud Run",
+        "VMs",
+        "local"
+      ],
+      "source": {
+        "label": "DuckDB docs",
+        "url": "https://duckdb.org/docs/",
+        "asOf": "2026-09-23"
+      }
+    },
+    {
+      "id": "rust-datafusion",
+      "name": "Rust + DataFusion",
+      "language": "Rust",
+      "kind": "Query engine toolkit",
+      "execution": "Arrow-native vectorized execution",
+      "coldStart": "Low",
+      "concurrency": "Multi-threaded; distribution via surrounding system",
+      "dataScale": "Single-node by default; embeddable in distributed systems",
+      "bestFor": "Building custom high-performance query services",
+      "avoidWhen": "You want turnkey notebooks/ETL instead of engine development",
+      "managedExamples": [
+        "Containers",
+        "Kubernetes",
+        "VMs"
+      ],
+      "source": {
+        "label": "Apache DataFusion",
+        "url": "https://datafusion.apache.org/",
+        "asOf": "2026-09-23"
+      }
+    },
+    {
+      "id": "lambda-python",
+      "name": "Python serverless function",
+      "language": "Python",
+      "kind": "FaaS",
+      "execution": "Ephemeral function runtime",
+      "coldStart": "Usually low-to-moderate; package size/VPC/runtime matter",
+      "concurrency": "Horizontal request-level concurrency",
+      "dataScale": "Request/batch sized; external storage/services",
+      "bestFor": "Webhooks, lightweight transforms, event handlers",
+      "avoidWhen": "Long-running Spark jobs or large in-memory analytical workloads",
+      "managedExamples": [
+        "AWS Lambda",
+        "Azure Functions",
+        "Google Cloud Functions"
+      ],
+      "source": {
+        "label": "AWS Lambda",
+        "url": "https://aws.amazon.com/lambda/",
+        "asOf": "2026-09-23"
+      }
+    },
+    {
+      "id": "cloudrun-container",
+      "name": "Serverless container",
+      "language": "Any containerized",
+      "kind": "CaaS/serverless",
+      "execution": "Container instances scale with requests/jobs",
+      "coldStart": "Image/runtime dependent",
+      "concurrency": "Request concurrency per instance + horizontal scaling",
+      "dataScale": "Small/medium services; external DB/object store for large data",
+      "bestFor": "FastAPI, Polars/DuckDB services, APIs, scheduled container jobs",
+      "avoidWhen": "Stateful persistent services without external state",
+      "managedExamples": [
+        "Google Cloud Run",
+        "Azure Container Apps",
+        "AWS App Runner"
+      ],
+      "source": {
+        "label": "Cloud Run",
+        "url": "https://cloud.google.com/run",
+        "asOf": "2026-09-23"
+      }
+    }
+  ],
+  "queryScenarios": [
+    {
+      "id": "pandas-1gb",
+      "name": "1 GB local transform",
+      "engine": "pandas",
+      "language": "Python",
+      "scale": "~1 GB",
+      "operation": "Filter + groupby + join",
+      "latencyClass": "seconds",
+      "memoryModel": "Eager in-memory DataFrame",
+      "distributed": false,
+      "notes": "Excellent ecosystem; performance depends heavily on vectorization and data types."
+    },
+    {
+      "id": "polars-10gb",
+      "name": "10 GB local transform",
+      "engine": "Polars",
+      "language": "Python/Rust",
+      "scale": "~10 GB",
+      "operation": "Lazy scan + filter + aggregate",
+      "latencyClass": "seconds to tens of seconds",
+      "memoryModel": "Lazy/vectorized; streaming for supported plans",
+      "distributed": false,
+      "notes": "Strong default for high-performance single-node DataFrame work."
+    },
+    {
+      "id": "duckdb-100gb",
+      "name": "100 GB Parquet query",
+      "engine": "DuckDB",
+      "language": "SQL",
+      "scale": "~100 GB",
+      "operation": "Predicate pushdown + aggregation",
+      "latencyClass": "seconds to minutes",
+      "memoryModel": "Vectorized out-of-core SQL",
+      "distributed": false,
+      "notes": "Good fit when data sits in Parquet/object storage and one strong node is enough."
+    },
+    {
+      "id": "spark-1tb",
+      "name": "1 TB lakehouse transform",
+      "engine": "Spark",
+      "language": "PySpark/Scala/SQL",
+      "scale": "~1 TB",
+      "operation": "Join + aggregate + write Delta/Iceberg",
+      "latencyClass": "minutes",
+      "memoryModel": "Distributed shuffle/executor memory",
+      "distributed": true,
+      "notes": "Cluster startup/shuffle overhead is justified when scale or parallelism requires it."
+    },
+    {
+      "id": "bigquery-1tb",
+      "name": "1 TB serverless SQL scan",
+      "engine": "BigQuery",
+      "language": "SQL",
+      "scale": "~1 TB processed",
+      "operation": "Scan + aggregate",
+      "latencyClass": "seconds to minutes",
+      "memoryModel": "Managed/disaggregated warehouse",
+      "distributed": true,
+      "notes": "Operationally simple; cost governed by bytes processed or capacity model."
+    }
   ]
 }
