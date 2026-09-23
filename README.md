@@ -106,3 +106,5 @@ The app already has schema slots for the areas that are most useful to extend:
 ## CI
 
 GitHub Actions runs TypeScript checking and a production Next.js build on pushes and pull requests.
+
+Current implementation branch: `feature/benchmark-observatory-v1`.
