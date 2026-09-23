@@ -297,5 +297,52 @@
       "abstraction": "What data should become",
       "when": "Let optimizer/runtime decide execution plan"
     }
+  ],
+  "selfHostScenarios": [
+    {
+      "id": "dbt-core-selfhost",
+      "name": "dbt Core runner",
+      "software": "dbt local / dbt OSS",
+      "labShape": "2 vCPU · 4–8 GB RAM",
+      "managedAlternative": "dbt Developer / dbt platform",
+      "workload": "Scheduled SQL transformations, tests and docs for a small project",
+      "caveat": "VM compute is only one part of TCO; add scheduler/CI, warehouse/query cost, secrets, logs and engineer time."
+    },
+    {
+      "id": "airflow-selfhost",
+      "name": "Apache Airflow",
+      "software": "Apache Airflow",
+      "labShape": "2 vCPU · 8 GB RAM for a small single-node lab",
+      "managedAlternative": "Prefect Cloud / managed Airflow / cloud-native orchestrators",
+      "workload": "DAG scheduling, sensors, retries and cross-system orchestration",
+      "caveat": "Production Airflow normally needs a metadata DB, executor choice, workers, upgrades, monitoring and backups."
+    },
+    {
+      "id": "postgres-selfhost",
+      "name": "PostgreSQL",
+      "software": "PostgreSQL",
+      "labShape": "2 vCPU · 4–8 GB RAM",
+      "managedAlternative": "Neon / Supabase / managed cloud PostgreSQL",
+      "workload": "Application database, metadata store and dbt source/target lab",
+      "caveat": "Managed databases include varying levels of backups, HA, patching and observability that a raw VM price does not."
+    },
+    {
+      "id": "kafka-selfhost",
+      "name": "Apache Kafka",
+      "software": "Apache Kafka",
+      "labShape": "2 vCPU · 8 GB RAM for a single-node learning broker",
+      "managedAlternative": "Aiven Kafka / Confluent-style managed services",
+      "workload": "Producers, consumers, CDC and streaming labs",
+      "caveat": "A one-node lab is not production HA. Real clusters add brokers, storage, networking, replication and operations."
+    },
+    {
+      "id": "k3s-selfhost",
+      "name": "k3s Kubernetes",
+      "software": "k3s",
+      "labShape": "2 vCPU · 4–8 GB RAM for a small single-node lab",
+      "managedAlternative": "Managed Kubernetes or serverless containers",
+      "workload": "Container orchestration, manifests, services and lightweight Kubernetes learning",
+      "caveat": "A raw VM does not include managed control plane, load balancers, registry, persistent volumes or operations."
+    }
   ]
 }
