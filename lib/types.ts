@@ -297,31 +297,6 @@ export type SelfHostScenario = {
 };
 
 
-export type FreeTierOffer = {
-  id: string;
-  provider: string;
-  product: string;
-  category: string;
-  tierType: "always-free" | "trial" | "credit";
-  trueFree: boolean;
-  summary: string;
-  limits: string;
-  bestFor: string;
-  creditCard: string;
-  commercial: string;
-  source: SourceRef;
-  score: number;
-};
-
-export type CommunityTool = {
-  id: string;
-  name: string;
-  category: string;
-  license: string;
-  cloudEquivalent: string;
-  bestFor: string;
-};
-
 export type RuntimeFramework = {
   id: string;
   name: string;
