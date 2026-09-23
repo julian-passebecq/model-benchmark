@@ -13,7 +13,11 @@
       "goodFor": "A real Linux VM, Docker, small APIs, self-hosted tools, schedulers and learning infrastructure",
       "limits": "Home-region only; idle compute can be reclaimed; capacity can be unavailable in some regions",
       "commercialUse": "Check current Oracle terms for your workload",
-      "source": {"label":"Oracle Always Free resources","url":"https://docs.oracle.com/en-us/iaas/Content/FreeTier/freetier_topic-Always_Free_Resources.htm","asOf":"2026-09-23"}
+      "source": {
+        "label": "Oracle Always Free resources",
+        "url": "https://docs.oracle.com/en-us/iaas/Content/FreeTier/freetier_topic-Always_Free_Resources.htm",
+        "asOf": "2026-09-23"
+      }
     },
     {
       "id": "gcp-e2-micro",
@@ -27,7 +31,11 @@
       "goodFor": "Small always-on Linux services, SSH labs, cron jobs and tiny container workloads",
       "limits": "Only selected US regions; GPU/TPU not included; egress quota is small",
       "commercialUse": "Allowed subject to Google Cloud terms",
-      "source": {"label":"Google Cloud Free Program","url":"https://cloud.google.com/free/docs/free-cloud-features","asOf":"2026-09-23"}
+      "source": {
+        "label": "Google Cloud Free Program",
+        "url": "https://cloud.google.com/free/docs/free-cloud-features",
+        "asOf": "2026-09-23"
+      }
     },
     {
       "id": "bigquery-free",
@@ -41,7 +49,11 @@
       "goodFor": "SQL practice on large public datasets, cost-per-TB experiments and warehouse learning",
       "limits": "Sandbox omits some features such as streaming and has automatic table expiration",
       "commercialUse": "Free usage tier follows Google Cloud terms",
-      "source": {"label":"BigQuery pricing and sandbox","url":"https://cloud.google.com/bigquery/pricing","asOf":"2026-09-23"}
+      "source": {
+        "label": "BigQuery pricing and sandbox",
+        "url": "https://cloud.google.com/bigquery/pricing",
+        "asOf": "2026-09-23"
+      }
     },
     {
       "id": "azure-sql-free",
@@ -55,7 +67,11 @@
       "goodFor": "SQL Server-compatible labs, APIs, small relational projects and BI prototypes",
       "limits": "Serverless quota; usage outside included amounts can bill if account permits it",
       "commercialUse": "Allowed subject to Azure terms",
-      "source": {"label":"Azure free services","url":"https://azure.microsoft.com/en-us/pricing/purchase-options/azure-account","asOf":"2026-09-23"}
+      "source": {
+        "label": "Azure free services",
+        "url": "https://azure.microsoft.com/en-us/pricing/purchase-options/azure-account",
+        "asOf": "2026-09-23"
+      }
     },
     {
       "id": "azure-functions-free",
@@ -69,7 +85,11 @@
       "goodFor": "Event-driven Python, HTTP APIs, schedulers and cloud-function learning",
       "limits": "Execution/resource grants and dependent services can have separate pricing",
       "commercialUse": "Allowed subject to Azure terms",
-      "source": {"label":"Azure free services","url":"https://azure.microsoft.com/en-us/pricing/free-services","asOf":"2026-09-23"}
+      "source": {
+        "label": "Azure free services",
+        "url": "https://azure.microsoft.com/en-us/pricing/free-services",
+        "asOf": "2026-09-23"
+      }
     },
     {
       "id": "azure-container-apps-free",
@@ -83,7 +103,11 @@
       "goodFor": "FastAPI, containerized APIs, background workers and serverless-container learning",
       "limits": "Networking, registries, storage and additional consumption are separate",
       "commercialUse": "Allowed subject to Azure terms",
-      "source": {"label":"Azure free services","url":"https://azure.microsoft.com/en-us/pricing/free-services","asOf":"2026-09-23"}
+      "source": {
+        "label": "Azure free services",
+        "url": "https://azure.microsoft.com/en-us/pricing/free-services",
+        "asOf": "2026-09-23"
+      }
     },
     {
       "id": "cloudflare-workers",
@@ -97,7 +121,11 @@
       "goodFor": "Edge APIs, lightweight functions, webhooks, auth middleware and static+serverless apps",
       "limits": "10 ms CPU cap makes heavy Python/data processing a poor fit",
       "commercialUse": "Check Cloudflare plan terms for your workload",
-      "source": {"label":"Cloudflare Workers limits","url":"https://developers.cloudflare.com/workers/platform/limits/","asOf":"2026-09-23"}
+      "source": {
+        "label": "Cloudflare Workers limits",
+        "url": "https://developers.cloudflare.com/workers/platform/limits/",
+        "asOf": "2026-09-23"
+      }
     },
     {
       "id": "cloudflare-d1",
@@ -111,7 +139,11 @@
       "goodFor": "SQLite-style edge applications, small APIs and globally distributed app prototypes",
       "limits": "Not a replacement for large analytical warehouses or heavy transactional databases",
       "commercialUse": "Check Cloudflare plan terms",
-      "source": {"label":"Cloudflare Workers pricing / D1","url":"https://developers.cloudflare.com/workers/platform/pricing/","asOf":"2026-09-23"}
+      "source": {
+        "label": "Cloudflare Workers pricing / D1",
+        "url": "https://developers.cloudflare.com/workers/platform/pricing/",
+        "asOf": "2026-09-23"
+      }
     },
     {
       "id": "mongodb-atlas-free",
@@ -125,7 +157,11 @@
       "goodFor": "Document databases, FastAPI backends, prototypes and MongoDB learning",
       "limits": "Small shared development tier with a subset of Atlas functionality",
       "commercialUse": "Suitable for small development/POC use; check Atlas terms",
-      "source": {"label":"MongoDB Atlas Free cluster","url":"https://www.mongodb.com/docs/atlas/tutorial/deploy-free-tier-cluster/","asOf":"2026-09-23"}
+      "source": {
+        "label": "MongoDB Atlas Free cluster",
+        "url": "https://www.mongodb.com/docs/atlas/tutorial/deploy-free-tier-cluster/",
+        "asOf": "2026-09-23"
+      }
     },
     {
       "id": "neon-free",
@@ -139,7 +175,11 @@
       "goodFor": "Serverless Postgres, preview databases, branching, FastAPI/Next.js apps and CI environments",
       "limits": "Scale-to-zero and per-project compute/storage quotas; free limits can change",
       "commercialUse": "Free plan supports early projects; check current Neon terms",
-      "source": {"label":"Neon Free Plan update","url":"https://neon.com/blog/neon-backend-is-ga","asOf":"2026-09-23"}
+      "source": {
+        "label": "Neon Free Plan update",
+        "url": "https://neon.com/blog/neon-backend-is-ga",
+        "asOf": "2026-09-23"
+      }
     },
     {
       "id": "supabase-free",
@@ -153,7 +193,11 @@
       "goodFor": "Postgres + Auth + Storage + Realtime + Edge Functions in one lab",
       "limits": "Projects pause after inactivity; no automatic backups on Free",
       "commercialUse": "Suitable for hobby/early projects; check Supabase terms",
-      "source": {"label":"Supabase pricing","url":"https://supabase.com/pricing","asOf":"2026-09-23"}
+      "source": {
+        "label": "Supabase pricing",
+        "url": "https://supabase.com/pricing",
+        "asOf": "2026-09-23"
+      }
     },
     {
       "id": "aiven-free",
@@ -167,7 +211,11 @@
       "goodFor": "Hosted Kafka or database learning without operating the servers yourself",
       "limits": "Sandbox-sized resource caps; production features and larger resources require paid plans",
       "commercialUse": "Check Aiven service terms",
-      "source": {"label":"Aiven Free Tier","url":"https://aiven.io/free-tier","asOf":"2026-09-23"}
+      "source": {
+        "label": "Aiven Free Tier",
+        "url": "https://aiven.io/free-tier",
+        "asOf": "2026-09-23"
+      }
     },
     {
       "id": "motherduck-lite",
@@ -181,7 +229,11 @@
       "goodFor": "Cloud DuckDB, SQL/Parquet analytics, Python/SQL labs and lightweight analytical apps",
       "limits": "Individual queries use a single DuckDB node; free plan has consumption caps",
       "commercialUse": "Free-account usage has plan restrictions; check current terms",
-      "source": {"label":"MotherDuck pricing / Lite","url":"https://motherduck.com/product/pricing/","asOf":"2026-09-23"}
+      "source": {
+        "label": "MotherDuck pricing / Lite",
+        "url": "https://motherduck.com/product/pricing/",
+        "asOf": "2026-09-23"
+      }
     },
     {
       "id": "databricks-free-edition",
@@ -195,7 +247,11 @@
       "goodFor": "Spark/SQL notebooks, Delta Lake, Lakeflow pipelines, ML/AI learning and Databricks practice",
       "limits": "Personal/non-commercial; no classic compute; limited compute sizes and administrative features",
       "commercialUse": "No — Free Edition is for learning/training and non-commercial use",
-      "source": {"label":"Databricks Free Edition","url":"https://docs.databricks.com/aws/en/getting-started/free-trial-vs-free-edition","asOf":"2026-09-23"}
+      "source": {
+        "label": "Databricks Free Edition",
+        "url": "https://docs.databricks.com/aws/en/getting-started/free-trial-vs-free-edition",
+        "asOf": "2026-09-23"
+      }
     },
     {
       "id": "dbt-developer",
@@ -209,7 +265,11 @@
       "goodFor": "Learning dbt with hosted IDE, scheduling and Git integration",
       "limits": "Single-developer scope and build quota; team/API/advanced features require higher plans",
       "commercialUse": "Check dbt plan terms; dbt local distribution/OSS is separately free",
-      "source": {"label":"dbt pricing","url":"https://www.getdbt.com/pricing","asOf":"2026-09-23"}
+      "source": {
+        "label": "dbt pricing",
+        "url": "https://www.getdbt.com/pricing",
+        "asOf": "2026-09-23"
+      }
     },
     {
       "id": "github-actions-free",
@@ -223,7 +283,11 @@
       "goodFor": "Build/test/deploy pipelines, scheduled jobs, package builds and open-source CI",
       "limits": "Private-repo quotas; larger runners and extra storage can bill",
       "commercialUse": "Allowed within GitHub plan terms",
-      "source": {"label":"GitHub Actions billing","url":"https://docs.github.com/en/billing/concepts/product-billing/github-actions","asOf":"2026-09-23"}
+      "source": {
+        "label": "GitHub Actions billing",
+        "url": "https://docs.github.com/en/billing/concepts/product-billing/github-actions",
+        "asOf": "2026-09-23"
+      }
     },
     {
       "id": "gitlab-free",
@@ -237,7 +301,11 @@
       "goodFor": "Git hosting, CI/CD and GitLab Pages with one integrated DevOps platform",
       "limits": "Shared-runner quota is much smaller than GitHub Free private-repo quota",
       "commercialUse": "Allowed within GitLab Free terms",
-      "source": {"label":"GitLab pricing","url":"https://about.gitlab.com/pricing/","asOf":"2026-09-23"}
+      "source": {
+        "label": "GitLab pricing",
+        "url": "https://about.gitlab.com/pricing/",
+        "asOf": "2026-09-23"
+      }
     },
     {
       "id": "vercel-hobby",
@@ -251,7 +319,11 @@
       "goodFor": "Next.js, React, serverless APIs, previews and personal web projects",
       "limits": "Hard Hobby usage caps; intended as a personal-project starting tier",
       "commercialUse": "Review Hobby plan terms for commercial use",
-      "source": {"label":"Vercel pricing","url":"https://vercel.com/pricing","asOf":"2026-09-23"}
+      "source": {
+        "label": "Vercel pricing",
+        "url": "https://vercel.com/pricing",
+        "asOf": "2026-09-23"
+      }
     },
     {
       "id": "netlify-free",
@@ -265,7 +337,11 @@
       "goodFor": "Static/React sites, previews, forms and lightweight serverless functions",
       "limits": "Credit model combines several resources; production deploys and bandwidth consume the same pool",
       "commercialUse": "Review current Netlify Free plan terms",
-      "source": {"label":"Netlify pricing","url":"https://www.netlify.com/pricing/","asOf":"2026-09-23"}
+      "source": {
+        "label": "Netlify pricing",
+        "url": "https://www.netlify.com/pricing/",
+        "asOf": "2026-09-23"
+      }
     },
     {
       "id": "render-free-web",
@@ -279,7 +355,11 @@
       "goodFor": "FastAPI, Flask, Node and small container/web-service demos",
       "limits": "Spins down after 15 minutes idle; cold start around a minute; local filesystem is ephemeral",
       "commercialUse": "Designed for hobby/testing/preview; check Render terms",
-      "source": {"label":"Render free services","url":"https://render.com/docs/free","asOf":"2026-09-23"}
+      "source": {
+        "label": "Render free services",
+        "url": "https://render.com/docs/free",
+        "asOf": "2026-09-23"
+      }
     },
     {
       "id": "koyeb-free",
@@ -293,9 +373,12 @@
       "goodFor": "Small FastAPI/container services and lightweight always-on demos",
       "limits": "Very small CPU/RAM; database free instance has separate 5-hours/month compute limit",
       "commercialUse": "Check Koyeb plan terms",
-      "source": {"label":"Koyeb pricing FAQ","url":"https://www.koyeb.com/docs/faqs/pricing","asOf":"2026-09-23"}
+      "source": {
+        "label": "Koyeb pricing FAQ",
+        "url": "https://www.koyeb.com/docs/faqs/pricing",
+        "asOf": "2026-09-23"
+      }
     },
-
     {
       "id": "fabric-trial",
       "name": "Microsoft Fabric Trial",
@@ -308,7 +391,11 @@
       "goodFor": "Fabric notebooks, Lakehouse, Warehouse, Data Factory, Real-Time and Power BI learning",
       "limits": "Not a permanent free tier; tenant/admin settings can block trial activation",
       "commercialUse": "Evaluation/trial terms apply",
-      "source": {"label":"Microsoft Fabric trial","url":"https://learn.microsoft.com/en-us/fabric/get-started/fabric-trial","asOf":"2026-09-23"}
+      "source": {
+        "label": "Microsoft Fabric trial",
+        "url": "https://learn.microsoft.com/en-us/fabric/get-started/fabric-trial",
+        "asOf": "2026-09-23"
+      }
     },
     {
       "id": "snowflake-trial",
@@ -322,7 +409,11 @@
       "goodFor": "Warehouse, Snowpark, Streamlit, data sharing, Cortex and Snowflake data-engineering practice",
       "limits": "Credits expire after the trial; not an ongoing free tier",
       "commercialUse": "Evaluation terms apply",
-      "source": {"label":"Snowflake trial","url":"https://www.snowflake.com/en/snowflake-trial/","asOf":"2026-09-23"}
+      "source": {
+        "label": "Snowflake trial",
+        "url": "https://www.snowflake.com/en/snowflake-trial/",
+        "asOf": "2026-09-23"
+      }
     },
     {
       "id": "aws-free-plan",
@@ -336,9 +427,12 @@
       "goodFor": "Broad AWS exploration and short-lived proof-of-concept infrastructure",
       "limits": "The Free account plan closes at 6 months or when credits are exhausted; this is not a forever-free VM",
       "commercialUse": "Free-plan/evaluation terms apply",
-      "source": {"label":"AWS Free Tier plans","url":"https://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/free-tier-plans.html","asOf":"2026-09-23"}
+      "source": {
+        "label": "AWS Free Tier plans",
+        "url": "https://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/free-tier-plans.html",
+        "asOf": "2026-09-23"
+      }
     },
-
     {
       "id": "vscode",
       "name": "Visual Studio Code",
@@ -351,7 +445,11 @@
       "goodFor": "Python, SQL, dbt, notebooks, remote development, Git and extension-based workflows",
       "limits": "Extensions can have separate licenses/services",
       "commercialUse": "Yes, subject to the VS Code license",
-      "source": {"label":"VS Code license","url":"https://code.visualstudio.com/license","asOf":"2026-09-23"}
+      "source": {
+        "label": "VS Code license",
+        "url": "https://code.visualstudio.com/license",
+        "asOf": "2026-09-23"
+      }
     },
     {
       "id": "pycharm-core",
@@ -365,7 +463,11 @@
       "goodFor": "Python, notebooks and local data-engineering development",
       "limits": "Advanced Pro functionality requires subscription after the trial",
       "commercialUse": "Core free features may be used commercially",
-      "source": {"label":"Unified PyCharm","url":"https://www.jetbrains.com/help/pycharm/unified-pycharm.html","asOf":"2026-09-23"}
+      "source": {
+        "label": "Unified PyCharm",
+        "url": "https://www.jetbrains.com/help/pycharm/unified-pycharm.html",
+        "asOf": "2026-09-23"
+      }
     },
     {
       "id": "datagrip-noncommercial",
@@ -379,7 +481,11 @@
       "goodFor": "SQL/NoSQL querying, schema exploration, database IDE workflows and learning",
       "limits": "Commercial work requires a commercial license",
       "commercialUse": "No, non-commercial use only",
-      "source": {"label":"JetBrains non-commercial IDEs","url":"https://www.jetbrains.com/non-commercial/","asOf":"2026-09-23"}
+      "source": {
+        "label": "JetBrains non-commercial IDEs",
+        "url": "https://www.jetbrains.com/non-commercial/",
+        "asOf": "2026-09-23"
+      }
     },
     {
       "id": "tabular-editor-2",
@@ -393,7 +499,11 @@
       "goodFor": "Power BI / Analysis Services semantic-model metadata editing and scripting",
       "limits": "TE3-only premium editor/debugger features are not included",
       "commercialUse": "MIT license",
-      "source": {"label":"Tabular Editor downloads","url":"https://tabulareditor.com/downloads","asOf":"2026-09-23"}
+      "source": {
+        "label": "Tabular Editor downloads",
+        "url": "https://tabulareditor.com/downloads",
+        "asOf": "2026-09-23"
+      }
     },
     {
       "id": "dax-studio",
@@ -407,7 +517,11 @@
       "goodFor": "DAX queries, Server Timings, VertiPaq analysis, Power BI model performance tuning",
       "limits": "Windows/.NET-oriented desktop tooling",
       "commercialUse": "Open-source tool; verify component licenses if redistributing",
-      "source": {"label":"DAX Studio","url":"https://daxstudio.org/","asOf":"2026-09-23"}
+      "source": {
+        "label": "DAX Studio",
+        "url": "https://daxstudio.org/",
+        "asOf": "2026-09-23"
+      }
     },
     {
       "id": "dbt-local",
@@ -421,7 +535,11 @@
       "goodFor": "Local SQL transformation, CI pipelines and self-managed analytics engineering",
       "limits": "You manage execution, scheduling, secrets and infrastructure yourself",
       "commercialUse": "Yes for internal/company use under current dbt licensing; check hosted-service restrictions",
-      "source": {"label":"dbt licensing FAQ","url":"https://www.getdbt.com/licenses-faq","asOf":"2026-09-23"}
+      "source": {
+        "label": "dbt licensing FAQ",
+        "url": "https://www.getdbt.com/licenses-faq",
+        "asOf": "2026-09-23"
+      }
     },
     {
       "id": "airflow-oss",
@@ -435,7 +553,11 @@
       "goodFor": "DAG orchestration, scheduling, sensors and cross-system workflows",
       "limits": "Operational overhead compared with managed orchestration",
       "commercialUse": "Apache 2.0",
-      "source": {"label":"Apache Airflow","url":"https://airflow.apache.org/","asOf":"2026-09-23"}
+      "source": {
+        "label": "Apache Airflow",
+        "url": "https://airflow.apache.org/",
+        "asOf": "2026-09-23"
+      }
     },
     {
       "id": "opentofu",
@@ -449,7 +571,11 @@
       "goodFor": "Terraform-style infrastructure as code without a hosted control-plane requirement",
       "limits": "State, runners, policy and collaboration are your responsibility unless paired with other services",
       "commercialUse": "Open source",
-      "source": {"label":"OpenTofu","url":"https://opentofu.org/","asOf":"2026-09-23"}
+      "source": {
+        "label": "OpenTofu",
+        "url": "https://opentofu.org/",
+        "asOf": "2026-09-23"
+      }
     },
     {
       "id": "k3s",
@@ -463,7 +589,137 @@
       "goodFor": "Learning Kubernetes on small VMs, edge devices and homelabs",
       "limits": "You still need compute; management is your responsibility",
       "commercialUse": "Open source",
-      "source": {"label":"k3s","url":"https://k3s.io/","asOf":"2026-09-23"}
+      "source": {
+        "label": "k3s",
+        "url": "https://k3s.io/",
+        "asOf": "2026-09-23"
+      }
+    },
+    {
+      "id": "cloudflare-r2",
+      "name": "Cloudflare R2",
+      "provider": "Cloudflare",
+      "category": "Object storage",
+      "tierType": "true-free",
+      "duration": "Ongoing monthly free tier",
+      "cardRequired": "Cloudflare account",
+      "quota": "10 GB-month storage + 1M Class A operations + 10M Class B operations/month; internet egress is free",
+      "goodFor": "S3-compatible object storage, Parquet datasets, static assets and data-lake experiments",
+      "limits": "Free quota applies to Standard storage; operation counts still matter",
+      "commercialUse": "Allowed subject to Cloudflare terms",
+      "source": {
+        "label": "Cloudflare R2 pricing",
+        "url": "https://developers.cloudflare.com/r2/pricing/",
+        "asOf": "2026-09-23"
+      }
+    },
+    {
+      "id": "turso-free",
+      "name": "Turso Free",
+      "provider": "Turso",
+      "category": "SQL database",
+      "tierType": "true-free",
+      "duration": "Ongoing free plan",
+      "cardRequired": "No credit card required",
+      "quota": "100 databases, 5 GB storage, 500M rows read/month, 10M rows written/month and 3 GB monthly sync",
+      "goodFor": "SQLite/libSQL cloud apps, embedded replicas, edge backends and many small project databases",
+      "limits": "Usage caps apply; overages require enabling billing",
+      "commercialUse": "Check current Turso plan terms",
+      "source": {
+        "label": "Turso pricing",
+        "url": "https://turso.tech/pricing",
+        "asOf": "2026-09-23"
+      }
+    },
+    {
+      "id": "cockroach-basic",
+      "name": "CockroachDB Cloud Basic",
+      "provider": "Cockroach Labs",
+      "category": "Distributed SQL database",
+      "tierType": "true-free",
+      "duration": "Ongoing monthly free allowance",
+      "cardRequired": "No credit card required for Basic signup",
+      "quota": "50 million request units + 10 GiB storage free per month; scales to zero",
+      "goodFor": "PostgreSQL-compatible distributed SQL, multi-region concepts and resilient app backends",
+      "limits": "Request-unit model; advanced/private networking features require higher tiers",
+      "commercialUse": "Allowed subject to CockroachDB Cloud terms",
+      "source": {
+        "label": "CockroachDB pricing",
+        "url": "https://www.cockroachlabs.com/cockroachdb/pricing/",
+        "asOf": "2026-09-23"
+      }
+    },
+    {
+      "id": "upstash-redis",
+      "name": "Upstash Redis Free",
+      "provider": "Upstash",
+      "category": "Cache / key-value",
+      "tierType": "true-free",
+      "duration": "Ongoing free plan",
+      "cardRequired": "No credit card required",
+      "quota": "1 free database, 256 MB data, 500,000 commands/month and 10 GB monthly bandwidth",
+      "goodFor": "Caching, rate limiting, queues, sessions and serverless/agent state",
+      "limits": "No production SLA/HA pack on Free; command and bandwidth caps",
+      "commercialUse": "Check current Upstash terms",
+      "source": {
+        "label": "Upstash Redis pricing",
+        "url": "https://upstash.com/pricing/redis",
+        "asOf": "2026-09-23"
+      }
+    },
+    {
+      "id": "power-bi-desktop",
+      "name": "Power BI Desktop",
+      "provider": "Microsoft",
+      "category": "BI / desktop",
+      "tierType": "local-free",
+      "duration": "Free desktop application",
+      "cardRequired": "No",
+      "quota": "Unlimited local report, Power Query and semantic-model authoring on supported Windows systems",
+      "goodFor": "Power Query, DAX, semantic models, report development and local BI portfolio work",
+      "limits": "Cloud sharing/collaboration depends on Power BI/Fabric licensing and capacity",
+      "commercialUse": "Desktop is free; service collaboration has separate licensing",
+      "source": {
+        "label": "Power BI Desktop",
+        "url": "https://learn.microsoft.com/en-us/power-bi/fundamentals/desktop-get-the-desktop",
+        "asOf": "2026-09-23"
+      }
+    },
+    {
+      "id": "sql-server-developer",
+      "name": "SQL Server 2025 Developer",
+      "provider": "Microsoft",
+      "category": "SQL database / local",
+      "tierType": "local-free",
+      "duration": "Free Developer edition",
+      "cardRequired": "No",
+      "quota": "Developer edition feature set for non-production development and testing",
+      "goodFor": "SQL Server labs, T-SQL, local BI source systems and integration testing",
+      "limits": "Not licensed for production workloads",
+      "commercialUse": "Development/testing only; production requires an appropriate edition/license",
+      "source": {
+        "label": "SQL Server downloads",
+        "url": "https://www.microsoft.com/en-us/sql-server/sql-server-downloads",
+        "asOf": "2026-09-23"
+      }
+    },
+    {
+      "id": "docker-personal",
+      "name": "Docker Personal",
+      "provider": "Docker",
+      "category": "Containers / local",
+      "tierType": "local-free",
+      "duration": "Ongoing Personal plan",
+      "cardRequired": "No credit card required",
+      "quota": "Docker Desktop/Engine essentials, public repositories and included Docker Hub pull allowance",
+      "goodFor": "Local containers, FastAPI/Postgres stacks, Spark labs, reproducible dev environments and k3s preparation",
+      "limits": "Docker Desktop commercial use in larger organizations requires paid subscription; cloud services have separate quotas",
+      "commercialUse": "Free for personal, education, non-commercial OSS and qualifying small businesses",
+      "source": {
+        "label": "Docker Personal",
+        "url": "https://www.docker.com/products/personal/",
+        "asOf": "2026-09-23"
+      }
     }
   ]
 }
