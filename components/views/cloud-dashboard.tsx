@@ -127,6 +127,7 @@ function freeGroup(category: string) {
     value.includes("container") ||
     value.includes("web") ||
     value.includes("python") ||
+    value.includes("notebook") ||
     value.includes("hosted app") ||
     value.includes("kubernetes")
   ) return "Compute & web";
