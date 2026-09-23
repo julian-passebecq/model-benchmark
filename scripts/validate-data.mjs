@@ -160,6 +160,27 @@ for (const file of files) {
       }
       counts.push(file + ": " + parsed.guides.length + " use-case guides");
     }
+  } else if (file === "data-stack.json") {
+    if (!Array.isArray(parsed.stackLayers)) {
+      fail(file, "$.stackLayers", "stackLayers must be an array");
+    } else {
+      const orders = new Set();
+      for (let index = 0; index < parsed.stackLayers.length; index += 1) {
+        const item = parsed.stackLayers[index];
+        const location = "$.stackLayers[" + index + "]";
+        for (const key of ["id", "layer", "question", "note"]) requireString(file, item, location, key);
+        if (!Number.isInteger(item.order) || item.order < 1) fail(file, location + ".order", "order must be a positive integer");
+        if (orders.has(item.order)) fail(file, location + ".order", "stack layer order must be unique");
+        orders.add(item.order);
+        for (const key of ["examples", "concepts"]) {
+          if (!Array.isArray(item[key]) || item[key].length === 0 || item[key].some((value) => typeof value !== "string" || value.trim() === "")) {
+            fail(file, location + "." + key, key + " must contain non-empty strings");
+          }
+        }
+      }
+    }
+    const topLevelArrays = Object.entries(parsed).filter(([, value]) => Array.isArray(value));
+    counts.push(file + ": " + topLevelArrays.map(([key, value]) => key + "=" + value.length).join(", "));
   } else if (file === "releases.json") {
     if (!Array.isArray(parsed.technologies)) {
       fail(file, "$.technologies", "technologies must be an array");
