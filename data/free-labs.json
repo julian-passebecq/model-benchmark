@@ -17,7 +17,8 @@
         "label": "Oracle Always Free resources",
         "url": "https://docs.oracle.com/en-us/iaas/Content/FreeTier/freetier_topic-Always_Free_Resources.htm",
         "asOf": "2026-09-23"
-      }
+      },
+      "platforms": "Hosted · browser / API / CLI"
     },
     {
       "id": "gcp-e2-micro",
@@ -35,7 +36,8 @@
         "label": "Google Cloud Free Program",
         "url": "https://cloud.google.com/free/docs/free-cloud-features",
         "asOf": "2026-09-23"
-      }
+      },
+      "platforms": "Hosted · browser / API / CLI"
     },
     {
       "id": "bigquery-free",
@@ -53,7 +55,8 @@
         "label": "BigQuery pricing and sandbox",
         "url": "https://cloud.google.com/bigquery/pricing",
         "asOf": "2026-09-23"
-      }
+      },
+      "platforms": "Hosted · browser / API / CLI"
     },
     {
       "id": "azure-sql-free",
@@ -71,7 +74,8 @@
         "label": "Azure free services",
         "url": "https://azure.microsoft.com/en-us/pricing/purchase-options/azure-account",
         "asOf": "2026-09-23"
-      }
+      },
+      "platforms": "Hosted · browser / API / CLI"
     },
     {
       "id": "azure-functions-free",
@@ -89,7 +93,8 @@
         "label": "Azure free services",
         "url": "https://azure.microsoft.com/en-us/pricing/free-services",
         "asOf": "2026-09-23"
-      }
+      },
+      "platforms": "Hosted · browser / API / CLI"
     },
     {
       "id": "azure-container-apps-free",
@@ -107,7 +112,8 @@
         "label": "Azure free services",
         "url": "https://azure.microsoft.com/en-us/pricing/free-services",
         "asOf": "2026-09-23"
-      }
+      },
+      "platforms": "Hosted · browser / API / CLI"
     },
     {
       "id": "cloudflare-workers",
@@ -125,7 +131,8 @@
         "label": "Cloudflare Workers limits",
         "url": "https://developers.cloudflare.com/workers/platform/limits/",
         "asOf": "2026-09-23"
-      }
+      },
+      "platforms": "Hosted · browser / API / CLI"
     },
     {
       "id": "cloudflare-d1",
@@ -143,7 +150,8 @@
         "label": "Cloudflare Workers pricing / D1",
         "url": "https://developers.cloudflare.com/workers/platform/pricing/",
         "asOf": "2026-09-23"
-      }
+      },
+      "platforms": "Hosted · browser / API / CLI"
     },
     {
       "id": "mongodb-atlas-free",
@@ -161,7 +169,8 @@
         "label": "MongoDB Atlas Free cluster",
         "url": "https://www.mongodb.com/docs/atlas/tutorial/deploy-free-tier-cluster/",
         "asOf": "2026-09-23"
-      }
+      },
+      "platforms": "Hosted · browser / API / CLI"
     },
     {
       "id": "neon-free",
@@ -179,7 +188,8 @@
         "label": "Neon Free Plan update",
         "url": "https://neon.com/blog/neon-backend-is-ga",
         "asOf": "2026-09-23"
-      }
+      },
+      "platforms": "Hosted · browser / API / CLI"
     },
     {
       "id": "supabase-free",
@@ -197,7 +207,8 @@
         "label": "Supabase pricing",
         "url": "https://supabase.com/pricing",
         "asOf": "2026-09-23"
-      }
+      },
+      "platforms": "Hosted · browser / API / CLI"
     },
     {
       "id": "aiven-free",
@@ -215,7 +226,8 @@
         "label": "Aiven Free Tier",
         "url": "https://aiven.io/free-tier",
         "asOf": "2026-09-23"
-      }
+      },
+      "platforms": "Hosted · browser / API / CLI"
     },
     {
       "id": "motherduck-lite",
@@ -233,7 +245,8 @@
         "label": "MotherDuck pricing / Lite",
         "url": "https://motherduck.com/product/pricing/",
         "asOf": "2026-09-23"
-      }
+      },
+      "platforms": "Hosted · browser / API / CLI"
     },
     {
       "id": "databricks-free-edition",
@@ -251,7 +264,8 @@
         "label": "Databricks Free Edition",
         "url": "https://docs.databricks.com/aws/en/getting-started/free-trial-vs-free-edition",
         "asOf": "2026-09-23"
-      }
+      },
+      "platforms": "Hosted · browser / API / CLI"
     },
     {
       "id": "dbt-developer",
@@ -269,7 +283,8 @@
         "label": "dbt pricing",
         "url": "https://www.getdbt.com/pricing",
         "asOf": "2026-09-23"
-      }
+      },
+      "platforms": "Hosted · browser / API / CLI"
     },
     {
       "id": "github-actions-free",
@@ -287,7 +302,8 @@
         "label": "GitHub Actions billing",
         "url": "https://docs.github.com/en/billing/concepts/product-billing/github-actions",
         "asOf": "2026-09-23"
-      }
+      },
+      "platforms": "Hosted · browser / API / CLI"
     },
     {
       "id": "gitlab-free",
@@ -305,7 +321,8 @@
         "label": "GitLab pricing",
         "url": "https://about.gitlab.com/pricing/",
         "asOf": "2026-09-23"
-      }
+      },
+      "platforms": "Hosted · browser / API / CLI"
     },
     {
       "id": "vercel-hobby",
@@ -323,7 +340,8 @@
         "label": "Vercel pricing",
         "url": "https://vercel.com/pricing",
         "asOf": "2026-09-23"
-      }
+      },
+      "platforms": "Hosted · browser / API / CLI"
     },
     {
       "id": "netlify-free",
@@ -341,7 +359,8 @@
         "label": "Netlify pricing",
         "url": "https://www.netlify.com/pricing/",
         "asOf": "2026-09-23"
-      }
+      },
+      "platforms": "Hosted · browser / API / CLI"
     },
     {
       "id": "render-free-web",
@@ -359,7 +378,8 @@
         "label": "Render free services",
         "url": "https://render.com/docs/free",
         "asOf": "2026-09-23"
-      }
+      },
+      "platforms": "Hosted · browser / API / CLI"
     },
     {
       "id": "koyeb-free",
@@ -377,7 +397,8 @@
         "label": "Koyeb pricing FAQ",
         "url": "https://www.koyeb.com/docs/faqs/pricing",
         "asOf": "2026-09-23"
-      }
+      },
+      "platforms": "Hosted · browser / API / CLI"
     },
     {
       "id": "fabric-trial",
@@ -395,7 +416,8 @@
         "label": "Microsoft Fabric trial",
         "url": "https://learn.microsoft.com/en-us/fabric/get-started/fabric-trial",
         "asOf": "2026-09-23"
-      }
+      },
+      "platforms": "Hosted · browser / API / CLI"
     },
     {
       "id": "snowflake-trial",
@@ -413,7 +435,8 @@
         "label": "Snowflake trial",
         "url": "https://www.snowflake.com/en/snowflake-trial/",
         "asOf": "2026-09-23"
-      }
+      },
+      "platforms": "Hosted · browser / API / CLI"
     },
     {
       "id": "aws-free-plan",
@@ -431,7 +454,8 @@
         "label": "AWS Free Tier plans",
         "url": "https://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/free-tier-plans.html",
         "asOf": "2026-09-23"
-      }
+      },
+      "platforms": "Hosted · browser / API / CLI"
     },
     {
       "id": "vscode",
@@ -449,7 +473,8 @@
         "label": "VS Code license",
         "url": "https://code.visualstudio.com/license",
         "asOf": "2026-09-23"
-      }
+      },
+      "platforms": "Windows · macOS · Linux"
     },
     {
       "id": "pycharm-core",
@@ -467,7 +492,8 @@
         "label": "Unified PyCharm",
         "url": "https://www.jetbrains.com/help/pycharm/unified-pycharm.html",
         "asOf": "2026-09-23"
-      }
+      },
+      "platforms": "Windows · macOS · Linux"
     },
     {
       "id": "datagrip-noncommercial",
@@ -485,7 +511,8 @@
         "label": "JetBrains non-commercial IDEs",
         "url": "https://www.jetbrains.com/non-commercial/",
         "asOf": "2026-09-23"
-      }
+      },
+      "platforms": "Windows · macOS · Linux"
     },
     {
       "id": "tabular-editor-2",
@@ -503,7 +530,8 @@
         "label": "Tabular Editor downloads",
         "url": "https://tabulareditor.com/downloads",
         "asOf": "2026-09-23"
-      }
+      },
+      "platforms": "Windows"
     },
     {
       "id": "dax-studio",
@@ -521,7 +549,8 @@
         "label": "DAX Studio",
         "url": "https://daxstudio.org/",
         "asOf": "2026-09-23"
-      }
+      },
+      "platforms": "Windows"
     },
     {
       "id": "dbt-local",
@@ -539,7 +568,8 @@
         "label": "dbt licensing FAQ",
         "url": "https://www.getdbt.com/licenses-faq",
         "asOf": "2026-09-23"
-      }
+      },
+      "platforms": "Windows · macOS · Linux"
     },
     {
       "id": "airflow-oss",
@@ -557,7 +587,8 @@
         "label": "Apache Airflow",
         "url": "https://airflow.apache.org/",
         "asOf": "2026-09-23"
-      }
+      },
+      "platforms": "Linux · macOS · Docker / WSL"
     },
     {
       "id": "opentofu",
@@ -575,7 +606,8 @@
         "label": "OpenTofu",
         "url": "https://opentofu.org/",
         "asOf": "2026-09-23"
-      }
+      },
+      "platforms": "Windows · macOS · Linux"
     },
     {
       "id": "k3s",
@@ -593,7 +625,8 @@
         "label": "k3s",
         "url": "https://k3s.io/",
         "asOf": "2026-09-23"
-      }
+      },
+      "platforms": "Linux"
     },
     {
       "id": "cloudflare-r2",
@@ -611,7 +644,8 @@
         "label": "Cloudflare R2 pricing",
         "url": "https://developers.cloudflare.com/r2/pricing/",
         "asOf": "2026-09-23"
-      }
+      },
+      "platforms": "Hosted · browser / API / CLI"
     },
     {
       "id": "turso-free",
@@ -629,7 +663,8 @@
         "label": "Turso pricing",
         "url": "https://turso.tech/pricing",
         "asOf": "2026-09-23"
-      }
+      },
+      "platforms": "Hosted · browser / API / CLI"
     },
     {
       "id": "cockroach-basic",
@@ -647,7 +682,8 @@
         "label": "CockroachDB pricing",
         "url": "https://www.cockroachlabs.com/cockroachdb/pricing/",
         "asOf": "2026-09-23"
-      }
+      },
+      "platforms": "Hosted · browser / API / CLI"
     },
     {
       "id": "upstash-redis",
@@ -665,7 +701,8 @@
         "label": "Upstash Redis pricing",
         "url": "https://upstash.com/pricing/redis",
         "asOf": "2026-09-23"
-      }
+      },
+      "platforms": "Hosted · browser / API / CLI"
     },
     {
       "id": "power-bi-desktop",
@@ -683,7 +720,8 @@
         "label": "Power BI Desktop",
         "url": "https://learn.microsoft.com/en-us/power-bi/fundamentals/desktop-get-the-desktop",
         "asOf": "2026-09-23"
-      }
+      },
+      "platforms": "Windows"
     },
     {
       "id": "sql-server-developer",
@@ -701,7 +739,8 @@
         "label": "SQL Server downloads",
         "url": "https://www.microsoft.com/en-us/sql-server/sql-server-downloads",
         "asOf": "2026-09-23"
-      }
+      },
+      "platforms": "Windows · Linux · Docker"
     },
     {
       "id": "docker-personal",
@@ -719,7 +758,8 @@
         "label": "Docker Personal",
         "url": "https://www.docker.com/products/personal/",
         "asOf": "2026-09-23"
-      }
+      },
+      "platforms": "Windows · macOS · Linux"
     },
     {
       "id": "apache-spark-local",
@@ -737,7 +777,8 @@
         "label": "Apache Spark",
         "url": "https://spark.apache.org/",
         "asOf": "2026-09-23"
-      }
+      },
+      "platforms": "Windows · macOS · Linux"
     },
     {
       "id": "apache-kafka-local",
@@ -755,7 +796,8 @@
         "label": "Apache Kafka",
         "url": "https://kafka.apache.org/",
         "asOf": "2026-09-23"
-      }
+      },
+      "platforms": "Linux · macOS · Windows dev"
     },
     {
       "id": "postgresql-local",
@@ -773,7 +815,8 @@
         "label": "PostgreSQL",
         "url": "https://www.postgresql.org/",
         "asOf": "2026-09-23"
-      }
+      },
+      "platforms": "Windows · macOS · Linux"
     }
   ]
 }
