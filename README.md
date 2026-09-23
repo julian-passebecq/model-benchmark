@@ -19,6 +19,19 @@ The UI is a three-pane technical workspace:
 
 The visual language intentionally keeps the dense, dark benchmark feel of the reference material while adding a reusable application shell and provenance-aware records.
 
+## What changed in the data model
+
+The app now keeps volatile catalogs in dedicated source-of-truth files instead of duplicating them across dashboards:
+
+- `data/free-labs.json` — all hosted free tiers, trials, local/community tools and quotas;
+- `data/use-case-guides.json` — references free-lab service IDs to build practical “I need to…” stacks;
+- `data/runtime-lab.json` — Python / pandas / Polars / DuckDB / PySpark / Scala / Spark SQL execution profiles and benchmark recipes;
+- `data/serverless.json` — Lambda / Functions / Cloud Run / Workers / Container Apps comparison;
+- `data/releases.json` — current data-stack versions and release tracking;
+- `data/cloud.json` — cloud platform capabilities, query pricing, VM shapes and self-host baselines.
+
+`npm run validate:data` checks JSON validity, duplicate IDs, source metadata, use-case references and selected schema invariants before TypeScript/build CI runs.
+
 ## Data-first architecture
 
 All dashboard content lives in version-controlled JSON:
