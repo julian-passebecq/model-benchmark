@@ -1,9 +1,29 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import { CircleDollarSign, Gauge, ListFilter, ScatterChart } from "lucide-react";
-import { modelBenchmarks } from "../../lib/data";
-import type { InspectorRecord, ModelBenchmark } from "../../lib/types";
+import {
+  CircleDollarSign,
+  Clock3,
+  Gauge,
+  GitBranch,
+  ListFilter,
+  ScatterChart,
+  Timer,
+  Waypoints
+} from "lucide-react";
+import {
+  codingAgentFrontier,
+  codingAgentFrontierMeta,
+  modelBenchmarks,
+  terminalBenchEffort,
+  terminalBenchMeta
+} from "../../lib/data";
+import type {
+  CodingAgentFrontierPoint,
+  InspectorRecord,
+  ModelBenchmark,
+  TerminalBenchEffortPoint
+} from "../../lib/types";
 import { EmptyState, MetricCard, SectionHeader, ToggleGroup } from "../ui";
 
 const providerClass: Record<string, string> = {
@@ -11,7 +31,25 @@ const providerClass: Record<string, string> = {
   Anthropic: "provider-anthropic",
   DeepSeek: "provider-deepseek",
   Zhipu: "provider-zhipu",
-  xAI: "provider-xai"
+  xAI: "provider-xai",
+  Alibaba: "provider-alibaba"
+};
+
+const effortSeriesColors: Record<string, string> = {
+  "Opus 5.5": "#f26a35",
+  "Opus 5": "#f0a202",
+  "Fable 5.1": "#2fbd8a",
+  "GPT-6 Astra": "#8d8b85",
+  "GPT-5.6 Sol": "#d1d0c9"
+};
+
+const agentColors: Record<string, string> = {
+  OpenAI: "#7aa2f7",
+  Anthropic: "#f7a76c",
+  DeepSeek: "#e88bc5",
+  Zhipu: "#6dd6e8",
+  xAI: "#b7bbc4",
+  Alibaba: "#e2cf72"
 };
 
 function inspectModel(model: ModelBenchmark): InspectorRecord {
@@ -28,6 +66,48 @@ function inspectModel(model: ModelBenchmark): InspectorRecord {
     tags: [model.family, model.current ? "current" : "historical", model.dataQuality],
     source: { label: model.sourceLabel, url: model.sourceUrl, asOf: model.asOf },
     note: model.note ?? "Benchmark results are workload-specific. Compare models on the same harness and task set before drawing conclusions."
+  };
+}
+
+function inspectTerminalPoint(point: TerminalBenchEffortPoint): InspectorRecord {
+  return {
+    eyebrow: "TERMINAL-BENCH 4.0",
+    title: point.series + " · " + point.effort,
+    description: "Agentic terminal coding by effort level",
+    stats: [
+      { label: "Score", value: point.score.toFixed(1) + "%" },
+      { label: "Cost / attempt", value: "$" + point.cost.toFixed(point.cost < 2 ? 2 : 1) },
+      { label: "Effort", value: point.effort },
+      { label: "Value type", value: point.exact ? "published headline score" : "chart transcription" }
+    ],
+    tags: [point.provider, point.series, point.exact ? "headline score" : "approximate cost/point"],
+    source: {
+      label: terminalBenchMeta.sourceLabel,
+      url: terminalBenchMeta.sourceUrl,
+      asOf: terminalBenchMeta.asOf
+    },
+    note: terminalBenchMeta.note
+  };
+}
+
+function inspectAgentPoint(point: CodingAgentFrontierPoint): InspectorRecord {
+  return {
+    eyebrow: "CODING AGENT INDEX",
+    title: point.agent + " · " + point.model,
+    description: codingAgentFrontierMeta.benchmark,
+    stats: [
+      { label: "Index", value: String(point.score) },
+      { label: "Cost / task", value: "$" + point.cost.toFixed(2) },
+      { label: "Time / task", value: point.timeMinutes.toFixed(1) + " min" },
+      { label: "Tokens / task", value: point.tokensMillions.toFixed(1) + "M" }
+    ],
+    tags: [point.provider, point.agent, point.frontier ? "cost-quality frontier" : "comparison"],
+    source: {
+      label: codingAgentFrontierMeta.sourceLabel,
+      url: codingAgentFrontierMeta.sourceUrl,
+      asOf: codingAgentFrontierMeta.asOf
+    },
+    note: codingAgentFrontierMeta.note
   };
 }
 
@@ -120,7 +200,192 @@ function ModelScatter({
   );
 }
 
-export function ModelsDashboard({
+function TerminalBenchChart({
+  points,
+  onInspect
+}: {
+  points: TerminalBenchEffortPoint[];
+  onInspect: (record: InspectorRecord) => void;
+}) {
+  const width = 980;
+  const height = 440;
+  const pad = { left: 66, right: 24, top: 35, bottom: 58 };
+  const minCost = 1;
+  const maxCost = 22;
+  const xTicks = [1, 2, 5, 10, 20];
+  const yTicks = [0, 10, 20, 30, 40, 50, 60, 70];
+
+  const x = (cost: number) => {
+    const lo = Math.log10(minCost);
+    const hi = Math.log10(maxCost);
+    return pad.left + ((Math.log10(cost) - lo) / (hi - lo)) * (width - pad.left - pad.right);
+  };
+  const y = (score: number) =>
+    pad.top + ((70 - score) / 70) * (height - pad.top - pad.bottom);
+
+  const series = Array.from(new Set(points.map((item) => item.series)));
+
+  return (
+    <div className="chart-shell terminal-bench-shell">
+      <div className="chart-legend">
+        {series.map((name) => (
+          <span key={name}>
+            <i style={{ background: effortSeriesColors[name] ?? "#9aa4b1" }} />
+            {name}
+          </span>
+        ))}
+      </div>
+      <svg className="scatter-svg terminal-bench-svg" viewBox={"0 0 " + width + " " + height} role="img" aria-label="Terminal-Bench 4.0 score by cost and effort level">
+        <rect x="0" y="0" width={width} height={height} rx="12" className="chart-bg" />
+        {yTicks.map((tick) => (
+          <g key={tick}>
+            <line x1={pad.left} x2={width - pad.right} y1={y(tick)} y2={y(tick)} className="grid-line" />
+            <text x={pad.left - 11} y={y(tick) + 4} textAnchor="end" className="axis-text">{tick}</text>
+          </g>
+        ))}
+        {xTicks.map((tick) => (
+          <g key={tick}>
+            <line x1={x(tick)} x2={x(tick)} y1={pad.top} y2={height - pad.bottom} className="grid-line vertical" />
+            <text x={x(tick)} y={height - pad.bottom + 24} textAnchor="middle" className="axis-text">{tick}</text>
+          </g>
+        ))}
+
+        {series.map((name) => {
+          const rows = points.filter((item) => item.series === name).toSorted((a, b) => a.cost - b.cost);
+          const coords = rows.map((item) => x(item.cost) + "," + y(item.score)).join(" ");
+          return (
+            <g key={name}>
+              <polyline points={coords} fill="none" stroke={effortSeriesColors[name] ?? "#9aa4b1"} strokeWidth="1.8" />
+              {rows.map((item) => (
+                <g
+                  key={item.id}
+                  className="benchmark-curve-point"
+                  role="button"
+                  tabIndex={0}
+                  onClick={() => onInspect(inspectTerminalPoint(item))}
+                  onKeyDown={(event) => {
+                    if (event.key === "Enter" || event.key === " ") onInspect(inspectTerminalPoint(item));
+                  }}
+                >
+                  <circle
+                    cx={x(item.cost)}
+                    cy={y(item.score)}
+                    r={item.exact ? 6.7 : 5.5}
+                    fill={effortSeriesColors[name] ?? "#9aa4b1"}
+                    stroke="#0b0e12"
+                    strokeWidth="1.5"
+                  />
+                  {name === "Opus 5.5" ? (
+                    <text x={x(item.cost)} y={y(item.score) - 11} textAnchor="middle" className="curve-effort-label">{item.effort === "medium" ? "med" : item.effort}</text>
+                  ) : null}
+                </g>
+              ))}
+            </g>
+          );
+        })}
+
+        <text x={18} y={height / 2} transform={"rotate(-90 18 " + height / 2 + ")"} className="axis-title">
+          TERMINAL-BENCH SCORE (%)
+        </text>
+        <text x={width / 2} y={height - 10} textAnchor="middle" className="axis-title">
+          COST PER ATTEMPT (USD, LOG SCALE)
+        </text>
+      </svg>
+    </div>
+  );
+}
+
+function CodingAgentFrontierChart({
+  points,
+  onInspect
+}: {
+  points: CodingAgentFrontierPoint[];
+  onInspect: (record: InspectorRecord) => void;
+}) {
+  const width = 980;
+  const height = 440;
+  const pad = { left: 66, right: 26, top: 30, bottom: 56 };
+  const xMax = 14;
+  const yMin = 35;
+  const yMax = 66;
+  const xTicks = [0, 2, 4, 6, 8, 10, 12, 14];
+  const yTicks = [35, 40, 45, 50, 55, 60, 65];
+
+  const x = (cost: number) => pad.left + (cost / xMax) * (width - pad.left - pad.right);
+  const y = (score: number) => pad.top + ((yMax - score) / (yMax - yMin)) * (height - pad.top - pad.bottom);
+
+  const frontier = points.filter((item) => item.frontier).toSorted((a, b) => a.cost - b.cost);
+  const frontierCoords = frontier.map((item) => x(item.cost) + "," + y(item.score)).join(" ");
+
+  return (
+    <div className="chart-shell">
+      <svg className="scatter-svg coding-frontier-svg" viewBox={"0 0 " + width + " " + height} role="img" aria-label="Coding Agent Index versus average API cost per task">
+        <rect x="0" y="0" width={width} height={height} rx="12" className="chart-bg" />
+        <rect
+          x={x(0)}
+          y={y(65)}
+          width={x(7.6) - x(0)}
+          height={y(50) - y(65)}
+          className="frontier-zone"
+          rx="8"
+        />
+        <text x={x(0.45)} y={y(63.8)} className="frontier-zone-label">HIGH QUALITY / LOWER COST ZONE</text>
+
+        {yTicks.map((tick) => (
+          <g key={tick}>
+            <line x1={pad.left} x2={width - pad.right} y1={y(tick)} y2={y(tick)} className="grid-line" />
+            <text x={pad.left - 11} y={y(tick) + 4} textAnchor="end" className="axis-text">{tick}</text>
+          </g>
+        ))}
+        {xTicks.map((tick) => (
+          <g key={tick}>
+            <line x1={x(tick)} x2={x(tick)} y1={pad.top} y2={height - pad.bottom} className="grid-line vertical" />
+            <text x={x(tick)} y={height - pad.bottom + 24} textAnchor="middle" className="axis-text">{"$" + tick}</text>
+          </g>
+        ))}
+
+        <polyline points={frontierCoords} fill="none" className="pareto-line" />
+
+        {points.map((item) => {
+          const color = agentColors[item.provider] ?? "#9aa4b1";
+          const labelRight = item.cost < 10;
+          return (
+            <g
+              key={item.id}
+              className="agent-frontier-point"
+              role="button"
+              tabIndex={0}
+              onClick={() => onInspect(inspectAgentPoint(item))}
+              onKeyDown={(event) => {
+                if (event.key === "Enter" || event.key === " ") onInspect(inspectAgentPoint(item));
+              }}
+            >
+              <circle cx={x(item.cost)} cy={y(item.score)} r={item.frontier ? 6.5 : 5.2} fill={color} stroke="#0b0e12" strokeWidth="1.5" />
+              {item.frontier ? <circle cx={x(item.cost)} cy={y(item.score)} r="10" fill="none" stroke={color} strokeOpacity="0.35" /> : null}
+              <text
+                x={labelRight ? x(item.cost) + 9 : x(item.cost) - 9}
+                y={y(item.score) - 8}
+                textAnchor={labelRight ? "start" : "end"}
+                className="agent-point-label"
+              >
+                {item.agent + " · " + item.model}
+              </text>
+            </g>
+          );
+        })}
+
+        <text x={18} y={height / 2} transform={"rotate(-90 18 " + height / 2 + ")"} className="axis-title">
+          ARTIFICIAL ANALYSIS CODING AGENT INDEX
+        </text>
+        <text x={width / 2} y={height - 10} textAnchor="middle" className="axis-title">
+          AVERAGE API COST PER TASK (USD)
+        </text>
+      </svg>
+    </div>
+  );
+}
+
+function BrowserUseView({
   query,
   onInspect
 }: {
@@ -172,7 +437,7 @@ export function ModelsDashboard({
   };
 
   return (
-    <div className="dashboard-grid">
+    <>
       <section className="metric-strip four">
         <MetricCard label="VISIBLE MODELS" value={String(filtered.length)} sub={String(currentModels.length) + " marked current"} />
         <MetricCard label="TOP SCORE" value={bestScore ? bestScore.score.toFixed(1) : "—"} sub={bestScore?.label ?? "No match"} />
@@ -181,7 +446,7 @@ export function ModelsDashboard({
       </section>
 
       <section className="panel span-8">
-        <SectionHeader eyebrow="BENCHMARK MAP" title="Quality vs recorded task cost" meta="ring = current generation" />
+        <SectionHeader eyebrow="BROWSER USE BENCHMARK V2" title="Quality vs recorded task cost" meta="ring = current generation" />
         <div className="toolbar-row">
           <ToggleGroup value={view} values={["Scatter", "Table", "Efficiency"]} onChange={setView} label="Model view" />
           <select className="compact-select" value={provider} onChange={(event) => setProvider(event.target.value)} aria-label="Filter by provider">
@@ -258,34 +523,10 @@ export function ModelsDashboard({
       <aside className="panel span-4">
         <SectionHeader eyebrow="READ THIS FIRST" title="What the chart can and cannot tell you" />
         <div className="knowledge-stack">
-          <article>
-            <ScatterChart size={18} />
-            <div>
-              <strong>Same benchmark first</strong>
-              <p>Agent cost and score are only directly comparable when harness, task set and run policy are aligned.</p>
-            </div>
-          </article>
-          <article>
-            <CircleDollarSign size={18} />
-            <div>
-              <strong>Cost is workload-shaped</strong>
-              <p>Token prices alone do not predict agent cost. Reasoning effort, tool calls, retries and latency change total task spend.</p>
-            </div>
-          </article>
-          <article>
-            <Gauge size={18} />
-            <div>
-              <strong>Frontier ≠ always efficient</strong>
-              <p>The dashboard keeps score, absolute spend and score-per-dollar separate so you can choose for the job instead of chasing one ranking.</p>
-            </div>
-          </article>
-          <article>
-            <ListFilter size={18} />
-            <div>
-              <strong>JSON provenance</strong>
-              <p>Each point records source, date and data-quality type. Future token-pricing data can be added without replacing benchmark evidence.</p>
-            </div>
-          </article>
+          <article><ScatterChart size={18} /><div><strong>Same benchmark first</strong><p>Agent cost and score are only directly comparable when harness, task set and run policy are aligned.</p></div></article>
+          <article><CircleDollarSign size={18} /><div><strong>Cost is workload-shaped</strong><p>Token prices alone do not predict agent cost. Reasoning effort, tool calls, retries and latency change total task spend.</p></div></article>
+          <article><Gauge size={18} /><div><strong>Frontier ≠ always efficient</strong><p>The dashboard keeps score, absolute spend and score-per-dollar separate so you can choose for the job instead of chasing one ranking.</p></div></article>
+          <article><ListFilter size={18} /><div><strong>JSON provenance</strong><p>Each point records source, date and data-quality type. Token-pricing data can be added without replacing benchmark evidence.</p></div></article>
         </div>
       </aside>
 
@@ -320,6 +561,168 @@ export function ModelsDashboard({
           })}
         </div>
       </section>
+    </>
+  );
+}
+
+function TerminalBenchView({
+  query,
+  onInspect
+}: {
+  query: string;
+  onInspect: (record: InspectorRecord) => void;
+}) {
+  const q = query.trim().toLowerCase();
+  const points = terminalBenchEffort.filter((item) => !q || JSON.stringify(item).toLowerCase().includes(q));
+  const exactScores = points.filter((item) => item.exact);
+  const best = exactScores.toSorted((a, b) => b.score - a.score)[0];
+  const cheapest = points.toSorted((a, b) => a.cost - b.cost)[0];
+  const mediumOpus = points.find((item) => item.series === "Opus 5.5" && item.effort === "medium");
+
+  return (
+    <>
+      <section className="metric-strip four">
+        <MetricCard label="EFFORT POINTS" value={String(points.length)} sub="low → max across five model families" />
+        <MetricCard label="PUBLISHED TOP" value={best ? best.score.toFixed(1) + "%" : "—"} sub={best ? best.series + " · " + best.effort : "No match"} />
+        <MetricCard label="LOWEST ATTEMPT COST" value={cheapest ? "$" + cheapest.cost.toFixed(2) : "—"} sub={cheapest ? cheapest.series + " · " + cheapest.effort : "No match"} />
+        <MetricCard label="OPUS 5.5 MEDIUM" value={mediumOpus ? mediumOpus.score.toFixed(1) + "%" : "—"} sub={mediumOpus ? "≈ $" + mediumOpus.cost.toFixed(2) + " / attempt" : "Filtered out"} />
+      </section>
+
+      <section className="panel span-9">
+        <SectionHeader eyebrow="TERMINAL-BENCH 4.0" title="Agentic terminal coding by effort level" meta="intermediate chart points are approximate transcriptions" />
+        {points.length ? <TerminalBenchChart points={points} onInspect={onInspect} /> : <EmptyState query={query} />}
+      </section>
+
+      <aside className="panel span-3">
+        <SectionHeader eyebrow="WHY THIS VIEW MATTERS" title="Reasoning effort has a price curve" />
+        <div className="knowledge-stack">
+          <article><Gauge size={18} /><div><strong>Effort is not linear</strong><p>Moving from low to medium can buy a large quality jump, while xhigh to max can flatten or even regress.</p></div></article>
+          <article><CircleDollarSign size={18} /><div><strong>Default can be efficient</strong><p>Anthropic reports Opus 5.5 medium near 58% at roughly $3/attempt, close to Astra’s best band at substantially lower cost.</p></div></article>
+          <article><GitBranch size={18} /><div><strong>Keep the whole curve</strong><p>One max-effort leaderboard point hides the practical budget/performance tradeoff developers actually choose.</p></div></article>
+          <article><ListFilter size={18} /><div><strong>Evidence is marked</strong><p>Headline scores use published figures. Intermediate point coordinates are stored as chart-reading estimates.</p></div></article>
+        </div>
+      </aside>
+
+      <section className="panel span-12">
+        <SectionHeader eyebrow="EFFORT MATRIX" title="Compare every effort level without reading the plot" />
+        <div className="data-table-wrap">
+          <table className="data-table feature-table">
+            <thead>
+              <tr><th>Model</th><th>Effort</th><th>Cost/attempt</th><th>Score</th><th>Evidence</th></tr>
+            </thead>
+            <tbody>
+              {points.toSorted((a, b) => a.series.localeCompare(b.series) || a.cost - b.cost).map((item) => (
+                <tr key={item.id} onClick={() => onInspect(inspectTerminalPoint(item))}>
+                  <td><strong>{item.series}</strong></td>
+                  <td>{item.effort}</td>
+                  <td>{"$" + item.cost.toFixed(item.cost < 2 ? 2 : 1)}</td>
+                  <td>{item.score.toFixed(1) + "%"}</td>
+                  <td>{item.exact ? "published headline score" : "chart transcription"}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </section>
+    </>
+  );
+}
+
+function CodingFrontierView({
+  query,
+  onInspect
+}: {
+  query: string;
+  onInspect: (record: InspectorRecord) => void;
+}) {
+  const q = query.trim().toLowerCase();
+  const points = codingAgentFrontier.filter((item) => !q || JSON.stringify(item).toLowerCase().includes(q));
+  const best = points.toSorted((a, b) => b.score - a.score)[0];
+  const cheapest = points.toSorted((a, b) => a.cost - b.cost)[0];
+  const fastest = points.toSorted((a, b) => a.timeMinutes - b.timeMinutes)[0];
+  const frontierCount = points.filter((item) => item.frontier).length;
+
+  return (
+    <>
+      <section className="metric-strip four">
+        <MetricCard label="AGENT CONFIGS" value={String(points.length)} sub="harness + model combinations" />
+        <MetricCard label="TOP INDEX" value={best ? String(best.score) : "—"} sub={best ? best.agent + " · " + best.model : "No match"} />
+        <MetricCard label="LOWEST COST" value={cheapest ? "$" + cheapest.cost.toFixed(2) : "—"} sub={cheapest ? cheapest.agent + " · " + cheapest.model : "No match"} />
+        <MetricCard label="PARETO POINTS" value={String(frontierCount)} sub={fastest ? "fastest visible: " + fastest.timeMinutes.toFixed(1) + " min" : "No match"} />
+      </section>
+
+      <section className="panel span-9">
+        <SectionHeader eyebrow="ARTIFICIAL ANALYSIS · V1.5" title="Coding agent quality / cost frontier" meta="current source-backed data" />
+        {points.length ? <CodingAgentFrontierChart points={points} onInspect={onInspect} /> : <EmptyState query={query} />}
+      </section>
+
+      <aside className="panel span-3">
+        <SectionHeader eyebrow="AGENT ECONOMICS" title="Model alone is not the product" />
+        <div className="knowledge-stack">
+          <article><Waypoints size={18} /><div><strong>Harness matters</strong><p>Codex, Claude Code, OpenCode and Grok Build can produce different cost, token and quality outcomes with different models.</p></div></article>
+          <article><Timer size={18} /><div><strong>Time is another axis</strong><p>A cheaper agent can still be expensive in human workflow terms if tasks run much longer or need more intervention.</p></div></article>
+          <article><Clock3 size={18} /><div><strong>Tokens are not cost</strong><p>Cache pricing and provider rates mean two agents using similar token counts can have materially different task cost.</p></div></article>
+          <article><ScatterChart size={18} /><div><strong>Frontier moves</strong><p>The dashed line is a snapshot, not a permanent winner. Store each dated refresh instead of overwriting history later.</p></div></article>
+        </div>
+      </aside>
+
+      <section className="panel span-12">
+        <SectionHeader eyebrow="AGENT TABLE" title="Index, cost, wall time and token usage" />
+        <div className="data-table-wrap">
+          <table className="data-table feature-table">
+            <thead>
+              <tr><th>Agent</th><th>Model</th><th>Index</th><th>Cost/task</th><th>Time/task</th><th>Tokens/task</th><th>Frontier</th></tr>
+            </thead>
+            <tbody>
+              {points.toSorted((a, b) => b.score - a.score || a.cost - b.cost).map((item) => (
+                <tr key={item.id} onClick={() => onInspect(inspectAgentPoint(item))}>
+                  <td><strong>{item.agent}</strong></td>
+                  <td>{item.model}</td>
+                  <td>{item.score}</td>
+                  <td>{"$" + item.cost.toFixed(2)}</td>
+                  <td>{item.timeMinutes.toFixed(1) + "m"}</td>
+                  <td>{item.tokensMillions.toFixed(1) + "M"}</td>
+                  <td>{item.frontier ? "✓" : "—"}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </section>
+    </>
+  );
+}
+
+export function ModelsDashboard({
+  query,
+  onInspect
+}: {
+  query: string;
+  onInspect: (record: InspectorRecord) => void;
+}) {
+  const [benchmarkView, setBenchmarkView] = useState("Browser Use v2");
+
+  return (
+    <div className="dashboard-grid">
+      <section className="panel span-12 benchmark-switcher">
+        <div className="split-header benchmark-switcher-inner">
+          <SectionHeader
+            eyebrow="CODING / AGENT BENCHMARKS"
+            title="Switch benchmark without mixing incompatible scores"
+            meta="same shell · different evidence"
+          />
+          <ToggleGroup
+            value={benchmarkView}
+            values={["Browser Use v2", "Terminal-Bench 4.0", "Coding Agent Index"]}
+            onChange={setBenchmarkView}
+            label="Benchmark dataset"
+          />
+        </div>
+      </section>
+
+      {benchmarkView === "Browser Use v2" ? <BrowserUseView query={query} onInspect={onInspect} /> : null}
+      {benchmarkView === "Terminal-Bench 4.0" ? <TerminalBenchView query={query} onInspect={onInspect} /> : null}
+      {benchmarkView === "Coding Agent Index" ? <CodingFrontierView query={query} onInspect={onInspect} /> : null}
     </div>
   );
 }
