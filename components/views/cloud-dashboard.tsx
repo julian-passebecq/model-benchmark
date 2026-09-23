@@ -548,6 +548,8 @@ export function CloudDashboard({
               </tbody>
             </table>
           </div>
+        ) : null}
+
         {view === "Use cases" && guides.length ? (
           <div className="use-case-layout">
             <div className="use-case-guide-grid">
@@ -621,8 +623,6 @@ export function CloudDashboard({
               </div>
             ) : null}
           </div>
-        ) : null}
-
         ) : null}
       </section>
 
