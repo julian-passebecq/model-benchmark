@@ -117,3 +117,20 @@ Use one canonical JSON source for each volatile fact:
 - task-first free-stack recipes → `use-case-guides.json`
 
 Views should derive summaries from these records instead of copying numbers into React components.
+
+
+## releases.json
+
+Dated release/version tracker for the languages and data technologies shown in the Data dashboard.
+
+Each row stores:
+
+- latest stable version and release date;
+- status / LTS context;
+- production baseline;
+- next preview or scheduled major release when relevant;
+- concise release highlights;
+- compatibility/migration caveat;
+- official source and verification date.
+
+Keep this dataset descriptive. A newer version is not automatically a better production choice; the dashboard should show the current release and the conservative baseline separately.
