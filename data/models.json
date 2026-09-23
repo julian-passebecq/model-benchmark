@@ -22,7 +22,8 @@
       "cachedInputUsdPer1M": 0.01,
       "pricingSourceLabel": "OpenAI API pricing",
       "pricingSourceUrl": "https://developers.openai.com/api/docs/models/gpt-6-luna",
-      "pricingAsOf": "2026-09-23"
+      "pricingAsOf": "2026-09-23",
+      "pricingContext": "Standard/default short-context list price; long-context/other processing tiers can differ"
     },
     {
       "id": "gpt6-luna-none",
@@ -45,7 +46,8 @@
       "cachedInputUsdPer1M": 0.01,
       "pricingSourceLabel": "OpenAI API pricing",
       "pricingSourceUrl": "https://developers.openai.com/api/docs/models/gpt-6-luna",
-      "pricingAsOf": "2026-09-23"
+      "pricingAsOf": "2026-09-23",
+      "pricingContext": "Standard/default short-context list price; long-context/other processing tiers can differ"
     },
     {
       "id": "gpt6-luna-medium",
@@ -68,7 +70,8 @@
       "cachedInputUsdPer1M": 0.01,
       "pricingSourceLabel": "OpenAI API pricing",
       "pricingSourceUrl": "https://developers.openai.com/api/docs/models/gpt-6-luna",
-      "pricingAsOf": "2026-09-23"
+      "pricingAsOf": "2026-09-23",
+      "pricingContext": "Standard/default short-context list price; long-context/other processing tiers can differ"
     },
     {
       "id": "gpt6-luna-high",
@@ -91,7 +94,8 @@
       "cachedInputUsdPer1M": 0.01,
       "pricingSourceLabel": "OpenAI API pricing",
       "pricingSourceUrl": "https://developers.openai.com/api/docs/models/gpt-6-luna",
-      "pricingAsOf": "2026-09-23"
+      "pricingAsOf": "2026-09-23",
+      "pricingContext": "Standard/default short-context list price; long-context/other processing tiers can differ"
     },
     {
       "id": "gpt6-luna-xhigh",
@@ -114,7 +118,8 @@
       "cachedInputUsdPer1M": 0.01,
       "pricingSourceLabel": "OpenAI API pricing",
       "pricingSourceUrl": "https://developers.openai.com/api/docs/models/gpt-6-luna",
-      "pricingAsOf": "2026-09-23"
+      "pricingAsOf": "2026-09-23",
+      "pricingContext": "Standard/default short-context list price; long-context/other processing tiers can differ"
     },
     {
       "id": "gpt6-sol-medium",
@@ -137,7 +142,8 @@
       "cachedInputUsdPer1M": 0.2,
       "pricingSourceLabel": "OpenAI API pricing",
       "pricingSourceUrl": "https://developers.openai.com/api/docs/pricing",
-      "pricingAsOf": "2026-09-23"
+      "pricingAsOf": "2026-09-23",
+      "pricingContext": "Standard/default short-context list price; long-context/other processing tiers can differ"
     },
     {
       "id": "gpt6-astra-medium",
@@ -160,13 +166,14 @@
       "cachedInputUsdPer1M": 1,
       "pricingSourceLabel": "OpenAI API pricing",
       "pricingSourceUrl": "https://developers.openai.com/api/docs/models/gpt-6-astra",
-      "pricingAsOf": "2026-09-23"
+      "pricingAsOf": "2026-09-23",
+      "pricingContext": "Standard/default short-context list price; long-context/other processing tiers can differ"
     },
     {
       "id": "opus55",
       "label": "Claude Opus 5.5",
       "provider": "Anthropic",
-      "family": "Claude Opus",
+      "family": "Claude Opus 5.5",
       "surface": "Claude Code / agent",
       "effort": "default",
       "score": 59.3,
@@ -183,7 +190,8 @@
       "cachedInputUsdPer1M": 0.2,
       "pricingSourceLabel": "Anthropic Claude Opus 5.5 pricing",
       "pricingSourceUrl": "https://www.anthropic.com/claude-opus-5-5",
-      "pricingAsOf": "2026-09-23"
+      "pricingAsOf": "2026-09-23",
+      "pricingContext": "Standard global API list price"
     },
     {
       "id": "gpt56-luna-xhigh",
@@ -206,7 +214,8 @@
       "cachedInputUsdPer1M": null,
       "pricingSourceLabel": "OpenAI API platform pricing",
       "pricingSourceUrl": "https://openai.com/api/",
-      "pricingAsOf": "2026-09-23"
+      "pricingAsOf": "2026-09-23",
+      "pricingContext": "API list-price snapshot; promotional/processing-tier rules may apply"
     },
     {
       "id": "gpt56-sol-xhigh",
@@ -229,7 +238,8 @@
       "cachedInputUsdPer1M": null,
       "pricingSourceLabel": "OpenAI API platform pricing",
       "pricingSourceUrl": "https://openai.com/api/",
-      "pricingAsOf": "2026-09-23"
+      "pricingAsOf": "2026-09-23",
+      "pricingContext": "API list-price snapshot; promotional/processing-tier rules may apply"
     },
     {
       "id": "gpt55",
