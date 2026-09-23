@@ -19,6 +19,7 @@ import {
   dataEngines,
   dataFormats,
   languageRuntimes,
+  queryScenarios,
   runtimeBenchmarkTemplates,
   runtimeProfiles,
   runtimeSummary
@@ -28,6 +29,7 @@ import type {
   DataFormat,
   InspectorRecord,
   LanguageRuntime,
+  QueryScenario,
   RuntimeBenchmarkTemplate,
   RuntimeProfile
 } from "../../lib/types";
@@ -102,6 +104,25 @@ function runtimeInspector(item: RuntimeProfile): InspectorRecord {
   };
 }
 
+function scenarioInspector(item: QueryScenario): InspectorRecord {
+  return {
+    eyebrow: "QUERY / SCALE SCENARIO",
+    title: item.name,
+    description: item.notes,
+    stats: [
+      { label: "Engine", value: item.engine },
+      { label: "Language", value: item.language },
+      { label: "Scale", value: item.scale },
+      { label: "Operation", value: item.operation },
+      { label: "Latency class", value: item.latencyClass },
+      { label: "Memory model", value: item.memoryModel },
+      { label: "Distributed", value: item.distributed ? "Yes" : "No" }
+    ],
+    tags: [item.engine, item.language, item.distributed ? "distributed" : "single-node"],
+    note: "These rows are engineering scenarios/heuristics, not benchmark results. Measure on your own data before treating a crossover point as a rule."
+  };
+}
+
 function templateInspector(item: RuntimeBenchmarkTemplate): InspectorRecord {
   return {
     eyebrow: "REPRODUCIBLE BENCHMARK RECIPE",
@@ -153,12 +174,16 @@ export function DataDashboard({
     () => runtimeBenchmarkTemplates.filter((item) => !q || JSON.stringify(item).toLowerCase().includes(q)),
     [q]
   );
+  const scenarios = useMemo(
+    () => queryScenarios.filter((item) => !q || JSON.stringify(item).toLowerCase().includes(q)),
+    [q]
+  );
 
   const activeCount =
     view === "Engines" ? engines.length :
     view === "Formats" ? formats.length :
     view === "Benchmarks" ? runs.length :
-    view === "Runtime lab" ? runtimes.length + recipes.length :
+    view === "Runtime lab" ? runtimes.length + recipes.length + scenarios.length :
     languages.length;
 
   return (
@@ -167,8 +192,8 @@ export function DataDashboard({
         <section className="metric-strip four">
           <MetricCard label="RUNTIME PROFILES" value={String(runtimeProfiles.length)} sub="pandas → Spark SQL" />
           <MetricCard label="BENCHMARK RECIPES" value={String(runtimeBenchmarkTemplates.length)} sub="1 GB local → 1 TB distributed" />
+          <MetricCard label="CROSSOVER SCENARIOS" value={String(queryScenarios.length)} sub="single node → distributed" />
           <MetricCard label="SPARK APIS" value="3" sub="PySpark · Scala · SQL" />
-          <MetricCard label="MEASURED RESULTS" value="0" sub="recipes first; no invented timings" />
         </section>
       ) : (
         <section className="metric-strip four">
@@ -321,6 +346,45 @@ export function DataDashboard({
                       </dl>
                     </button>
                   ))}
+                </div>
+              </div>
+            ) : null}
+
+            {scenarios.length ? (
+              <div>
+                <SectionHeader eyebrow="CROSSOVER HEURISTICS" title="Which execution model fits the scale?" meta="scenarios, not hard limits" />
+                <div className="data-table-wrap">
+                  <table className="data-table feature-table crossover-table">
+                    <thead>
+                      <tr>
+                        <th>Scenario</th>
+                        <th>Engine</th>
+                        <th>Language</th>
+                        <th>Scale</th>
+                        <th>Operation</th>
+                        <th>Latency class</th>
+                        <th>Memory / execution model</th>
+                        <th>Distributed</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {scenarios.map((item) => (
+                        <tr key={item.id} onClick={() => onInspect(scenarioInspector(item))}>
+                          <td><strong>{item.name}</strong></td>
+                          <td>{item.engine}</td>
+                          <td>{item.language}</td>
+                          <td>{item.scale}</td>
+                          <td>{item.operation}</td>
+                          <td>{item.latencyClass}</td>
+                          <td>{item.memoryModel}</td>
+                          <td>{item.distributed ? "✓" : "—"}</td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+                <div className="query-price-note">
+                  Treat the scale column as a learning guide only. Hardware, concurrency, file layout, compression, selectivity, skew and network can move the crossover by orders of magnitude.
                 </div>
               </div>
             ) : null}
