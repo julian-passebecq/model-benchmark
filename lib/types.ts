@@ -185,3 +185,34 @@ export type EvolutionItem = {
   description: string;
   source: SourceRef;
 };
+
+
+export type TerminalBenchEffortPoint = {
+  id: string;
+  series: string;
+  provider: string;
+  effort: "low" | "medium" | "high" | "xhigh" | "max";
+  cost: number;
+  score: number;
+  exact: boolean;
+};
+
+export type CodingAgentFrontierPoint = {
+  id: string;
+  agent: string;
+  model: string;
+  provider: string;
+  cost: number;
+  score: number;
+  timeMinutes: number;
+  tokensMillions: number;
+  frontier: boolean;
+};
+
+export type BenchmarkMeta = {
+  benchmark: string;
+  sourceLabel: string;
+  sourceUrl: string;
+  asOf: string;
+  note: string;
+};
