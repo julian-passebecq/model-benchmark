@@ -377,3 +377,14 @@ export type TechnologyRelease = {
   compatibility: string;
   source: SourceRef;
 };
+
+
+export type DataStackLayer = {
+  id: string;
+  order: number;
+  layer: string;
+  question: string;
+  examples: string[];
+  concepts: string[];
+  note: string;
+};
