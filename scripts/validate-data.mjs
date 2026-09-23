@@ -75,6 +75,22 @@ for (const file of files) {
 
   validateTree(file, parsed);
 
+  if (file === "models.json" && Array.isArray(parsed.benchmarks)) {
+    for (let index = 0; index < parsed.benchmarks.length; index += 1) {
+      const item = parsed.benchmarks[index];
+      const location = "$.benchmarks[" + index + "]";
+      const hasTokenPrice = item.inputUsdPer1M !== null || item.outputUsdPer1M !== null;
+      if (hasTokenPrice) {
+        if (typeof item.inputUsdPer1M !== "number" || item.inputUsdPer1M < 0) fail(file, location + ".inputUsdPer1M", "priced records require a non-negative input rate");
+        if (typeof item.outputUsdPer1M !== "number" || item.outputUsdPer1M < 0) fail(file, location + ".outputUsdPer1M", "priced records require a non-negative output rate");
+        if (item.cachedInputUsdPer1M != null && (typeof item.cachedInputUsdPer1M !== "number" || item.cachedInputUsdPer1M < 0)) fail(file, location + ".cachedInputUsdPer1M", "cached input rate must be non-negative or null");
+        if (typeof item.pricingSourceUrl !== "string" || !/^https?:\/\//.test(item.pricingSourceUrl)) fail(file, location + ".pricingSourceUrl", "priced records require an official pricing source URL");
+        if (typeof item.pricingSourceLabel !== "string" || item.pricingSourceLabel.trim() === "") fail(file, location + ".pricingSourceLabel", "priced records require a pricing source label");
+        if (typeof item.pricingAsOf !== "string" || !isIsoDate(item.pricingAsOf)) fail(file, location + ".pricingAsOf", "priced records require YYYY-MM-DD pricingAsOf");
+      }
+    }
+  }
+
   if (file === "cloud.json" && Array.isArray(parsed.platforms)) {
     const freeLabsPath = path.join(dataDir, "free-labs.json");
     let knownServices = new Set();
