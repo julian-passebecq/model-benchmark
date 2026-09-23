@@ -1026,6 +1026,44 @@
         "url": "https://www.anaconda.com/pricing",
         "asOf": "2026-09-23"
       }
+    },
+    {
+      "id": "backblaze-b2-free",
+      "name": "Backblaze B2",
+      "provider": "Backblaze",
+      "category": "Object storage",
+      "tierType": "true-free",
+      "duration": "Ongoing monthly free allowance",
+      "cardRequired": "Backblaze account",
+      "quota": "First 10 GB storage free; Class A/B/C API calls are free; egress up to 3x average monthly storage is free",
+      "goodFor": "S3-compatible object storage, backups, Parquet files and low-cost data-lake experiments",
+      "limits": "Storage above 10 GB and egress beyond included/partner allowances are billed; transaction classes have current pricing rules",
+      "commercialUse": "Allowed subject to Backblaze terms",
+      "platforms": "Hosted · S3-compatible API / CLI / SDK",
+      "source": {
+        "label": "Backblaze B2 pricing",
+        "url": "https://www.backblaze.com/cloud-storage/pricing",
+        "asOf": "2026-09-23"
+      }
+    },
+    {
+      "id": "cloudflare-r2-data-catalog",
+      "name": "Cloudflare R2 Data Catalog",
+      "provider": "Cloudflare",
+      "category": "Lakehouse / catalog",
+      "tierType": "true-free",
+      "duration": "Ongoing monthly included usage",
+      "cardRequired": "Cloudflare account",
+      "quota": "1M catalog operations/month + 10 GB compaction data/month + 1M compaction objects/month included",
+      "goodFor": "Apache Iceberg REST catalog labs on R2, open-table metadata and small lakehouse experiments",
+      "limits": "R2 storage/operations and R2 SQL scan charges are separate; compaction charges apply above included usage",
+      "commercialUse": "Allowed subject to Cloudflare terms",
+      "platforms": "Hosted · Iceberg REST catalog / R2",
+      "source": {
+        "label": "R2 Data Catalog pricing",
+        "url": "https://developers.cloudflare.com/r2-data-catalog/platform/pricing/",
+        "asOf": "2026-09-23"
+      }
     }
   ]
 }
