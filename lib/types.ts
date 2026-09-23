@@ -216,3 +216,47 @@ export type BenchmarkMeta = {
   asOf: string;
   note: string;
 };
+
+
+export type FreeTierType = "true-free" | "trial" | "local-free" | "open-source";
+
+export type FreeLabService = {
+  id: string;
+  name: string;
+  provider: string;
+  category: string;
+  tierType: FreeTierType;
+  duration: string;
+  cardRequired: string;
+  quota: string;
+  goodFor: string;
+  limits: string;
+  commercialUse: string;
+  source: SourceRef;
+};
+
+export type RuntimeProfile = {
+  id: string;
+  name: string;
+  language: string;
+  execution: string;
+  nodeModel: string;
+  startup: string;
+  parallelism: string;
+  optimizer: string;
+  pythonBoundary: string;
+  bestFor: string;
+  watchFor: string;
+  source: SourceRef;
+};
+
+export type RuntimeBenchmarkTemplate = {
+  id: string;
+  name: string;
+  dataset: string;
+  size: string;
+  operations: string[];
+  engines: string[];
+  hardware: string;
+  lesson: string;
+};
