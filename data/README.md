@@ -79,3 +79,41 @@ Benchmark recipes are intentionally not measured results. Add timing results onl
 ## serverless.json
 
 Serverless/function/container comparison records. Keep billing unit and free quota separate because request-count, GB-second and vCPU/GiB-second models are not directly comparable.
+
+
+## use-case-guides.json
+
+Task-first recipes that reference records from `free-labs.json` by ID.
+
+Examples:
+
+- run FastAPI for $0;
+- get a real Linux VM;
+- hosted PostgreSQL / MongoDB / Redis;
+- learn Spark or Kafka;
+- store Parquet;
+- build a Microsoft BI/Fabric lab;
+- FOIL zero-cost infrastructure;
+- end-to-end data-engineering lab.
+
+Do **not** duplicate service quotas here. Keep the quota/source in `free-labs.json` and only store the recipe rationale, caveats and referenced service IDs.
+
+CI validates that every referenced service ID exists.
+
+## coding-agents.json
+
+Agent benchmark datasets that must remain isolated by benchmark/harness.
+
+Do not merge Browser Use, Terminal-Bench and Artificial Analysis scores into one numerical ranking unless the benchmark itself defines a common scale.
+
+## Single-source rule
+
+Use one canonical JSON source for each volatile fact:
+
+- free-tier/service quotas → `free-labs.json`
+- serverless billing models → `serverless.json`
+- cloud platform architecture/pricing units → `cloud.json`
+- runtime performance concepts/recipes → `runtime-lab.json`
+- task-first free-stack recipes → `use-case-guides.json`
+
+Views should derive summaries from these records instead of copying numbers into React components.
