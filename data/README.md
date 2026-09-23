@@ -29,6 +29,8 @@ Contains four related but distinct concepts:
 
 A benchmark run must say whether it is `measured` or an `illustrative-template`.
 
+`stackLayers` is the conceptual architecture map used to keep unlike technologies separate: storage → representation → table format → catalog → engine → DataFrame/API → pipeline abstraction → serving. Use it when adding a new technology so the UI explains *which problem it solves* before comparing features or performance.
+
 ## cloud.json
 
 Keep these separate:
