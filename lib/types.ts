@@ -27,7 +27,11 @@ export type ModelBenchmark = {
   costPerTask: number;
   latencySec: number | null;
   inputUsdPer1M: number | null;
+  cachedInputUsdPer1M?: number | null;
   outputUsdPer1M: number | null;
+  pricingSourceLabel?: string;
+  pricingSourceUrl?: string;
+  pricingAsOf?: string;
   benchmark: string;
   current: boolean;
   dataQuality: "reference-image" | "upstream" | "manual";
