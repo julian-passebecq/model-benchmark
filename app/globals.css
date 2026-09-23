@@ -3010,3 +3010,78 @@ kbd,
     grid-template-columns: 1fr;
   }
 }
+
+
+.stack-layer-map {
+  display: grid;
+  gap: 0;
+}
+
+.stack-layer-row {
+  display: grid;
+  justify-items: stretch;
+}
+
+.stack-layer-card {
+  display: grid;
+  grid-template-columns: 42px minmax(220px, 1.3fr) minmax(240px, 1fr);
+  gap: 12px;
+  align-items: center;
+  width: 100%;
+  border: 1px solid var(--line);
+  border-radius: 9px;
+  background: #0b1016;
+  padding: 11px;
+  text-align: left;
+  color: var(--text);
+  cursor: pointer;
+}
+
+.stack-layer-card:hover {
+  border-color: var(--line-strong);
+  background: #101720;
+}
+
+.stack-layer-index {
+  color: var(--cyan);
+  font: 10px "SFMono-Regular", "Cascadia Code", Consolas, monospace;
+}
+
+.stack-layer-main h3 {
+  margin: 4px 0 0;
+  font-size: 12px;
+  font-weight: 560;
+}
+
+.stack-layer-concepts {
+  display: flex;
+  justify-content: flex-end;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+
+.stack-layer-concepts span {
+  border-left: 1px solid var(--line-strong);
+  padding: 3px 6px;
+  color: var(--muted);
+  font-size: 7px;
+}
+
+.stack-layer-arrow {
+  height: 19px;
+  display: grid;
+  place-items: center;
+  color: var(--muted-2);
+  font: 10px "SFMono-Regular", Consolas, monospace;
+}
+
+@media (max-width: 850px) {
+  .stack-layer-card {
+    grid-template-columns: 32px minmax(0, 1fr);
+  }
+
+  .stack-layer-concepts {
+    grid-column: 2;
+    justify-content: flex-start;
+  }
+}
