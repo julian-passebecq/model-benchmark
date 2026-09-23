@@ -52,6 +52,8 @@ export const dataFormats = dataStack.formats as DataFormat[];
 export const benchmarkRuns = dataStack.benchmarks as BenchmarkRun[];
 export const languageRuntimes = dataStack.languages as LanguageRuntime[];
 export const abstractionTimeline = dataStack.abstractionTimeline;
+export const runtimeFrameworks = dataStack.runtimeFrameworks as RuntimeFramework[];
+export const queryScenarios = dataStack.queryScenarios as QueryScenario[];
 
 export const cloudPlatforms = cloud.platforms as CloudPlatform[];
 export const queryPrices = cloud.queryPrices as QueryPrice[];
