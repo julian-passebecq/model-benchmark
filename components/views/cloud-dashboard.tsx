@@ -319,27 +319,88 @@ export function CloudDashboard({
         {activeCount === 0 ? <EmptyState query={query} /> : null}
 
         {view === "Platforms" && platforms.length ? (
-          <div className="cloud-columns">
-            {platforms.map((item) => (
-              <button type="button" key={item.id} className="cloud-column" onClick={() => onInspect(platformInspector(item))}>
-                <div className="cloud-column-head">
-                  <span className="micro-label">{item.vendor}</span>
-                  <h3>{item.name}</h3>
-                  <p>{item.bestFor}</p>
-                </div>
-                <dl className="cloud-dl">
-                  <div><dt>Compute</dt><dd>{item.computeModel}</dd></div>
-                  <div><dt>Pricing</dt><dd>{item.pricingModel}</dd></div>
-                  <div><dt>Lake / table</dt><dd>{item.lakehouse}</dd></div>
-                  <div><dt>Warehouse</dt><dd>{item.warehouse}</dd></div>
-                  <div><dt>Streaming</dt><dd>{item.streaming}</dd></div>
-                  <div><dt>Orchestration</dt><dd>{item.orchestration}</dd></div>
-                  <div><dt>Governance</dt><dd>{item.governance}</dd></div>
-                  <div><dt>AI / ML</dt><dd>{item.aiMl}</dd></div>
-                  <div><dt>BI</dt><dd>{item.bi}</dd></div>
-                </dl>
-              </button>
-            ))}
+          <div className="platform-stack">
+            <div className="cloud-columns">
+              {platforms.map((item) => (
+                <button type="button" key={item.id} className="cloud-column" onClick={() => onInspect(platformInspector(item))}>
+                  <div className="cloud-column-head">
+                    <span className="micro-label">{item.vendor}</span>
+                    <h3>{item.name}</h3>
+                    <p>{item.bestFor}</p>
+                  </div>
+                  <dl className="cloud-dl">
+                    <div><dt>Compute</dt><dd>{item.computeModel}</dd></div>
+                    <div><dt>Pricing</dt><dd>{item.pricingModel}</dd></div>
+                    <div><dt>Lake / table</dt><dd>{item.lakehouse}</dd></div>
+                    <div><dt>Warehouse</dt><dd>{item.warehouse}</dd></div>
+                    <div><dt>Streaming</dt><dd>{item.streaming}</dd></div>
+                    <div><dt>Orchestration</dt><dd>{item.orchestration}</dd></div>
+                    <div><dt>Governance</dt><dd>{item.governance}</dd></div>
+                    <div><dt>AI / ML</dt><dd>{item.aiMl}</dd></div>
+                    <div><dt>BI</dt><dd>{item.bi}</dd></div>
+                  </dl>
+                </button>
+              ))}
+            </div>
+
+            <div>
+              <SectionHeader eyebrow="PLATFORM DECISION MATRIX" title="Architecture, pricing and free-access model in one table" meta="click a row to inspect the platform" />
+              <div className="data-table-wrap">
+                <table className="data-table feature-table platform-matrix">
+                  <thead>
+                    <tr>
+                      <th>Platform</th>
+                      <th>Compute model</th>
+                      <th>Pricing model</th>
+                      <th>Open formats</th>
+                      <th>Orchestration</th>
+                      <th>Governance</th>
+                      <th>BI</th>
+                      <th>Free access</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {platforms.map((item) => {
+                      const access = item.freeAccessServiceId
+                        ? freeLabServices.find((service) => service.id === item.freeAccessServiceId)
+                        : null;
+                      return (
+                        <tr key={item.id} onClick={() => onInspect(platformInspector(item))}>
+                          <td><strong>{item.name}</strong><small className="table-sub">{item.vendor}</small></td>
+                          <td>{item.computeModel}</td>
+                          <td>{item.pricingModel}</td>
+                          <td>{item.openFormats}</td>
+                          <td>{item.orchestration}</td>
+                          <td>{item.governance}</td>
+                          <td>{item.bi}</td>
+                          <td>
+                            {access ? (
+                              <>
+                                <span className={"tier-badge " + access.tierType}>{tierLabel(access.tierType)}</span>
+                                <small className="table-sub">{access.name}</small>
+                              </>
+                            ) : "—"}
+                          </td>
+                        </tr>
+                      );
+                    })}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            <div>
+              <SectionHeader eyebrow="PLATFORM SUMMARY" title="What each platform is optimizing for" />
+              <div className="platform-summary-grid">
+                {platforms.map((item) => (
+                  <button type="button" key={item.id} className="platform-summary-card" onClick={() => onInspect(platformInspector(item))}>
+                    <span className="micro-label">{item.name}</span>
+                    <strong>{item.bestFor}</strong>
+                    <p>{item.tradeoff}</p>
+                  </button>
+                ))}
+              </div>
+            </div>
           </div>
         ) : null}
 
