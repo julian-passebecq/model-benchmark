@@ -50,3 +50,32 @@ Use this for timeline-style infrastructure changes. Categories currently include
 - energy.
 
 Network can contain both datacenter links and mobile generations, but add a subtype field if that section becomes large.
+
+
+## free-labs.json
+
+Catalog of hosted free plans, trials, local-free desktop tools and open-source/self-hosted tools.
+
+Required comparison fields:
+
+- `tierType`: `true-free`, `trial`, `local-free`, or `open-source`
+- `duration`
+- `quota`
+- `cardRequired`
+- `platforms` / access model
+- `goodFor`
+- `limits`
+- `commercialUse`
+- official `source` and `asOf`
+
+Never classify expiring credits as `true-free`.
+
+## runtime-lab.json
+
+Execution-model knowledge and benchmark recipes for pandas, Polars, DuckDB, PySpark, Scala Spark and Spark SQL.
+
+Benchmark recipes are intentionally not measured results. Add timing results only after fixing dataset, layout, runtime version, hardware/cluster shape and cache policy.
+
+## serverless.json
+
+Serverless/function/container comparison records. Keep billing unit and free quota separate because request-count, GB-second and vCPU/GiB-second models are not directly comparable.
