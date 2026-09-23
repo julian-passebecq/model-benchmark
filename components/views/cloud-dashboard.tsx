@@ -202,6 +202,8 @@ export function CloudDashboard({
   const [freeTier, setFreeTier] = useState("True free");
   const [freeCategory, setFreeCategory] = useState("All");
   const [selectedGuideId, setSelectedGuideId] = useState(freeTierUseCaseGuides[0]?.id ?? "");
+  const [queryDatasetTb, setQueryDatasetTb] = useState(1);
+  const [queryRunsPerMonth, setQueryRunsPerMonth] = useState(10);
   const q = query.trim().toLowerCase();
 
   const platforms = useMemo(
@@ -406,6 +408,25 @@ export function CloudDashboard({
 
         {view === "Query pricing" && prices.length ? (
           <div className="query-pricing-stack">
+            <div className="query-cost-calculator">
+              <div>
+                <span className="micro-label">WORKLOAD CALCULATOR</span>
+                <strong>Gross scan-cost scenario</strong>
+                <small>Before free allowances, storage, caching, egress or capacity discounts.</small>
+              </div>
+              <label>
+                Dataset scanned / run
+                <span><input type="number" min="0.01" step="0.25" value={queryDatasetTb} onChange={(event) => setQueryDatasetTb(Math.max(0.01, Number(event.target.value) || 0.01))} /> TB</span>
+              </label>
+              <label>
+                Runs / month
+                <span><input type="number" min="1" step="1" value={queryRunsPerMonth} onChange={(event) => setQueryRunsPerMonth(Math.max(1, Number(event.target.value) || 1))} /> runs</span>
+              </label>
+              <div className="query-cost-total">
+                <span className="micro-label">SCAN VOLUME</span>
+                <strong>{(queryDatasetTb * queryRunsPerMonth).toFixed(2) + " TB/mo"}</strong>
+              </div>
+            </div>
             <div className="pricing-grid">
               {prices.map((item) => (
                 <button type="button" className="pricing-card" key={item.id} onClick={() => onInspect(priceInspector(item))}>
@@ -436,6 +457,7 @@ export function CloudDashboard({
                       <th>1 unit</th>
                       <th>5 units</th>
                       <th>10 units</th>
+                      <th>Scenario gross cost</th>
                       <th>Included free allowance</th>
                     </tr>
                   </thead>
@@ -447,6 +469,7 @@ export function CloudDashboard({
                         <td>{"$" + Number(item.usd).toFixed(2)}</td>
                         <td>{"$" + (Number(item.usd) * 5).toFixed(2)}</td>
                         <td>{"$" + (Number(item.usd) * 10).toFixed(2)}</td>
+                        <td><strong>{"$" + (Number(item.usd) * queryDatasetTb * queryRunsPerMonth).toFixed(2)}</strong><small className="table-sub">{queryDatasetTb + " TB × " + queryRunsPerMonth + " runs"}</small></td>
                         <td>{item.freeTier}</td>
                       </tr>
                     ))}
@@ -454,7 +477,7 @@ export function CloudDashboard({
                 </table>
               </div>
               <div className="query-price-note">
-                These multipliers use each provider's listed billing unit. BigQuery uses TiB while Athena/R2 SQL use TB-style scan units, so this is a billing-model lens rather than a byte-perfect benchmark.
+                These multipliers use each provider's listed billing unit. The scenario cost is deliberately gross: it does not subtract free allowances or caching. BigQuery uses TiB while Athena/R2 SQL use TB-style scan units, so this is a billing-model lens rather than a byte-perfect invoice estimate.
               </div>
             </div>
           </div>
