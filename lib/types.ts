@@ -232,6 +232,7 @@ export type FreeLabService = {
   goodFor: string;
   limits: string;
   commercialUse: string;
+  platforms?: string;
   source: SourceRef;
 };
 
