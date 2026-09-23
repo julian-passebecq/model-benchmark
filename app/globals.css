@@ -2723,3 +2723,130 @@ kbd,
     grid-template-columns: 1fr;
   }
 }
+
+
+.release-stack {
+  display: grid;
+  gap: 18px;
+}
+
+.release-grid {
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.release-card,
+.release-note-card {
+  min-width: 0;
+  border: 1px solid var(--line);
+  border-radius: 9px;
+  background: #0b1016;
+  color: var(--text);
+  text-align: left;
+  cursor: pointer;
+}
+
+.release-card {
+  padding: 11px;
+}
+
+.release-card:hover,
+.release-note-card:hover {
+  border-color: var(--line-strong);
+  background: #101720;
+}
+
+.release-card-head {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.release-card-head svg {
+  flex: none;
+  color: var(--cyan);
+}
+
+.release-card h3 {
+  margin: 3px 0 0;
+  font-size: 10px;
+  font-weight: 560;
+}
+
+.release-card > strong {
+  display: block;
+  margin-top: 12px;
+  font-size: 18px;
+  letter-spacing: -0.035em;
+  font-weight: 570;
+}
+
+.release-card > small {
+  display: block;
+  margin-top: 4px;
+  color: var(--muted-2);
+  font-size: 7px;
+}
+
+.release-card > p {
+  margin: 10px 0 0;
+  color: var(--muted);
+  font-size: 8px;
+  line-height: 1.5;
+}
+
+.release-table {
+  min-width: 1450px;
+}
+
+.release-table td {
+  line-height: 1.45;
+  vertical-align: top;
+}
+
+.release-notes-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.release-note-card {
+  padding: 11px;
+}
+
+.release-note-card > p {
+  margin: 7px 0 0;
+  color: #b8c3ce;
+  font-size: 8px;
+  line-height: 1.5;
+}
+
+.release-note-card > small {
+  display: block;
+  margin-top: 10px;
+  padding-top: 8px;
+  border-top: 1px solid var(--line);
+  color: var(--muted-2);
+  font-size: 7px;
+  line-height: 1.5;
+}
+
+@media (max-width: 1380px) {
+  .release-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 900px) {
+  .release-notes-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 650px) {
+  .release-grid,
+  .release-notes-grid {
+    grid-template-columns: 1fr;
+  }
+}
