@@ -19,6 +19,7 @@ import {
   freeLabServices,
   orchestrationPatterns,
   queryPrices,
+  selfHostScenarios,
   serverlessServices,
   vmShapes
 } from "../../lib/data";
@@ -390,25 +391,86 @@ export function CloudDashboard({
         ) : null}
 
         {view === "VM shapes" && vms.length ? (
-          <div className="vm-grid">
-            {vms.map((item) => (
-              <button className="vm-card" type="button" key={item.id} onClick={() => onInspect(vmInspector(item))}>
-                <div className="vm-card-title">
-                  <CloudCog size={18} />
-                  <div>
-                    <span className="micro-label">{item.cloud}</span>
-                    <h3>{item.family}</h3>
+          <div className="vm-shape-stack">
+            <div className="vm-grid">
+              {vms.map((item) => (
+                <button className="vm-card" type="button" key={item.id} onClick={() => onInspect(vmInspector(item))}>
+                  <div className="vm-card-title">
+                    <CloudCog size={18} />
+                    <div>
+                      <span className="micro-label">{item.cloud}</span>
+                      <h3>{item.family}</h3>
+                    </div>
                   </div>
-                </div>
-                <div className="vm-specs">
-                  <span><strong>{item.vcpu}</strong> vCPU</span>
-                  <span><strong>{item.ramGb}</strong> GB RAM</span>
-                  <span><strong>{item.accelerator}</strong> accelerator</span>
-                </div>
-                <p>{item.workload}</p>
-                <small>{item.usdHour === null ? "Price intentionally unbound until exact SKU + region are selected." : "$" + item.usdHour + "/h"}</small>
-              </button>
-            ))}
+                  <div className="vm-specs">
+                    <span><strong>{item.vcpu}</strong> vCPU</span>
+                    <span><strong>{item.ramGb}</strong> GB RAM</span>
+                    <span><strong>{item.accelerator}</strong> accelerator</span>
+                  </div>
+                  <p>{item.workload}</p>
+                  <small>
+                    {item.usdHour === null
+                      ? "Price intentionally unbound until exact SKU + region are selected."
+                      : "$" + item.usdHour.toFixed(4) + "/h · ≈ $" + (item.usdHour * 730).toFixed(2) + "/730h compute"}
+                  </small>
+                </button>
+              ))}
+            </div>
+
+            <div>
+              <SectionHeader
+                eyebrow="SELF-HOST BASELINE"
+                title="Free software still needs compute"
+                meta="compute-only estimate; storage / egress / ops excluded"
+              />
+              <div className="data-table-wrap">
+                <table className="data-table feature-table self-host-table">
+                  <thead>
+                    <tr>
+                      <th>Tool</th>
+                      <th>Small lab shape</th>
+                      <th>Managed alternative</th>
+                      <th>What it teaches</th>
+                      <th>2 vCPU / 8 GB VM reference</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {selfHostScenarios.map((item) => {
+                      const priced = vms.filter((vm) => vm.usdHour !== null && vm.vcpu >= 2 && vm.ramGb >= 8);
+                      const cheapest = priced.toSorted((a, b) => Number(a.usdHour) - Number(b.usdHour))[0];
+                      return (
+                        <tr
+                          key={item.id}
+                          onClick={() => onInspect({
+                            eyebrow: "SELF-HOST / MANAGED",
+                            title: item.name,
+                            description: item.workload,
+                            stats: [
+                              { label: "Software", value: item.software },
+                              { label: "Lab shape", value: item.labShape },
+                              { label: "Managed alternative", value: item.managedAlternative },
+                              { label: "Compute baseline", value: cheapest && cheapest.usdHour !== null ? cheapest.cloud + " " + cheapest.family + " ≈ $" + (cheapest.usdHour * 730).toFixed(2) + "/730h" : "Add a priced VM snapshot" }
+                            ],
+                            tags: ["self-host", "managed comparison"],
+                            note: item.caveat
+                          })}
+                        >
+                          <td><strong>{item.name}</strong><small className="table-sub">{item.software}</small></td>
+                          <td>{item.labShape}</td>
+                          <td>{item.managedAlternative}</td>
+                          <td>{item.workload}</td>
+                          <td>
+                            {cheapest && cheapest.usdHour !== null
+                              ? cheapest.cloud + ": $" + cheapest.usdHour.toFixed(4) + "/h · ≈ $" + (cheapest.usdHour * 730).toFixed(2) + "/730h"
+                              : "No priced matching VM"}
+                          </td>
+                        </tr>
+                      );
+                    })}
+                  </tbody>
+                </table>
+              </div>
+            </div>
           </div>
         ) : null}
 
