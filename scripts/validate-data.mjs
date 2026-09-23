@@ -144,6 +144,25 @@ for (const file of files) {
       }
       counts.push(file + ": " + parsed.guides.length + " use-case guides");
     }
+  } else if (file === "releases.json") {
+    if (!Array.isArray(parsed.technologies)) {
+      fail(file, "$.technologies", "technologies must be an array");
+    } else {
+      for (let index = 0; index < parsed.technologies.length; index += 1) {
+        const item = parsed.technologies[index];
+        const location = "$.technologies[" + index + "]";
+        for (const key of ["id", "name", "category", "latestStable", "releaseDate", "status", "productionBaseline", "whyItMatters", "compatibility"]) {
+          requireString(file, item, location, key);
+        }
+        if (!isIsoDate(item.releaseDate)) {
+          fail(file, location + ".releaseDate", "releaseDate must use YYYY-MM-DD");
+        }
+        if (!Array.isArray(item.highlights) || item.highlights.length === 0 || item.highlights.some((value) => typeof value !== "string" || value.trim() === "")) {
+          fail(file, location + ".highlights", "must contain at least one non-empty highlight");
+        }
+      }
+      counts.push(file + ": " + parsed.technologies.length + " technology releases");
+    }
   } else if (file === "runtime-lab.json") {
     if (!Array.isArray(parsed.profiles) || !Array.isArray(parsed.benchmarkTemplates)) {
       fail(file, "$", "profiles and benchmarkTemplates must be arrays");
