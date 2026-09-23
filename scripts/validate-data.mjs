@@ -95,6 +95,38 @@ for (const file of files) {
       }
       counts.push(file + ": " + parsed.services.length + " services");
     }
+  } else if (file === "use-case-guides.json") {
+    if (!Array.isArray(parsed.guides)) {
+      fail(file, "$.guides", "guides must be an array");
+    } else {
+      const freeLabsPath = path.join(dataDir, "free-labs.json");
+      let knownServices = new Set();
+      try {
+        const freeLabsData = JSON.parse(fs.readFileSync(freeLabsPath, "utf8"));
+        knownServices = new Set((freeLabsData.services ?? []).map((item) => item.id));
+      } catch (error) {
+        fail(file, "$.guides", "could not load free-labs.json for reference validation: " + error.message);
+      }
+
+      for (let index = 0; index < parsed.guides.length; index += 1) {
+        const guide = parsed.guides[index];
+        const location = "$.guides[" + index + "]";
+        for (const key of ["id", "title", "category", "goal", "recommendedPattern", "watchFor", "nextStep"]) {
+          requireString(file, guide, location, key);
+        }
+        if (!Array.isArray(guide.serviceIds) || guide.serviceIds.length === 0) {
+          fail(file, location + ".serviceIds", "must contain at least one service id");
+        } else {
+          const seen = new Set();
+          for (const serviceId of guide.serviceIds) {
+            if (seen.has(serviceId)) fail(file, location + ".serviceIds", "duplicate service reference '" + serviceId + "'");
+            seen.add(serviceId);
+            if (!knownServices.has(serviceId)) fail(file, location + ".serviceIds", "unknown free-lab service id '" + serviceId + "'");
+          }
+        }
+      }
+      counts.push(file + ": " + parsed.guides.length + " use-case guides");
+    }
   } else if (file === "runtime-lab.json") {
     if (!Array.isArray(parsed.profiles) || !Array.isArray(parsed.benchmarkTemplates)) {
       fail(file, "$", "profiles and benchmarkTemplates must be arrays");
