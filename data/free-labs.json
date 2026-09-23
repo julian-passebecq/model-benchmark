@@ -817,6 +817,25 @@
         "asOf": "2026-09-23"
       },
       "platforms": "Windows · macOS · Linux"
+    },
+    {
+      "id": "pythonanywhere-beginner",
+      "name": "PythonAnywhere Beginner",
+      "provider": "PythonAnywhere",
+      "category": "Python / hosted app",
+      "tierType": "true-free",
+      "duration": "Ongoing free account; free web app has current expiry/renewal constraints",
+      "cardRequired": "No credit card required",
+      "quota": "1 web app, 1 web worker, 2 consoles, 100 CPU-seconds/day for console-style compute and 512 MB private disk",
+      "goodFor": "Browser-based Python practice, small Flask-style web apps and zero-setup teaching/learning",
+      "limits": "Restricted outbound Internet allowlist; no SSH; no scheduled tasks for new free accounts; not suited to data-heavy jobs",
+      "commercialUse": "Check PythonAnywhere free-account terms before production use",
+      "platforms": "Hosted · browser",
+      "source": {
+        "label": "PythonAnywhere pricing",
+        "url": "https://www.pythonanywhere.com/pricing/",
+        "asOf": "2026-09-23"
+      }
     }
   ]
 }
