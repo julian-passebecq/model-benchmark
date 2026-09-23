@@ -11,6 +11,7 @@ import {
   GitBranch,
   Layers3,
   Network,
+  PackageCheck,
   Sigma
 } from "lucide-react";
 import {
@@ -22,7 +23,8 @@ import {
   queryScenarios,
   runtimeBenchmarkTemplates,
   runtimeProfiles,
-  runtimeSummary
+  runtimeSummary,
+  technologyReleases
 } from "../../lib/data";
 import type {
   DataEngine,
@@ -31,7 +33,8 @@ import type {
   LanguageRuntime,
   QueryScenario,
   RuntimeBenchmarkTemplate,
-  RuntimeProfile
+  RuntimeProfile,
+  TechnologyRelease
 } from "../../lib/types";
 import { EmptyState, MetricCard, SectionHeader, ToggleGroup } from "../ui";
 
@@ -123,6 +126,25 @@ function scenarioInspector(item: QueryScenario): InspectorRecord {
   };
 }
 
+function releaseInspector(item: TechnologyRelease): InspectorRecord {
+  const stats = [
+    { label: "Latest stable", value: item.latestStable },
+    { label: "Released", value: item.releaseDate },
+    { label: "Status", value: item.status },
+    { label: "Production baseline", value: item.productionBaseline }
+  ];
+  if (item.nextPreview) stats.push({ label: "Next / preview", value: item.nextPreview });
+  return {
+    eyebrow: "RELEASE TRACKER / " + item.category.toUpperCase(),
+    title: item.name + " · " + item.latestStable,
+    description: item.whyItMatters,
+    stats,
+    tags: [item.category, item.status],
+    source: item.source,
+    note: item.compatibility
+  };
+}
+
 function templateInspector(item: RuntimeBenchmarkTemplate): InspectorRecord {
   return {
     eyebrow: "REPRODUCIBLE BENCHMARK RECIPE",
@@ -178,12 +200,17 @@ export function DataDashboard({
     () => queryScenarios.filter((item) => !q || JSON.stringify(item).toLowerCase().includes(q)),
     [q]
   );
+  const releases = useMemo(
+    () => technologyReleases.filter((item) => !q || JSON.stringify(item).toLowerCase().includes(q)),
+    [q]
+  );
 
   const activeCount =
     view === "Engines" ? engines.length :
     view === "Formats" ? formats.length :
     view === "Benchmarks" ? runs.length :
     view === "Runtime lab" ? runtimes.length + recipes.length + scenarios.length :
+    view === "Releases" ? releases.length :
     languages.length;
 
   return (
@@ -194,6 +221,13 @@ export function DataDashboard({
           <MetricCard label="BENCHMARK RECIPES" value={String(runtimeBenchmarkTemplates.length)} sub="1 GB local → 1 TB distributed" />
           <MetricCard label="CROSSOVER SCENARIOS" value={String(queryScenarios.length)} sub="single node → distributed" />
           <MetricCard label="SPARK APIS" value="3" sub="PySpark · Scala · SQL" />
+        </section>
+      ) : view === "Releases" ? (
+        <section className="metric-strip four">
+          <MetricCard label="TRACKED TECHNOLOGIES" value={String(technologyReleases.length)} sub="language · engine · format · orchestration" />
+          <MetricCard label="RECENT 30 DAYS" value={String(technologyReleases.filter((item) => item.releaseDate >= "2026-08-24").length)} sub="relative to 2026-09-23 snapshot" />
+          <MetricCard label="LTS SIGNALS" value={String(technologyReleases.filter((item) => (item.status + " " + item.productionBaseline).toLowerCase().includes("lts")).length)} sub="production-baseline context" />
+          <MetricCard label="UPCOMING / PREVIEW" value={String(technologyReleases.filter((item) => item.nextPreview).length)} sub="explicitly tracked next releases" />
         </section>
       ) : (
         <section className="metric-strip four">
@@ -207,13 +241,13 @@ export function DataDashboard({
       <section className="panel span-12">
         <div className="split-header">
           <SectionHeader
-            eyebrow={view === "Runtime lab" ? "PYTHON / SPARK PERFORMANCE LAB" : "MODERN DATA STACK"}
-            title={view === "Runtime lab" ? "Compare execution models before comparing stopwatch numbers" : "Engine, storage and abstraction explorer"}
+            eyebrow={view === "Runtime lab" ? "PYTHON / SPARK PERFORMANCE LAB" : view === "Releases" ? "DATA STACK RELEASE TRACKER" : "MODERN DATA STACK"}
+            title={view === "Runtime lab" ? "Compare execution models before comparing stopwatch numbers" : view === "Releases" ? "Current versions, production baselines and what changed" : "Engine, storage and abstraction explorer"}
             meta={activeCount + " visible records"}
           />
           <ToggleGroup
             value={view}
-            values={["Engines", "Formats", "Benchmarks", "Runtime lab", "Languages"]}
+            values={["Engines", "Formats", "Benchmarks", "Runtime lab", "Releases", "Languages"]}
             onChange={setView}
             label="Data stack view"
           />
@@ -388,6 +422,71 @@ export function DataDashboard({
                 </div>
               </div>
             ) : null}
+          </div>
+        ) : null}
+
+        {view === "Releases" && releases.length ? (
+          <div className="release-stack">
+            <div className="release-grid">
+              {releases
+                .toSorted((a, b) => b.releaseDate.localeCompare(a.releaseDate))
+                .slice(0, 6)
+                .map((item) => (
+                  <button type="button" className="release-card" key={item.id} onClick={() => onInspect(releaseInspector(item))}>
+                    <div className="release-card-head">
+                      <PackageCheck size={18} />
+                      <div><span className="micro-label">{item.category}</span><h3>{item.name}</h3></div>
+                    </div>
+                    <strong>{item.latestStable}</strong>
+                    <small>{item.releaseDate + " · " + item.status}</small>
+                    <p>{item.highlights[0]}</p>
+                  </button>
+                ))}
+            </div>
+
+            <div className="data-table-wrap">
+              <table className="data-table feature-table release-table">
+                <thead>
+                  <tr>
+                    <th>Technology</th>
+                    <th>Category</th>
+                    <th>Latest stable</th>
+                    <th>Released</th>
+                    <th>Status</th>
+                    <th>Production baseline</th>
+                    <th>Next / preview</th>
+                    <th>Why it matters</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {releases.toSorted((a, b) => a.name.localeCompare(b.name)).map((item) => (
+                    <tr key={item.id} onClick={() => onInspect(releaseInspector(item))}>
+                      <td><strong>{item.name}</strong></td>
+                      <td>{item.category}</td>
+                      <td>{item.latestStable}</td>
+                      <td>{item.releaseDate}</td>
+                      <td>{item.status}</td>
+                      <td>{item.productionBaseline}</td>
+                      <td>{item.nextPreview || "—"}</td>
+                      <td>{item.whyItMatters}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+
+            <div>
+              <SectionHeader eyebrow="CHANGE NOTES" title="The changes worth remembering" meta="source-linked and dated" />
+              <div className="release-notes-grid">
+                {releases.map((item) => (
+                  <button type="button" key={item.id} className="release-note-card" onClick={() => onInspect(releaseInspector(item))}>
+                    <span className="micro-label">{item.name + " " + item.latestStable}</span>
+                    {item.highlights.map((highlight) => <p key={highlight}>• {highlight}</p>)}
+                    <small>{item.compatibility}</small>
+                  </button>
+                ))}
+              </div>
+            </div>
           </div>
         ) : null}
 
