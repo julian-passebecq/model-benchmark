@@ -24,6 +24,7 @@ import type {
   QueryPrice,
   RuntimeBenchmarkTemplate,
   RuntimeProfile,
+  SelfHostScenario,
   ServerlessService,
   TerminalBenchEffortPoint,
   VmShape
@@ -52,6 +53,7 @@ export const cloudPlatforms = cloud.platforms as CloudPlatform[];
 export const queryPrices = cloud.queryPrices as QueryPrice[];
 export const vmShapes = cloud.vmShapes as VmShape[];
 export const orchestrationPatterns = cloud.orchestrationPatterns;
+export const selfHostScenarios = cloud.selfHostScenarios as SelfHostScenario[];
 
 export const hardwareItems = hardware.items as HardwareItem[];
 export const mobileSocs = hardware.mobile as MobileSoc[];
