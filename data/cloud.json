@@ -20,7 +20,8 @@
       "source": {
         "label": "Databricks pricing",
         "url": "https://www.databricks.com/product/pricing"
-      }
+      },
+      "freeAccessServiceId": "databricks-free-edition"
     },
     {
       "id": "fabric",
@@ -42,7 +43,8 @@
       "source": {
         "label": "Microsoft Fabric pricing",
         "url": "https://azure.microsoft.com/pricing/details/microsoft-fabric/"
-      }
+      },
+      "freeAccessServiceId": "fabric-trial"
     },
     {
       "id": "bigquery",
@@ -64,7 +66,8 @@
       "source": {
         "label": "BigQuery pricing",
         "url": "https://cloud.google.com/bigquery/pricing"
-      }
+      },
+      "freeAccessServiceId": "bigquery-free"
     },
     {
       "id": "snowflake",
@@ -86,7 +89,8 @@
       "source": {
         "label": "Snowflake pricing",
         "url": "https://www.snowflake.com/en/pricing-options/"
-      }
+      },
+      "freeAccessServiceId": "snowflake-trial"
     },
     {
       "id": "aws",
@@ -108,7 +112,8 @@
       "source": {
         "label": "AWS pricing",
         "url": "https://aws.amazon.com/pricing/"
-      }
+      },
+      "freeAccessServiceId": "aws-free-plan"
     }
   ],
   "queryPrices": [
