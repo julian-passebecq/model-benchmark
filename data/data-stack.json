@@ -644,5 +644,177 @@
       "distributed": true,
       "notes": "Operationally simple; cost governed by bytes processed or capacity model."
     }
+  ],
+  "stackLayers": [
+    {
+      "id": "storage",
+      "order": 1,
+      "layer": "Object / file storage",
+      "question": "Where do the bytes live?",
+      "examples": [
+        "S3",
+        "ADLS",
+        "GCS",
+        "Cloudflare R2",
+        "local/NVMe"
+      ],
+      "concepts": [
+        "durability",
+        "throughput",
+        "egress",
+        "object operations",
+        "region"
+      ],
+      "note": "Storage is not a query engine or table format. Cost and locality can dominate the layers above it."
+    },
+    {
+      "id": "representation",
+      "order": 2,
+      "layer": "Physical data representation",
+      "question": "How are rows/columns encoded?",
+      "examples": [
+        "Parquet",
+        "Arrow",
+        "ORC",
+        "Avro"
+      ],
+      "concepts": [
+        "columnar layout",
+        "compression",
+        "encoding",
+        "IPC/memory",
+        "predicate/projection pushdown"
+      ],
+      "note": "Parquet is persistent columnar storage; Arrow is primarily an in-memory/IPC columnar representation."
+    },
+    {
+      "id": "table-format",
+      "order": 3,
+      "layer": "Table / lakehouse metadata",
+      "question": "How do files become a transactional table?",
+      "examples": [
+        "Iceberg",
+        "Delta Lake",
+        "Hudi",
+        "DuckLake"
+      ],
+      "concepts": [
+        "snapshots",
+        "ACID",
+        "schema evolution",
+        "partition evolution",
+        "time travel",
+        "metadata"
+      ],
+      "note": "Open table formats organize files and metadata; they do not replace the compute engine executing a query."
+    },
+    {
+      "id": "catalog",
+      "order": 4,
+      "layer": "Catalog / governance",
+      "question": "How are tables discovered, secured and governed?",
+      "examples": [
+        "Unity Catalog",
+        "AWS Glue Catalog",
+        "Hive Metastore",
+        "Polaris",
+        "OneLake / Purview"
+      ],
+      "concepts": [
+        "namespaces",
+        "credentials",
+        "lineage",
+        "policy",
+        "table registration",
+        "REST catalogs"
+      ],
+      "note": "A catalog can be independent of the table format or tightly integrated with a platform."
+    },
+    {
+      "id": "engine",
+      "order": 5,
+      "layer": "Query / compute engine",
+      "question": "Who plans and executes the work?",
+      "examples": [
+        "Spark",
+        "DuckDB",
+        "Trino",
+        "DataFusion",
+        "BigQuery",
+        "Snowflake"
+      ],
+      "concepts": [
+        "optimizer",
+        "vectorization",
+        "shuffle",
+        "distributed execution",
+        "join strategy",
+        "spill"
+      ],
+      "note": "Single-node and distributed engines can read the same Parquet/Iceberg data but have very different startup and scaling economics."
+    },
+    {
+      "id": "dataframe",
+      "order": 6,
+      "layer": "DataFrame / programming API",
+      "question": "How does a developer express transformations?",
+      "examples": [
+        "pandas",
+        "Polars",
+        "PySpark",
+        "Scala Dataset/DataFrame",
+        "SQL"
+      ],
+      "concepts": [
+        "eager/lazy",
+        "expressions",
+        "UDF boundary",
+        "type system",
+        "developer ergonomics"
+      ],
+      "note": "PySpark and Spark SQL can compile to the same Spark engine plan; the API language alone does not determine execution performance."
+    },
+    {
+      "id": "transformation",
+      "order": 7,
+      "layer": "Transformation / pipeline abstraction",
+      "question": "How is desired data state declared and repeated?",
+      "examples": [
+        "dbt",
+        "Lakeflow declarative pipelines",
+        "Fabric Data Factory",
+        "Airflow DAGs"
+      ],
+      "concepts": [
+        "dependencies",
+        "incremental models",
+        "scheduling",
+        "retries",
+        "tests",
+        "lineage"
+      ],
+      "note": "Orchestration and transformation tools coordinate engines; they are not substitutes for storage or query execution."
+    },
+    {
+      "id": "serving",
+      "order": 8,
+      "layer": "Serving / consumption",
+      "question": "How is the result used?",
+      "examples": [
+        "Power BI",
+        "Looker",
+        "APIs",
+        "ML features/models",
+        "Streamlit"
+      ],
+      "concepts": [
+        "semantic model",
+        "latency",
+        "concurrency",
+        "caching",
+        "governance"
+      ],
+      "note": "Serving requirements often determine upstream architecture: interactive BI, batch ML and APIs need different latency/concurrency profiles."
+    }
   ]
 }
