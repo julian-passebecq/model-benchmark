@@ -17,6 +17,7 @@ import {
 import {
   cloudPlatforms,
   freeLabServices,
+  freeTierUseCaseGuides,
   orchestrationPatterns,
   queryPrices,
   selfHostScenarios,
@@ -26,6 +27,7 @@ import {
 import type {
   CloudPlatform,
   FreeLabService,
+  FreeTierUseCaseGuide,
   InspectorRecord,
   QueryPrice,
   ServerlessService,
@@ -120,6 +122,23 @@ function freeLabInspector(item: FreeLabService): InspectorRecord {
   };
 }
 
+function useCaseInspector(guide: FreeTierUseCaseGuide, services: FreeLabService[]): InspectorRecord {
+  const trueFree = services.filter((item) => item.tierType === "true-free").length;
+  return {
+    eyebrow: "USE-CASE GUIDE / " + guide.category.toUpperCase(),
+    title: guide.title,
+    description: guide.goal,
+    stats: [
+      { label: "Services", value: String(services.length) },
+      { label: "True free", value: String(trueFree) },
+      { label: "Pattern", value: guide.recommendedPattern },
+      { label: "Next step", value: guide.nextStep }
+    ],
+    tags: [guide.category, "data-driven recipe"],
+    note: guide.watchFor
+  };
+}
+
 function freeGroup(category: string) {
   const value = category.toLowerCase();
   if (
@@ -182,6 +201,7 @@ export function CloudDashboard({
   const [view, setView] = useState("Platforms");
   const [freeTier, setFreeTier] = useState("True free");
   const [freeCategory, setFreeCategory] = useState("All");
+  const [selectedGuideId, setSelectedGuideId] = useState(freeTierUseCaseGuides[0]?.id ?? "");
   const q = query.trim().toLowerCase();
 
   const platforms = useMemo(
@@ -210,11 +230,24 @@ export function CloudDashboard({
     [q, freeTier, freeCategory]
   );
 
+  const guides = useMemo(
+    () => freeTierUseCaseGuides.filter((item) => !q || JSON.stringify(item).toLowerCase().includes(q)),
+    [q]
+  );
+  const selectedGuide = guides.find((item) => item.id === selectedGuideId) ?? guides[0] ?? null;
+  const selectedGuideServices = selectedGuide
+    ? selectedGuide.serviceIds
+        .map((id) => freeLabServices.find((item) => item.id === id))
+        .filter((item): item is FreeLabService => Boolean(item))
+    : [];
+  const guideServiceCount = new Set(freeTierUseCaseGuides.flatMap((item) => item.serviceIds)).size;
+
   const activeCount =
     view === "Platforms" ? platforms.length :
     view === "Query pricing" ? prices.length :
     view === "Serverless" ? serverless.length :
     view === "VM shapes" ? vms.length :
+    view === "Use cases" ? guides.length :
     freeLabs.length;
 
   const hostedFreeCount = freeLabServices.filter((item) => item.tierType === "true-free").length;
@@ -231,6 +264,13 @@ export function CloudDashboard({
           <MetricCard label="TRIAL / CREDITS" value={String(trialCount)} sub="kept separate from permanent free" />
           <MetricCard label="LOCAL / OSS" value={String(localCount)} sub="free software; bring your own compute" />
         </section>
+      ) : view === "Use cases" ? (
+        <section className="metric-strip four">
+          <MetricCard label="USE-CASE GUIDES" value={String(freeTierUseCaseGuides.length)} sub="start from the job, not the vendor" />
+          <MetricCard label="REFERENCED SERVICES" value={String(guideServiceCount)} sub="reused across recipes" />
+          <MetricCard label="SELECTED STACK" value={String(selectedGuideServices.length)} sub={selectedGuide?.category ?? "choose a guide"} />
+          <MetricCard label="TRUE FREE IN STACK" value={String(selectedGuideServices.filter((item) => item.tierType === "true-free").length)} sub="trials/local tools kept distinct" />
+        </section>
       ) : (
         <section className="metric-strip four">
           <MetricCard label="PLATFORMS" value={String(cloudPlatforms.length)} sub="lakehouse + warehouse + cloud stacks" />
@@ -243,13 +283,13 @@ export function CloudDashboard({
       <section className="panel span-12">
         <div className="split-header">
           <SectionHeader
-            eyebrow={view === "Free labs" ? "FREE CLOUD + DEVELOPER LABS" : "CLOUD DATA PLATFORMS"}
-            title={view === "Free labs" ? "What can I genuinely run for $0?" : "Compare architecture before comparing brand names"}
+            eyebrow={view === "Free labs" ? "FREE CLOUD + DEVELOPER LABS" : view === "Use cases" ? "FREE-TIER USE-CASE PLANNER" : "CLOUD DATA PLATFORMS"}
+            title={view === "Free labs" ? "What can I genuinely run for $0?" : view === "Use cases" ? "Start from what you need to do" : "Compare architecture before comparing brand names"}
             meta={activeCount + " visible records"}
           />
           <ToggleGroup
             value={view}
-            values={["Platforms", "Query pricing", "Serverless", "VM shapes", "Free labs"]}
+            values={["Platforms", "Query pricing", "Serverless", "VM shapes", "Free labs", "Use cases"]}
             onChange={setView}
             label="Cloud view"
           />
@@ -508,6 +548,81 @@ export function CloudDashboard({
               </tbody>
             </table>
           </div>
+        {view === "Use cases" && guides.length ? (
+          <div className="use-case-layout">
+            <div className="use-case-guide-grid">
+              {guides.map((guide) => {
+                const services = guide.serviceIds
+                  .map((id) => freeLabServices.find((item) => item.id === id))
+                  .filter((item): item is FreeLabService => Boolean(item));
+                const trueFree = services.filter((item) => item.tierType === "true-free").length;
+                const active = selectedGuide?.id === guide.id;
+                return (
+                  <button
+                    type="button"
+                    className={"use-case-card" + (active ? " active" : "")}
+                    key={guide.id}
+                    onClick={() => {
+                      setSelectedGuideId(guide.id);
+                      onInspect(useCaseInspector(guide, services));
+                    }}
+                  >
+                    <span className="micro-label">{guide.category}</span>
+                    <h3>{guide.title}</h3>
+                    <p>{guide.goal}</p>
+                    <div className="use-case-card-meta">
+                      <span>{services.length + " options"}</span>
+                      <span>{trueFree + " true free"}</span>
+                    </div>
+                    <div className="use-case-service-chips">
+                      {services.slice(0, 5).map((item) => <i key={item.id}>{item.name}</i>)}
+                    </div>
+                  </button>
+                );
+              })}
+            </div>
+
+            {selectedGuide ? (
+              <div className="use-case-detail">
+                <SectionHeader eyebrow={selectedGuide.category} title={selectedGuide.title} meta={selectedGuideServices.length + " stack options"} />
+                <p className="use-case-goal">{selectedGuide.goal}</p>
+                <div className="summary-bullets use-case-summary">
+                  <span><CheckCircle2 size={16} /><strong>Pattern</strong> {selectedGuide.recommendedPattern}</span>
+                  <span><Network size={16} /><strong>Watch</strong> {selectedGuide.watchFor}</span>
+                  <span><Workflow size={16} /><strong>Next</strong> {selectedGuide.nextStep}</span>
+                </div>
+
+                <div className="data-table-wrap use-case-service-table">
+                  <table className="data-table feature-table">
+                    <thead>
+                      <tr>
+                        <th>Service</th>
+                        <th>Tier</th>
+                        <th>Category</th>
+                        <th>Included quota</th>
+                        <th>Why it fits</th>
+                        <th>Verified</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {selectedGuideServices.map((item) => (
+                        <tr key={item.id} onClick={() => onInspect(freeLabInspector(item))}>
+                          <td><strong>{item.name}</strong><small className="table-sub">{item.provider}</small></td>
+                          <td><span className={"tier-badge " + item.tierType}>{tierLabel(item.tierType)}</span></td>
+                          <td>{item.category}</td>
+                          <td className="quota-cell">{item.quota}</td>
+                          <td>{item.goodFor}</td>
+                          <td>{item.source.asOf ?? "source linked"}</td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            ) : null}
+          </div>
+        ) : null}
+
         ) : null}
       </section>
 
