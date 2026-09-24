@@ -260,21 +260,21 @@ export function CloudDashboard({
   return (
     <div className="dashboard-grid">
       {view === "Free labs" ? (
-        <section className="metric-strip four">
+        <section className="metric-strip four hierarchy-metrics">
           <MetricCard label="HOSTED TRUE FREE" value={String(hostedFreeCount)} sub="recurring/no-expiry quota" />
           <MetricCard label="TRUE FREE VM" value={String(realVmCount)} sub="Oracle + Google-style VM quota" />
           <MetricCard label="TRIAL / CREDITS" value={String(trialCount)} sub="kept separate from permanent free" />
           <MetricCard label="LOCAL / OSS" value={String(localCount)} sub="free software; bring your own compute" />
         </section>
       ) : view === "Use cases" ? (
-        <section className="metric-strip four">
+        <section className="metric-strip four hierarchy-metrics">
           <MetricCard label="USE-CASE GUIDES" value={String(freeTierUseCaseGuides.length)} sub="start from the job, not the vendor" />
           <MetricCard label="REFERENCED SERVICES" value={String(guideServiceCount)} sub="reused across recipes" />
           <MetricCard label="SELECTED STACK" value={String(selectedGuideServices.length)} sub={selectedGuide?.category ?? "choose a guide"} />
           <MetricCard label="TRUE FREE IN STACK" value={String(selectedGuideServices.filter((item) => item.tierType === "true-free").length)} sub="trials/local tools kept distinct" />
         </section>
       ) : (
-        <section className="metric-strip four">
+        <section className="metric-strip four hierarchy-metrics">
           <MetricCard label="PLATFORMS" value={String(cloudPlatforms.length)} sub="lakehouse + warehouse + cloud stacks" />
           <MetricCard label="PRICING MODELS" value="5+" sub="capacity, credits, bytes, DBUs, instances" />
           <MetricCard label="ORCHESTRATION LAYERS" value={String(orchestrationPatterns.length)} sub="container → declarative pipeline" />
