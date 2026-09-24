@@ -185,7 +185,7 @@ export function DataDashboard({
   query: string;
   onInspect: (record: InspectorRecord) => void;
 }) {
-  const [view, setView] = useState("Engines");
+  const [view, setView] = useState("Stack map");
 
   const q = query.trim().toLowerCase();
   const engines = useMemo(
@@ -259,8 +259,8 @@ export function DataDashboard({
         </section>
       )}
 
-      <section className="panel span-12">
-        <div className="split-header">
+      <section className="panel span-12 data-primary-panel">
+        <div className="split-header data-view-header">
           <SectionHeader
             eyebrow={view === "Runtime lab" ? "PYTHON / SPARK PERFORMANCE LAB" : view === "Releases" ? "DATA STACK RELEASE TRACKER" : view === "Stack map" ? "LAYERED DATA ARCHITECTURE" : "MODERN DATA STACK"}
             title={view === "Runtime lab" ? "Compare execution models before comparing stopwatch numbers" : view === "Releases" ? "Current versions, production baselines and what changed" : view === "Stack map" ? "Stop comparing tools that solve different layers" : "Engine, storage and abstraction explorer"}
@@ -305,7 +305,12 @@ export function DataDashboard({
         {view === "Engines" && engines.length ? (
           <div className="comparison-grid data-engine-grid">
             {engines.map((item) => (
-              <button type="button" className="comparison-card" key={item.id} onClick={() => onInspect(engineInspector(item))}>
+              <button
+                type="button"
+                className={item.id === "spark" || item.id === "duckdb" || item.id === "polars" ? "comparison-card featured-engine" : "comparison-card compact-engine"}
+                key={item.id}
+                onClick={() => onInspect(engineInspector(item))}
+              >
                 <div className="card-title-row">
                   <DatabaseZap size={18} />
                   <div><span className="micro-label">{item.kind}</span><h3>{item.name}</h3></div>
@@ -354,7 +359,7 @@ export function DataDashboard({
               return (
                 <button
                   type="button"
-                  className="benchmark-card"
+                  className={run.datasetTb >= 5 ? "benchmark-card wide-benchmark" : "benchmark-card"}
                   key={run.id}
                   onClick={() => onInspect({
                     eyebrow: run.sourceType.toUpperCase(),
