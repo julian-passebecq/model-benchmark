@@ -76,7 +76,7 @@ function DefaultInspector({ dashboard }: { dashboard: DashboardId }): InspectorR
 export default function DashboardApp() {
   const [dashboard, setDashboard] = useState<DashboardId>("models");
   const [leftOpen, setLeftOpen] = useState(true);
-  const [rightOpen, setRightOpen] = useState(true);
+  const [rightOpen, setRightOpen] = useState(false);
   const [query, setQuery] = useState("");
   const [inspect, setInspect] = useState<InspectorRecord>(() => DefaultInspector({ dashboard: "models" }));
 
@@ -95,7 +95,13 @@ export default function DashboardApp() {
   const switchDashboard = (id: DashboardId) => {
     setDashboard(id);
     setInspect(DefaultInspector({ dashboard: id }));
+    setRightOpen(false);
     setQuery("");
+  };
+
+  const inspectRecord = (record: InspectorRecord) => {
+    setInspect(record);
+    setRightOpen(true);
   };
 
   const stepDashboard = (direction: -1 | 1) => {
@@ -250,11 +256,11 @@ export default function DashboardApp() {
         </div>
 
         <div className="dashboard-stage">
-          {dashboard === "models" ? <ModelsDashboard query={query} onInspect={setInspect} /> : null}
-          {dashboard === "data" ? <DataDashboard query={query} onInspect={setInspect} /> : null}
-          {dashboard === "cloud" ? <CloudDashboard query={query} onInspect={setInspect} /> : null}
-          {dashboard === "hardware" ? <HardwareDashboard query={query} onInspect={setInspect} /> : null}
-          {dashboard === "evolution" ? <EvolutionDashboard query={query} onInspect={setInspect} /> : null}
+          {dashboard === "models" ? <ModelsDashboard query={query} onInspect={inspectRecord} /> : null}
+          {dashboard === "data" ? <DataDashboard query={query} onInspect={inspectRecord} /> : null}
+          {dashboard === "cloud" ? <CloudDashboard query={query} onInspect={inspectRecord} /> : null}
+          {dashboard === "hardware" ? <HardwareDashboard query={query} onInspect={inspectRecord} /> : null}
+          {dashboard === "evolution" ? <EvolutionDashboard query={query} onInspect={inspectRecord} /> : null}
         </div>
       </section>
 
