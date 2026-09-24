@@ -52,6 +52,38 @@ const agentColors: Record<string, string> = {
   Alibaba: "#e2cf72"
 };
 
+
+const benchmarkChoices = [
+  {
+    id: "Browser Use v2",
+    eyebrow: "GENERAL AGENT",
+    title: "Browser / tool-use efficiency",
+    summary: "Compare benchmark quality against recorded task cost across providers and reasoning efforts.",
+    metric: "score ↔ $/task"
+  },
+  {
+    id: "Terminal-Bench 4.0",
+    eyebrow: "CODING",
+    title: "Reasoning effort curve",
+    summary: "See how low, medium, high and max effort change coding quality and cost per attempt.",
+    metric: "effort ↔ quality"
+  },
+  {
+    id: "Coding Agent Index",
+    eyebrow: "CODING AGENTS",
+    title: "Agent cost-quality frontier",
+    summary: "Compare Codex, Claude Code and other agent harnesses using cost, wall time, tokens and quality.",
+    metric: "index ↔ $/task"
+  },
+  {
+    id: "API pricing",
+    eyebrow: "ECONOMICS",
+    title: "Token list-price calculator",
+    summary: "Estimate token-only API cost separately from the end-to-end benchmark cost of an agent task.",
+    metric: "$/1M tokens"
+  }
+] as const;
+
 function inspectModel(model: ModelBenchmark): InspectorRecord {
   return {
     eyebrow: model.provider.toUpperCase(),
@@ -122,9 +154,9 @@ function ModelScatter({
 }) {
   const minCost = 0.01;
   const maxCost = 12;
-  const width = 900;
-  const height = 430;
-  const pad = { left: 65, right: 30, top: 30, bottom: 56 };
+  const width = 1080;
+  const height = 500;
+  const pad = { left: 72, right: 34, top: 38, bottom: 62 };
 
   const x = (cost: number) => {
     const lo = Math.log10(minCost);
@@ -445,13 +477,23 @@ function BrowserUseView({
         <MetricCard label="SCORE / $" value={bestEfficiency ? (bestEfficiency.score / bestEfficiency.costPerTask).toFixed(0) : "—"} sub={bestEfficiency?.label ?? "No match"} />
       </section>
 
-      <section className="panel span-8">
-        <SectionHeader eyebrow="BROWSER USE BENCHMARK V2" title="Quality vs recorded task cost" meta="ring = current generation" />
-        <div className="toolbar-row">
+      <section className="panel span-12 model-primary-chart">
+        <SectionHeader eyebrow="BROWSER USE BENCHMARK V2" title="Quality vs recorded task cost" meta="upper-left = cheaper · upper-right = higher cost" />
+        <div className="toolbar-row model-toolbar">
           <ToggleGroup value={view} values={["Scatter", "Table", "Efficiency"]} onChange={setView} label="Model view" />
-          <select className="compact-select" value={provider} onChange={(event) => setProvider(event.target.value)} aria-label="Filter by provider">
-            {providers.map((item) => <option key={item}>{item}</option>)}
-          </select>
+          <div className="model-toolbar-right">
+            <div className="provider-legend" aria-label="Provider legend">
+              {providers.filter((item) => item !== "All").map((item) => (
+                <span key={item} className={providerClass[item] ?? "provider-default"}><i />{item}</span>
+              ))}
+            </div>
+            <select className="compact-select" value={provider} onChange={(event) => setProvider(event.target.value)} aria-label="Filter by provider">
+              {providers.map((item) => <option key={item}>{item}</option>)}
+            </select>
+          </div>
+        </div>
+        <div className="chart-reading-hint">
+          <strong>How to read it:</strong> higher = better benchmark score. Left = lower recorded task cost. Rings mark current-generation configurations. Click any point for source and caveats.
         </div>
 
         {filtered.length === 0 ? <EmptyState query={query} /> : null}
@@ -520,8 +562,8 @@ function BrowserUseView({
         ) : null}
       </section>
 
-      <aside className="panel span-4">
-        <SectionHeader eyebrow="READ THIS FIRST" title="What the chart can and cannot tell you" />
+      <aside className="panel span-12 model-reading-guide">
+        <SectionHeader eyebrow="READ THIS FIRST" title="Four rules for reading model benchmarks" />
         <div className="knowledge-stack">
           <article><ScatterChart size={18} /><div><strong>Same benchmark first</strong><p>Agent cost and score are only directly comparable when harness, task set and run policy are aligned.</p></div></article>
           <article><CircleDollarSign size={18} /><div><strong>Cost is workload-shaped</strong><p>Token prices alone do not predict agent cost. Reasoning effort, tool calls, retries and latency change total task spend.</p></div></article>
@@ -855,22 +897,40 @@ export function ModelsDashboard({
   onInspect: (record: InspectorRecord) => void;
 }) {
   const [benchmarkView, setBenchmarkView] = useState("Browser Use v2");
+  const activeChoice = benchmarkChoices.find((item) => item.id === benchmarkView) ?? benchmarkChoices[0];
 
   return (
     <div className="dashboard-grid">
-      <section className="panel span-12 benchmark-switcher">
-        <div className="split-header benchmark-switcher-inner">
-          <SectionHeader
-            eyebrow="CODING / AGENT BENCHMARKS"
-            title="Switch benchmark without mixing incompatible scores"
-            meta="same shell · different evidence"
-          />
-          <ToggleGroup
-            value={benchmarkView}
-            values={["Browser Use v2", "Terminal-Bench 4.0", "Coding Agent Index", "API pricing"]}
-            onChange={setBenchmarkView}
-            label="Benchmark dataset"
-          />
+      <section className="panel span-12 benchmark-overview">
+        <div className="benchmark-overview-head">
+          <div>
+            <span className="micro-label">MODEL / AGENT OBSERVATORY</span>
+            <h2>Choose the question first</h2>
+            <p>These datasets measure different things. Pick the view that matches the decision you are making instead of mixing scores from incompatible benchmarks.</p>
+          </div>
+          <div className="benchmark-active-summary">
+            <span className="micro-label">ACTIVE VIEW</span>
+            <strong>{activeChoice.title}</strong>
+            <small>{activeChoice.metric}</small>
+          </div>
+        </div>
+
+        <div className="benchmark-choice-grid" role="tablist" aria-label="Model benchmark views">
+          {benchmarkChoices.map((item) => (
+            <button
+              type="button"
+              role="tab"
+              aria-selected={benchmarkView === item.id}
+              key={item.id}
+              className={benchmarkView === item.id ? "benchmark-choice active" : "benchmark-choice"}
+              onClick={() => setBenchmarkView(item.id)}
+            >
+              <span className="micro-label">{item.eyebrow}</span>
+              <strong>{item.title}</strong>
+              <p>{item.summary}</p>
+              <small>{item.metric}</small>
+            </button>
+          ))}
         </div>
       </section>
 
