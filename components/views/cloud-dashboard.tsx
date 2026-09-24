@@ -322,31 +322,52 @@ export function CloudDashboard({
 
         {view === "Platforms" && platforms.length ? (
           <div className="platform-stack">
-            <div className="cloud-columns">
-              {platforms.map((item) => (
-                <button type="button" key={item.id} className="cloud-column" onClick={() => onInspect(platformInspector(item))}>
-                  <div className="cloud-column-head">
-                    <span className="micro-label">{item.vendor}</span>
-                    <h3>{item.name}</h3>
+            <div className="cloud-platform-mosaic">
+              {platforms.map((item) => {
+                const featured = item.id === "databricks" || item.id === "fabric";
+                const access = item.freeAccessServiceId
+                  ? freeLabServices.find((service) => service.id === item.freeAccessServiceId)
+                  : null;
+                return (
+                  <button
+                    type="button"
+                    key={item.id}
+                    className={featured ? "cloud-platform-card featured" : "cloud-platform-card"}
+                    onClick={() => onInspect(platformInspector(item))}
+                  >
+                    <div className="cloud-platform-title">
+                      <div>
+                        <span className="micro-label">{item.vendor}</span>
+                        <h3>{item.name}</h3>
+                      </div>
+                      {access ? <span className={"tier-badge " + access.tierType}>{tierLabel(access.tierType)}</span> : null}
+                    </div>
                     <p>{item.bestFor}</p>
-                  </div>
-                  <dl className="cloud-dl">
-                    <div><dt>Compute</dt><dd>{item.computeModel}</dd></div>
-                    <div><dt>Pricing</dt><dd>{item.pricingModel}</dd></div>
-                    <div><dt>Lake / table</dt><dd>{item.lakehouse}</dd></div>
-                    <div><dt>Warehouse</dt><dd>{item.warehouse}</dd></div>
-                    <div><dt>Streaming</dt><dd>{item.streaming}</dd></div>
-                    <div><dt>Orchestration</dt><dd>{item.orchestration}</dd></div>
-                    <div><dt>Governance</dt><dd>{item.governance}</dd></div>
-                    <div><dt>AI / ML</dt><dd>{item.aiMl}</dd></div>
-                    <div><dt>BI</dt><dd>{item.bi}</dd></div>
-                  </dl>
-                </button>
-              ))}
+                    <div className="cloud-glance">
+                      <span><small>Compute</small><strong>{item.computeModel}</strong></span>
+                      <span><small>Pricing</small><strong>{item.pricingModel}</strong></span>
+                      <span><small>Lake / table</small><strong>{item.lakehouse}</strong></span>
+                      <span><small>Orchestration</small><strong>{item.orchestration}</strong></span>
+                    </div>
+                    <div className="cloud-platform-footer">
+                      <span>{item.openFormats}</span>
+                      <span>{item.serverless}</span>
+                    </div>
+                  </button>
+                );
+              })}
             </div>
 
-            <div>
-              <SectionHeader eyebrow="PLATFORM DECISION MATRIX" title="Architecture, pricing and free-access model in one table" meta="click a row to inspect the platform" />
+            <div className="cloud-focus-note">
+              <strong>Start with the operating model.</strong>
+              <span>Fabric and Databricks emphasize integrated platforms; BigQuery emphasizes serverless SQL; Snowflake emphasizes managed warehouse/data-cloud workflows; AWS exposes a more composable service stack.</span>
+            </div>
+
+            <details className="secondary-details">
+              <summary>
+                <span>Full architecture comparison</span>
+                <small>Compute · pricing · formats · orchestration · governance · BI · free access</small>
+              </summary>
               <div className="data-table-wrap">
                 <table className="data-table feature-table platform-matrix">
                   <thead>
@@ -389,20 +410,7 @@ export function CloudDashboard({
                   </tbody>
                 </table>
               </div>
-            </div>
-
-            <div>
-              <SectionHeader eyebrow="PLATFORM SUMMARY" title="What each platform is optimizing for" />
-              <div className="platform-summary-grid">
-                {platforms.map((item) => (
-                  <button type="button" key={item.id} className="platform-summary-card" onClick={() => onInspect(platformInspector(item))}>
-                    <span className="micro-label">{item.name}</span>
-                    <strong>{item.bestFor}</strong>
-                    <p>{item.tradeoff}</p>
-                  </button>
-                ))}
-              </div>
-            </div>
+            </details>
           </div>
         ) : null}
 
