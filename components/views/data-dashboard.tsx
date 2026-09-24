@@ -331,24 +331,63 @@ export function DataDashboard({
         ) : null}
 
         {view === "Formats" && formats.length ? (
-          <div className="data-table-wrap">
-            <table className="data-table feature-table">
-              <thead>
-                <tr>
-                  <th>Layer</th><th>Type</th><th>Transactions</th><th>Time travel</th>
-                  <th>Schema evolution</th><th>Partition evolution</th><th>Multi-engine</th>
-                </tr>
-              </thead>
-              <tbody>
-                {formats.map((item) => (
-                  <tr key={item.id} onClick={() => onInspect(formatInspector(item))}>
-                    <td><strong>{item.name}</strong></td><td>{item.kind}</td><td>{item.acid}</td>
-                    <td>{item.timeTravel ? "✓" : "—"}</td><td>{item.schemaEvolution}</td>
-                    <td>{item.partitionEvolution ? "✓" : "—"}</td><td>{item.multiEngine}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
+          <div className="format-stack">
+            <div className="format-mosaic">
+              {formats.map((item) => (
+                <button
+                  type="button"
+                  key={item.id}
+                  className={item.id === "iceberg" || item.id === "delta" ? "format-card featured-format" : "format-card"}
+                  onClick={() => onInspect(formatInspector(item))}
+                >
+                  <div className="format-card-head">
+                    <div>
+                      <span className="micro-label">{item.kind}</span>
+                      <h3>{item.name}</h3>
+                    </div>
+                    <span className={item.timeTravel ? "format-signal on" : "format-signal"}>{item.timeTravel ? "TIME TRAVEL" : "FILES"}</span>
+                  </div>
+                  <p>{item.bestFor}</p>
+                  <div className="format-facts">
+                    <span><small>Transactions</small><strong>{item.acid}</strong></span>
+                    <span><small>Schema</small><strong>{item.schemaEvolution}</strong></span>
+                    <span><small>Multi-engine</small><strong>{item.multiEngine}</strong></span>
+                  </div>
+                  <small className="format-tradeoff">{item.tradeoff}</small>
+                </button>
+              ))}
+            </div>
+
+            <div className="data-focus-note">
+              <strong>Keep the layers separate.</strong>
+              <span>Parquet is a file format. Iceberg, Delta, Hudi and DuckLake add table metadata, transactions and evolution semantics around analytical files.</span>
+            </div>
+
+            <details className="secondary-details">
+              <summary>
+                <span>Full format capability matrix</span>
+                <small>Transactions · time travel · schema evolution · partition evolution · engine support</small>
+              </summary>
+              <div className="data-table-wrap">
+                <table className="data-table feature-table">
+                  <thead>
+                    <tr>
+                      <th>Layer</th><th>Type</th><th>Transactions</th><th>Time travel</th>
+                      <th>Schema evolution</th><th>Partition evolution</th><th>Multi-engine</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {formats.map((item) => (
+                      <tr key={item.id} onClick={() => onInspect(formatInspector(item))}>
+                        <td><strong>{item.name}</strong></td><td>{item.kind}</td><td>{item.acid}</td>
+                        <td>{item.timeTravel ? "✓" : "—"}</td><td>{item.schemaEvolution}</td>
+                        <td>{item.partitionEvolution ? "✓" : "—"}</td><td>{item.multiEngine}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </details>
           </div>
         ) : null}
 
