@@ -237,21 +237,21 @@ export function DataDashboard({
   return (
     <div className="dashboard-grid">
       {view === "Runtime lab" ? (
-        <section className="metric-strip four">
+        <section className="metric-strip four hierarchy-metrics">
           <MetricCard label="RUNTIME PROFILES" value={String(runtimeProfiles.length)} sub="pandas → Spark SQL" />
           <MetricCard label="BENCHMARK RECIPES" value={String(runtimeBenchmarkTemplates.length)} sub="1 GB local → 1 TB distributed" />
           <MetricCard label="CROSSOVER SCENARIOS" value={String(queryScenarios.length)} sub="single node → distributed" />
           <MetricCard label="SPARK APIS" value="3" sub="PySpark · Scala · SQL" />
         </section>
       ) : view === "Releases" ? (
-        <section className="metric-strip four">
+        <section className="metric-strip four hierarchy-metrics">
           <MetricCard label="TRACKED TECHNOLOGIES" value={String(technologyReleases.length)} sub="language · engine · format · orchestration" />
           <MetricCard label="RECENT 30 DAYS" value={String(technologyReleases.filter((item) => item.releaseDate >= "2026-08-24").length)} sub="relative to 2026-09-23 snapshot" />
           <MetricCard label="LTS SIGNALS" value={String(technologyReleases.filter((item) => (item.status + " " + item.productionBaseline).toLowerCase().includes("lts")).length)} sub="production-baseline context" />
           <MetricCard label="UPCOMING / PREVIEW" value={String(technologyReleases.filter((item) => item.nextPreview).length)} sub="explicitly tracked next releases" />
         </section>
       ) : (
-        <section className="metric-strip four">
+        <section className="metric-strip four hierarchy-metrics">
           <MetricCard label="ENGINES" value={String(dataEngines.length)} sub="DataFrame + SQL + distributed" />
           <MetricCard label="TABLE / FILE LAYERS" value={String(dataFormats.length)} sub="Parquet through lakehouse formats" />
           <MetricCard label="BENCH RUNS" value={String(benchmarkRuns.length)} sub="measured + illustrative templates" />
