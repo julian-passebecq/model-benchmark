@@ -1,0 +1,215 @@
+{
+  "asOf": "2026-09-23",
+  "guides": [
+    {
+      "id": "fastapi-free",
+      "title": "Run FastAPI for $0",
+      "category": "Python / API",
+      "goal": "Deploy a small Python API without managing a full server.",
+      "serviceIds": [
+        "gcp-cloud-run-free",
+        "azure-container-apps-free",
+        "render-free-web",
+        "koyeb-free",
+        "pythonanywhere-beginner"
+      ],
+      "recommendedPattern": "Start with Cloud Run or Azure Container Apps for production-like container semantics; use Render/Koyeb/PythonAnywhere for simpler demos.",
+      "watchFor": "Cold starts, outbound bandwidth, database cost, container build/registry usage and idle-sleep behavior can sit outside the headline free quota.",
+      "nextStep": "Add Neon/Supabase for PostgreSQL, Upstash for Redis and R2/B2 for object storage."
+    },
+    {
+      "id": "linux-vm-free",
+      "title": "Get a real Linux VM for $0",
+      "category": "VM / infrastructure",
+      "goal": "SSH into a persistent Linux machine and control Docker, systemd, networking and storage yourself.",
+      "serviceIds": [
+        "oracle-always-free-compute",
+        "gcp-e2-micro"
+      ],
+      "recommendedPattern": "Oracle is the more generous infrastructure lab; GCP e2-micro is the simpler tiny always-free VM reference.",
+      "watchFor": "Capacity, eligible regions, idle reclaim, disk/egress quotas and account verification matter more than the headline CPU/RAM number.",
+      "nextStep": "Install Docker, OpenTofu, k3s, a reverse proxy and GitHub Actions deployment."
+    },
+    {
+      "id": "postgres-free",
+      "title": "Host PostgreSQL for $0",
+      "category": "Database",
+      "goal": "Use a real hosted relational database without operating Postgres yourself.",
+      "serviceIds": [
+        "neon-free",
+        "supabase-free",
+        "aiven-free",
+        "postgresql-local"
+      ],
+      "recommendedPattern": "Use Neon for branching/serverless Postgres, Supabase when auth/storage/realtime matter, Aiven for a managed-service comparison, or local PostgreSQL for unrestricted learning.",
+      "watchFor": "Storage, compute hours, sleeping/pausing, connection limits, backups and egress differ significantly between plans.",
+      "nextStep": "Connect from FastAPI, dbt, Power BI or a small ELT pipeline."
+    },
+    {
+      "id": "mongo-free",
+      "title": "Use MongoDB for $0",
+      "category": "Database",
+      "goal": "Learn document databases or host a small document-backed API.",
+      "serviceIds": [
+        "mongodb-atlas-free",
+        "mongodb-community-local"
+      ],
+      "recommendedPattern": "Use Atlas when you want managed cloud behavior; use Community Server locally when you want full control and no hosted quota.",
+      "watchFor": "Atlas Free is deliberately small; local MongoDB shifts backup, security, upgrades and availability to you.",
+      "nextStep": "Use Atlas for app data and keep large analytical files in object storage rather than document collections."
+    },
+    {
+      "id": "redis-free",
+      "title": "Add Redis / cache for $0",
+      "category": "Database",
+      "goal": "Add cache, sessions, rate limits or queue-like primitives to an app.",
+      "serviceIds": [
+        "upstash-redis",
+        "aiven-free",
+        "valkey-local"
+      ],
+      "recommendedPattern": "Upstash is a good serverless cache reference; Aiven adds a broader managed-data comparison; Valkey locally removes hosted quotas.",
+      "watchFor": "Command quotas, bandwidth and persistence semantics matter more than raw MB for small free caches.",
+      "nextStep": "Put Redis between FastAPI and a database, then measure cache hit-rate and latency."
+    },
+    {
+      "id": "spark-free",
+      "title": "Learn Spark / lakehouse for $0",
+      "category": "Data engineering",
+      "goal": "Practice Spark, Delta/lakehouse concepts and distributed-style APIs without paying for a cluster.",
+      "serviceIds": [
+        "databricks-free-edition",
+        "apache-spark-local",
+        "google-colab-free",
+        "kaggle-notebooks-free",
+        "fabric-trial"
+      ],
+      "recommendedPattern": "Use Databricks Free Edition for the managed lakehouse experience, local Spark for unrestricted runtime access, and Fabric Trial when you need the Microsoft platform context.",
+      "watchFor": "Free Databricks is serverless/fair-use and non-commercial; Colab/Kaggle are notebooks rather than durable Spark clusters; Fabric is a trial.",
+      "nextStep": "Benchmark the same PySpark/SQL transformation locally and in Databricks, then store the plan and runtime metadata."
+    },
+    {
+      "id": "kafka-free",
+      "title": "Learn Kafka / streaming for $0",
+      "category": "Streaming",
+      "goal": "Produce and consume event streams without starting with a paid managed cluster.",
+      "serviceIds": [
+        "aiven-free",
+        "apache-kafka-local"
+      ],
+      "recommendedPattern": "Use Aiven for a managed Kafka reference and local Apache Kafka for unrestricted protocol/ops learning.",
+      "watchFor": "Managed free tiers are sandbox-sized; local Kafka requires you to operate brokers, storage, upgrades and observability.",
+      "nextStep": "Feed events into FastAPI/Flink/Spark Structured Streaming or your FOIL simulator."
+    },
+    {
+      "id": "object-storage-free",
+      "title": "Store Parquet / objects for $0",
+      "category": "Storage / lake",
+      "goal": "Keep datasets, Parquet files, model artifacts and static assets in object storage.",
+      "serviceIds": [
+        "cloudflare-r2",
+        "backblaze-b2-free",
+        "gcp-cloud-storage-free",
+        "cloudflare-r2-data-catalog"
+      ],
+      "recommendedPattern": "R2 is attractive when internet egress economics matter; B2 is a strong low-cost S3-compatible comparison; GCS teaches hyperscaler object storage; R2 Data Catalog adds an Iceberg path.",
+      "watchFor": "Separate storage GB-month, operation requests, catalog/compaction and egress. 'Free storage' rarely means every operation is free.",
+      "nextStep": "Query the same Parquet data with DuckDB, MotherDuck, BigQuery external tables or an Iceberg catalog."
+    },
+    {
+      "id": "warehouse-free",
+      "title": "Practice cloud SQL / warehouse for $0",
+      "category": "Warehouse",
+      "goal": "Run analytical SQL without paying for a persistent warehouse.",
+      "serviceIds": [
+        "bigquery-free",
+        "motherduck-lite",
+        "oracle-autonomous-free",
+        "snowflake-trial"
+      ],
+      "recommendedPattern": "BigQuery gives the clearest permanent serverless warehouse allowance; MotherDuck gives DuckDB-native cloud analytics; Oracle adds another managed SQL architecture; Snowflake remains a trial reference.",
+      "watchFor": "Do not mix always-free quotas with trial credits. Query bytes, compute hours, storage and result caching use different billing models.",
+      "nextStep": "Run the same TPC-H-style query and normalize by runtime, bytes scanned and actual billed unit."
+    },
+    {
+      "id": "microsoft-bi-free",
+      "title": "Learn Power BI / Fabric cheaply",
+      "category": "BI / Microsoft",
+      "goal": "Build semantic models and BI locally, then temporarily add Fabric cloud capabilities.",
+      "serviceIds": [
+        "power-bi-desktop",
+        "dax-studio",
+        "tabular-editor-2",
+        "azure-sql-free",
+        "fabric-trial"
+      ],
+      "recommendedPattern": "Do model/report work locally with Power BI Desktop + DAX Studio + Tabular Editor; use Azure SQL free as a source; activate Fabric Trial only when you need OneLake, notebooks, Warehouse or Data Factory.",
+      "watchFor": "Power BI Desktop is local; sharing/collaboration/licensing is separate. Fabric is trial capacity, not a permanent free cloud tier.",
+      "nextStep": "Create one report from Azure SQL and one from a Fabric Lakehouse and compare the operational model."
+    },
+    {
+      "id": "cicd-free",
+      "title": "Build CI/CD for $0",
+      "category": "DevOps",
+      "goal": "Run tests, builds and deployments without buying a CI service.",
+      "serviceIds": [
+        "github-actions-free",
+        "gitlab-free",
+        "github-codespaces",
+        "vscode"
+      ],
+      "recommendedPattern": "GitHub Actions is a strong default for public repositories; GitLab gives an integrated alternative; Codespaces is useful when you also need a disposable development environment.",
+      "watchFor": "Private-repo minute quotas, artifact storage, container registries and larger runners can become billable.",
+      "nextStep": "Use CI to test the benchmark app, build a container and deploy it to Cloud Run/Netlify/Vercel."
+    },
+    {
+      "id": "python-notebook-free",
+      "title": "Run Python notebooks for $0",
+      "category": "Python / notebook",
+      "goal": "Get a browser Python environment without setting up a local machine.",
+      "serviceIds": [
+        "google-colab-free",
+        "kaggle-notebooks-free",
+        "anaconda-core-notebooks",
+        "databricks-free-edition"
+      ],
+      "recommendedPattern": "Colab is convenient for ad-hoc Python/accelerator work, Kaggle is strong around datasets/competitions, Anaconda adds conda packaging, Databricks adds the lakehouse/Spark context.",
+      "watchFor": "Notebook sessions are ephemeral and compute/accelerator availability can be dynamic.",
+      "nextStep": "Keep datasets and code in Git/object storage so the notebook runtime can remain disposable."
+    },
+    {
+      "id": "foil-zero-cost",
+      "title": "FOIL zero-cost infrastructure lab",
+      "category": "Project recipe",
+      "goal": "Run a realistic FOIL wind/IoT data path with minimal recurring cloud spend.",
+      "serviceIds": [
+        "oracle-always-free-compute",
+        "aiven-free",
+        "mongodb-atlas-free",
+        "grafana-cloud-free",
+        "cloudflare-r2",
+        "github-actions-free"
+      ],
+      "recommendedPattern": "Oracle VM hosts the simulator/FastAPI and optional self-managed services; Aiven provides managed Kafka; Atlas stores operational documents; Grafana handles observability; R2 stores files; GitHub Actions deploys/tests.",
+      "watchFor": "Do not make Mongoku or the lab stack a second FOIL source of truth. Treat free hosted tiers as replaceable infrastructure and keep exports/configuration reproducible.",
+      "nextStep": "Add Databricks Free Edition or Fabric Trial only as downstream consumers for analytics exercises, not as FOIL authority."
+    },
+    {
+      "id": "data-engineer-zero-cost",
+      "title": "End-to-end data-engineering lab for $0",
+      "category": "Project recipe",
+      "goal": "Practice ingest → transform → lake/warehouse → orchestration → BI using mostly permanent free resources.",
+      "serviceIds": [
+        "databricks-free-edition",
+        "dbt-developer",
+        "bigquery-free",
+        "motherduck-lite",
+        "cloudflare-r2",
+        "github-actions-free"
+      ],
+      "recommendedPattern": "Use Databricks for Spark/lakehouse, dbt for SQL modeling, BigQuery/MotherDuck for alternative analytical engines, R2 for object data and GitHub Actions for CI.",
+      "watchFor": "These are intentionally heterogeneous tools. Use them to learn architectural trade-offs, not to pretend one production system should combine every free service.",
+      "nextStep": "Version one small dataset and run equivalent transformations through Spark SQL, dbt/BigQuery and DuckDB/MotherDuck."
+    }
+  ]
+}

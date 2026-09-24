@@ -1,0 +1,58 @@
+{
+  "terminalBenchEffort": [
+    {"id":"tb-opus55-low","series":"Opus 5.5","provider":"Anthropic","effort":"low","cost":1.30,"score":38.4,"exact":false},
+    {"id":"tb-opus55-medium","series":"Opus 5.5","provider":"Anthropic","effort":"medium","cost":2.95,"score":57.8,"exact":false},
+    {"id":"tb-opus55-high","series":"Opus 5.5","provider":"Anthropic","effort":"high","cost":3.95,"score":64.3,"exact":false},
+    {"id":"tb-opus55-xhigh","series":"Opus 5.5","provider":"Anthropic","effort":"xhigh","cost":7.15,"score":66.4,"exact":true},
+    {"id":"tb-opus55-max","series":"Opus 5.5","provider":"Anthropic","effort":"max","cost":10.9,"score":65.0,"exact":false},
+
+    {"id":"tb-opus5-low","series":"Opus 5","provider":"Anthropic","effort":"low","cost":4.55,"score":28.5,"exact":false},
+    {"id":"tb-opus5-medium","series":"Opus 5","provider":"Anthropic","effort":"medium","cost":6.65,"score":41.2,"exact":false},
+    {"id":"tb-opus5-high","series":"Opus 5","provider":"Anthropic","effort":"high","cost":10.4,"score":47.0,"exact":false},
+    {"id":"tb-opus5-xhigh","series":"Opus 5","provider":"Anthropic","effort":"xhigh","cost":13.2,"score":50.5,"exact":false},
+    {"id":"tb-opus5-max","series":"Opus 5","provider":"Anthropic","effort":"max","cost":15.6,"score":52.3,"exact":true},
+
+    {"id":"tb-fable51-low","series":"Fable 5.1","provider":"Anthropic","effort":"low","cost":5.55,"score":40.2,"exact":false},
+    {"id":"tb-fable51-medium","series":"Fable 5.1","provider":"Anthropic","effort":"medium","cost":7.55,"score":43.3,"exact":false},
+    {"id":"tb-fable51-high","series":"Fable 5.1","provider":"Anthropic","effort":"high","cost":10.3,"score":49.5,"exact":false},
+    {"id":"tb-fable51-xhigh","series":"Fable 5.1","provider":"Anthropic","effort":"xhigh","cost":15.6,"score":51.0,"exact":false},
+    {"id":"tb-fable51-max","series":"Fable 5.1","provider":"Anthropic","effort":"max","cost":19.5,"score":55.8,"exact":true},
+
+    {"id":"tb-astra-low","series":"GPT-6 Astra","provider":"OpenAI","effort":"low","cost":5.00,"score":49.9,"exact":false},
+    {"id":"tb-astra-medium","series":"GPT-6 Astra","provider":"OpenAI","effort":"medium","cost":6.35,"score":54.0,"exact":false},
+    {"id":"tb-astra-high","series":"GPT-6 Astra","provider":"OpenAI","effort":"high","cost":7.05,"score":57.9,"exact":true},
+    {"id":"tb-astra-xhigh","series":"GPT-6 Astra","provider":"OpenAI","effort":"xhigh","cost":7.35,"score":57.6,"exact":false},
+    {"id":"tb-astra-max","series":"GPT-6 Astra","provider":"OpenAI","effort":"max","cost":10.1,"score":56.9,"exact":false},
+
+    {"id":"tb-sol-low","series":"GPT-5.6 Sol","provider":"OpenAI","effort":"low","cost":1.48,"score":8.0,"exact":false},
+    {"id":"tb-sol-medium","series":"GPT-5.6 Sol","provider":"OpenAI","effort":"medium","cost":2.75,"score":21.0,"exact":false},
+    {"id":"tb-sol-high","series":"GPT-5.6 Sol","provider":"OpenAI","effort":"high","cost":4.35,"score":26.2,"exact":false},
+    {"id":"tb-sol-xhigh","series":"GPT-5.6 Sol","provider":"OpenAI","effort":"xhigh","cost":5.45,"score":28.6,"exact":false},
+    {"id":"tb-sol-max","series":"GPT-5.6 Sol","provider":"OpenAI","effort":"max","cost":7.55,"score":37.3,"exact":true}
+  ],
+  "terminalBenchMeta": {
+    "benchmark":"Terminal-Bench 4.0",
+    "sourceLabel":"Anthropic — Claude Opus 5.5",
+    "sourceUrl":"https://www.anthropic.com/claude-opus-5-5",
+    "asOf":"2026-09-22",
+    "note":"Headline max/high scores are sourced from Anthropic's published benchmark table. Intermediate cost/effort points are approximate visual transcriptions of the official chart supplied by the user and should be treated as chart-reading estimates, not raw benchmark logs."
+  },
+  "codingAgentFrontier": [
+    {"id":"aa-codex-deepseek-flash","agent":"Codex","model":"DeepSeek V4 Flash 0731","provider":"DeepSeek","cost":0.09,"score":39,"timeMinutes":18.3,"tokensMillions":15.4,"frontier":true},
+    {"id":"aa-codex-deepseek-pro","agent":"Codex","model":"DeepSeek V4 Pro 0813","provider":"DeepSeek","cost":0.24,"score":43,"timeMinutes":40.3,"tokensMillions":24.2,"frontier":true},
+    {"id":"aa-opencode-glm53","agent":"OpenCode","model":"GLM-5.3","provider":"Zhipu","cost":4.24,"score":54,"timeMinutes":48.1,"tokensMillions":14.3,"frontier":true},
+    {"id":"aa-codex-sol","agent":"Codex","model":"GPT-5.6 Sol (max)","provider":"OpenAI","cost":6.35,"score":55,"timeMinutes":20.6,"tokensMillions":10.2,"frontier":false},
+    {"id":"aa-codex-astra","agent":"Codex","model":"GPT-6 Astra (max)","provider":"OpenAI","cost":7.47,"score":62,"timeMinutes":29.4,"tokensMillions":3.3,"frontier":true},
+    {"id":"aa-grok47","agent":"Grok Build","model":"Grok 4.7 (xhigh)","provider":"xAI","cost":8.82,"score":56,"timeMinutes":39.2,"tokensMillions":14.3,"frontier":false},
+    {"id":"aa-claude-opus5","agent":"Claude Code","model":"Opus 5 (max)","provider":"Anthropic","cost":10.79,"score":60,"timeMinutes":41.9,"tokensMillions":11.4,"frontier":false},
+    {"id":"aa-claude-fable51","agent":"Claude Code","model":"Fable 5.1 (max, fallback)","provider":"Anthropic","cost":12.39,"score":62,"timeMinutes":34.8,"tokensMillions":5.7,"frontier":false},
+    {"id":"aa-claude-qwen38","agent":"Claude Code","model":"Qwen3.8 Max","provider":"Alibaba","cost":3.48,"score":43,"timeMinutes":66.0,"tokensMillions":8.7,"frontier":false}
+  ],
+  "codingAgentFrontierMeta": {
+    "benchmark":"Artificial Analysis Coding Agent Index v1.5",
+    "sourceLabel":"Artificial Analysis — coding agent comparisons",
+    "sourceUrl":"https://artificialanalysis.ai/agents/coding-agents/comparisons/claude-code-vs-codex",
+    "asOf":"2026-09-23",
+    "note":"This view refreshes the user's frontier concept with current Artificial Analysis v1.5 cost/index data. The index combines DeepSWE v1.1, Terminal-Bench 4.0 and SWE-Atlas-QnA. Cost is average API cost per task."
+  }
+}

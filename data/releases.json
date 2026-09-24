@@ -1,0 +1,238 @@
+{
+  "asOf": "2026-09-23",
+  "technologies": [
+    {
+      "id": "python",
+      "name": "Python",
+      "category": "Language",
+      "latestStable": "3.14.7",
+      "releaseDate": "2026-08-05",
+      "status": "Stable",
+      "productionBaseline": "3.14",
+      "nextPreview": "3.15.0rc2; 3.15.0 final scheduled for 2026-10-01",
+      "highlights": [
+        "3.14 remains the latest stable Python 3 line as of this snapshot",
+        "3.15 has reached its final planned release candidate"
+      ],
+      "whyItMatters": "Python stays the glue/API/notebook language around most data platforms even when the heavy execution engine is native, JVM or distributed.",
+      "compatibility": "For data work, verify wheels for NumPy/Pandas/PyArrow/Spark connectors before moving to a brand-new Python line.",
+      "source": {
+        "label": "Python source releases",
+        "url": "https://www.python.org/getit/source/",
+        "asOf": "2026-09-23"
+      }
+    },
+    {
+      "id": "spark",
+      "name": "Apache Spark / PySpark",
+      "category": "Distributed data engine",
+      "latestStable": "4.2.0",
+      "releaseDate": "2026-07-14",
+      "status": "Stable",
+      "productionBaseline": "4.2.0; maintained 4.1.x and 4.0.x lines also exist",
+      "nextPreview": "",
+      "highlights": [
+        "Regular Python UDFs use Arrow optimization by default",
+        "Native GEOMETRY / GEOGRAPHY SQL types",
+        "Spark 4 distributions are built for Scala 2.13; Scala 2.12 support is dropped"
+      ],
+      "whyItMatters": "The Python/JVM boundary is getting cheaper, but built-in DataFrame/SQL expressions, shuffle design, pruning and file layout still matter more than language syntax at distributed scale.",
+      "compatibility": "Spark 4.2.0 is the newest stable line in the official downloads; ecosystem connectors and table formats must be checked for Spark 4.2 compatibility.",
+      "source": {
+        "label": "Apache Spark news and downloads",
+        "url": "https://spark.apache.org/news/",
+        "asOf": "2026-09-23"
+      }
+    },
+    {
+      "id": "scala",
+      "name": "Scala",
+      "category": "Language / JVM",
+      "latestStable": "3.9.0",
+      "releaseDate": "2026-09-03",
+      "status": "LTS + current",
+      "productionBaseline": "3.9.0 LTS; 2.13.18 remains the current Scala 2 line",
+      "nextPreview": "",
+      "highlights": [
+        "Scala 3.9 opens a new Long-Term Support line",
+        "The LTS/Next model separates conservative library baselines from faster feature delivery"
+      ],
+      "whyItMatters": "Scala remains useful for JVM-native Spark libraries and custom code, while PySpark/SQL increasingly cover most day-to-day data engineering.",
+      "compatibility": "Scala 3.9 artifacts are not consumable by Scala 3.3 projects; Spark 4 prebuilt artifacts use Scala 2.13 rather than Scala 3.",
+      "source": {
+        "label": "Scala downloads",
+        "url": "https://www.scala-lang.org/download/",
+        "asOf": "2026-09-23"
+      }
+    },
+    {
+      "id": "rust",
+      "name": "Rust",
+      "category": "Systems language",
+      "latestStable": "1.98.1",
+      "releaseDate": "2026-09-03",
+      "status": "Stable",
+      "productionBaseline": "stable channel",
+      "nextPreview": "beta/nightly channels continue on the six-week cadence",
+      "highlights": [
+        "1.98.1 is a point release fixing a vtable miscompilation from 1.98.0",
+        "Rust increasingly sits underneath modern analytical engines and infrastructure"
+      ],
+      "whyItMatters": "DuckDB-adjacent tooling, Polars, DataFusion and many new data systems use Rust to combine native performance with memory safety.",
+      "compatibility": "Use rustup stable for production; pin the toolchain in CI for reproducible builds.",
+      "source": {
+        "label": "Rust release announcements",
+        "url": "https://blog.rust-lang.org/releases/latest/",
+        "asOf": "2026-09-23"
+      }
+    },
+    {
+      "id": "java",
+      "name": "Java / JDK",
+      "category": "Language / JVM",
+      "latestStable": "27",
+      "releaseDate": "2026-09-15",
+      "status": "Stable; non-LTS",
+      "productionBaseline": "25 is the current LTS",
+      "nextPreview": "JDK 28 follows the six-month release cadence",
+      "highlights": [
+        "JDK 27 is the latest Java SE release",
+        "JDK 25 remains the current Long-Term Support release"
+      ],
+      "whyItMatters": "Spark, Kafka and much of the distributed-data ecosystem remain JVM-based even when users primarily write Python or SQL.",
+      "compatibility": "Choose an LTS JDK when ecosystem support matters more than the newest language/runtime features; verify Spark/Kafka vendor matrices before jumping JDK versions.",
+      "source": {
+        "label": "Oracle Java downloads",
+        "url": "https://www.oracle.com/java/technologies/downloads/",
+        "asOf": "2026-09-23"
+      }
+    },
+    {
+      "id": "duckdb",
+      "name": "DuckDB",
+      "category": "Analytical database",
+      "latestStable": "1.5.5",
+      "releaseDate": "2026-07-22",
+      "status": "Stable",
+      "productionBaseline": "1.5.x",
+      "nextPreview": "1.5.6 planned 2026-09-28; 2.0.0 planned 2026-10-21",
+      "highlights": [
+        "DuckDB maintains a published release calendar",
+        "The project is approaching its 2.0 major release"
+      ],
+      "whyItMatters": "DuckDB is a strong single-node baseline for Parquet/SQL analytics and makes a useful control when deciding whether Spark/distributed compute is actually necessary.",
+      "compatibility": "Pin extensions and client bindings with the engine version for reproducible benchmark results.",
+      "source": {
+        "label": "DuckDB release calendar",
+        "url": "https://duckdb.org/release_calendar",
+        "asOf": "2026-09-23"
+      }
+    },
+    {
+      "id": "polars",
+      "name": "Polars",
+      "category": "DataFrame engine",
+      "latestStable": "1.44.2",
+      "releaseDate": "2026-09-09",
+      "status": "1.x stable; 2.0 release candidate available",
+      "productionBaseline": "1.44.x",
+      "nextPreview": "Polars 2.0 RC announced 2026-09-02",
+      "highlights": [
+        "Polars 2.0 plans to make the streaming engine the default for LazyFrame queries",
+        "The 2.0 transition is primarily a defaults/API cleanup rather than a feature-reset release"
+      ],
+      "whyItMatters": "Polars is a fast single-node DataFrame alternative that can reduce the need for Spark on medium-sized local workloads.",
+      "compatibility": "Treat Polars 2.0 as a migration event; benchmark memory/streaming behavior rather than assuming pandas-style semantics.",
+      "source": {
+        "label": "Polars releases",
+        "url": "https://docs.pola.rs/polars-on-premises/releases/",
+        "asOf": "2026-09-23"
+      }
+    },
+    {
+      "id": "iceberg",
+      "name": "Apache Iceberg",
+      "category": "Open table format",
+      "latestStable": "1.11.0",
+      "releaseDate": "2026-05-19",
+      "status": "Stable",
+      "productionBaseline": "1.11.x",
+      "nextPreview": "PyIceberg 0.12.0 released 2026-09-03",
+      "highlights": [
+        "1.11.0 continues table-format evolution across engines",
+        "Java 11 and Spark 3.4 support are being deprecated/dropped in the 1.11 line"
+      ],
+      "whyItMatters": "Iceberg is central to multi-engine lakehouse interoperability, especially when storage/catalog ownership should not be tied to one compute vendor.",
+      "compatibility": "Check the engine-specific Iceberg runtime artifact and catalog implementation, not only the table-format version.",
+      "source": {
+        "label": "Apache Iceberg releases",
+        "url": "https://iceberg.apache.org/releases/",
+        "asOf": "2026-09-23"
+      }
+    },
+    {
+      "id": "delta",
+      "name": "Delta Lake",
+      "category": "Open table format",
+      "latestStable": "4.4.0",
+      "releaseDate": "2026-08-20",
+      "status": "Stable",
+      "productionBaseline": "4.4.x",
+      "nextPreview": "",
+      "highlights": [
+        "Delta Spark defaults to Spark 4.2",
+        "Catalog-managed tables and UC Delta APIs expand multi-engine/catalog-centric operation",
+        "Delta 4.4 continues Delta Kernel, UniForm and connector work"
+      ],
+      "whyItMatters": "Delta remains the native lakehouse table layer around Databricks/Spark while becoming more catalog-centric and interoperable.",
+      "compatibility": "Delta 4.4 supports Spark 4.2 and continued 4.1/4.0.1 compatibility; verify exact engine/version matrix before upgrading.",
+      "source": {
+        "label": "Delta Lake 4.4 announcement",
+        "url": "https://delta.io/blog/2026-08-20-simplifying-your-open-lakehouse-with-the-delta-kernel-and-the-uc-delta-apis/",
+        "asOf": "2026-09-23"
+      }
+    },
+    {
+      "id": "airflow",
+      "name": "Apache Airflow",
+      "category": "Orchestration",
+      "latestStable": "3.3.2",
+      "releaseDate": "2026-09-17",
+      "status": "Stable",
+      "productionBaseline": "3.3.x",
+      "nextPreview": "",
+      "highlights": [
+        "Airflow 3.3.2 is the latest patch release in the 3.3 line",
+        "The project continues frequent 3.x patch/minor delivery"
+      ],
+      "whyItMatters": "Airflow remains a major general-purpose DAG orchestrator even as data platforms add more declarative and platform-native pipeline systems.",
+      "compatibility": "Provider packages and executor/deployment choices should be versioned separately from core Airflow.",
+      "source": {
+        "label": "Apache Airflow announcements",
+        "url": "https://airflow.apache.org/announcements/",
+        "asOf": "2026-09-23"
+      }
+    },
+    {
+      "id": "dbt",
+      "name": "dbt OSS / Core",
+      "category": "Transformation",
+      "latestStable": "2.0.5",
+      "releaseDate": "2026-09-18",
+      "status": "Stable new major line",
+      "productionBaseline": "2.0.x; 1.12.5 remains available on the v1 line",
+      "nextPreview": "",
+      "highlights": [
+        "dbt 2.0 is a ground-up Rust rewrite that underpins the Fusion engine",
+        "The new line broadens native adapter/materialization capabilities while the v1 Python line remains relevant for compatibility"
+      ],
+      "whyItMatters": "dbt demonstrates the same abstraction trend as SQL: users describe transformations/tests/contracts while the engine increasingly owns execution and optimization details.",
+      "compatibility": "Treat the 1.x → 2.x move as a major migration; validate adapters, packages, macros and CI behavior before switching.",
+      "source": {
+        "label": "dbt OSS releases",
+        "url": "https://github.com/dbt-labs/dbt/releases",
+        "asOf": "2026-09-23"
+      }
+    }
+  ]
+}

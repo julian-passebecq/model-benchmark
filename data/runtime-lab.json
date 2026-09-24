@@ -1,0 +1,269 @@
+{
+  "asOf": "2026-09-23",
+  "profiles": [
+    {
+      "id": "pandas",
+      "name": "pandas",
+      "language": "Python",
+      "execution": "Eager DataFrame operations backed by NumPy/C extensions",
+      "nodeModel": "Single node",
+      "startup": "Very low",
+      "parallelism": "Limited by operation; Python-level code is constrained by the GIL",
+      "optimizer": "No global lazy query optimizer in the classic API",
+      "pythonBoundary": "Native Python API; vectorized operations avoid Python loops",
+      "bestFor": "Small/medium in-memory analysis, broad ecosystem compatibility, interview fundamentals",
+      "watchFor": "Object dtype, copies, Python loops, memory blowups and row-wise apply",
+      "source": {
+        "label": "pandas docs",
+        "url": "https://pandas.pydata.org/docs/"
+      }
+    },
+    {
+      "id": "polars",
+      "name": "Polars",
+      "language": "Python / Rust",
+      "execution": "Rust-native vectorized DataFrame engine with eager and lazy APIs",
+      "nodeModel": "Single node / streaming execution for supported plans",
+      "startup": "Low",
+      "parallelism": "Multithreaded query execution",
+      "optimizer": "Lazy query optimizer with projection/predicate pushdown",
+      "pythonBoundary": "Python expressions compile into Rust engine operations",
+      "bestFor": "Fast local ETL, DataFrame pipelines and larger-than-pandas analytical workloads",
+      "watchFor": "Different expression model from pandas; distributed execution is not its primary model",
+      "source": {
+        "label": "Polars docs",
+        "url": "https://docs.pola.rs/"
+      }
+    },
+    {
+      "id": "duckdb",
+      "name": "DuckDB",
+      "language": "SQL / Python / many clients",
+      "execution": "In-process vectorized columnar OLAP database",
+      "nodeModel": "Single node",
+      "startup": "Very low",
+      "parallelism": "Multithreaded within one process",
+      "optimizer": "SQL optimizer with filter/projection pushdown and join planning",
+      "pythonBoundary": "Python client submits work to native query engine",
+      "bestFor": "Parquet/CSV/JSON SQL, local analytics, embedded data apps and reproducible query benchmarks",
+      "watchFor": "Not a distributed compute engine; memory/storage layout still matters",
+      "source": {
+        "label": "DuckDB docs",
+        "url": "https://duckdb.org/docs/"
+      }
+    },
+    {
+      "id": "pyspark",
+      "name": "PySpark",
+      "language": "Python + JVM",
+      "execution": "Python driver/API over Spark's JVM execution engine",
+      "nodeModel": "Distributed cluster",
+      "startup": "High compared with local engines",
+      "parallelism": "Distributed tasks across executors",
+      "optimizer": "Catalyst + Tungsten for SQL/DataFrame built-ins",
+      "pythonBoundary": "Built-in expressions stay in optimized JVM engine; Python UDFs cross a serialization boundary",
+      "bestFor": "Large distributed ETL, lakehouse transforms, streaming and data-engineering platform work",
+      "watchFor": "Python UDFs, tiny files, shuffles, skew, collect(), unnecessary caches and driver bottlenecks",
+      "source": {
+        "label": "Spark PySpark docs",
+        "url": "https://spark.apache.org/docs/latest/api/python/"
+      }
+    },
+    {
+      "id": "scala-spark",
+      "name": "Spark with Scala",
+      "language": "Scala / JVM",
+      "execution": "Native JVM Spark API",
+      "nodeModel": "Distributed cluster",
+      "startup": "High compared with local engines",
+      "parallelism": "Distributed tasks across executors",
+      "optimizer": "Catalyst + Tungsten for SQL/DataFrame built-ins",
+      "pythonBoundary": "No Python-JVM serialization boundary for JVM-native user code",
+      "bestFor": "Spark libraries, JVM-heavy pipelines, custom typed code and minimizing Python UDF boundaries",
+      "watchFor": "Built-in Spark SQL expressions often matter more than Python-vs-Scala language choice",
+      "source": {
+        "label": "Spark Scala API",
+        "url": "https://spark.apache.org/docs/latest/api/scala/"
+      }
+    },
+    {
+      "id": "spark-sql",
+      "name": "Spark SQL",
+      "language": "SQL",
+      "execution": "Declarative SQL compiled to Spark physical plans",
+      "nodeModel": "Distributed cluster",
+      "startup": "High compared with local engines",
+      "parallelism": "Distributed",
+      "optimizer": "Catalyst optimizer + adaptive query execution",
+      "pythonBoundary": "None for SQL expressions",
+      "bestFor": "Portable distributed transformations where the optimizer should choose execution details",
+      "watchFor": "Bad joins, skew, shuffle volume, partitioning and file layout still dominate performance",
+      "source": {
+        "label": "Spark SQL guide",
+        "url": "https://spark.apache.org/docs/latest/sql-programming-guide.html"
+      }
+    }
+  ],
+  "benchmarkTemplates": [
+    {
+      "id": "local-1gb",
+      "name": "1 GB local scan",
+      "dataset": "Synthetic TPC-H/NYC-style Parquet",
+      "size": "1 GB",
+      "operations": [
+        "scan",
+        "filter",
+        "group by",
+        "sort"
+      ],
+      "engines": [
+        "pandas",
+        "Polars",
+        "DuckDB"
+      ],
+      "hardware": "Same laptop, cold-cache and warm-cache runs",
+      "lesson": "Measure startup overhead and vectorized local-engine efficiency before involving a cluster."
+    },
+    {
+      "id": "local-10gb",
+      "name": "10 GB local analytical pipeline",
+      "dataset": "Partitioned Parquet",
+      "size": "10 GB",
+      "operations": [
+        "projection pushdown",
+        "predicate pushdown",
+        "join",
+        "aggregate"
+      ],
+      "engines": [
+        "Polars lazy",
+        "DuckDB",
+        "pandas chunked"
+      ],
+      "hardware": "Same SSD and memory cap",
+      "lesson": "Expose optimizer pushdown, streaming and memory-pressure differences."
+    },
+    {
+      "id": "spark-100gb",
+      "name": "100 GB Spark crossover",
+      "dataset": "Partitioned Parquet / Delta",
+      "size": "100 GB",
+      "operations": [
+        "scan",
+        "repartition",
+        "join",
+        "aggregate"
+      ],
+      "engines": [
+        "PySpark DataFrame",
+        "Spark SQL",
+        "Scala Spark"
+      ],
+      "hardware": "Fixed executor count / cores / memory",
+      "lesson": "Compare API/language overhead while keeping the Spark physical plan and cluster fixed."
+    },
+    {
+      "id": "spark-1tb",
+      "name": "1 TB distributed lake query",
+      "dataset": "Parquet + Iceberg/Delta variants",
+      "size": "1 TB",
+      "operations": [
+        "selective scan",
+        "large join",
+        "group by",
+        "window"
+      ],
+      "engines": [
+        "Spark SQL",
+        "PySpark",
+        "Scala Spark",
+        "Trino"
+      ],
+      "hardware": "Versioned cluster shape, engine version and object-store region",
+      "lesson": "At distributed scale, shuffle, file layout, pruning and engine planning dominate language microbenchmarks."
+    },
+    {
+      "id": "udf-boundary",
+      "name": "Spark UDF boundary test",
+      "dataset": "Fixed 50M-row dataset",
+      "size": "Fixed rows",
+      "operations": [
+        "built-in expression",
+        "Python UDF",
+        "Pandas UDF / Arrow",
+        "Scala UDF"
+      ],
+      "engines": [
+        "PySpark",
+        "Scala Spark"
+      ],
+      "hardware": "Same Spark version and cluster",
+      "lesson": "Show why built-in functions and SQL expressions usually outperform opaque UDFs."
+    },
+    {
+      "id": "format-layout",
+      "name": "File/table layout test",
+      "dataset": "Same logical dataset encoded differently",
+      "size": "100 GB → 1 TB",
+      "operations": [
+        "full scan",
+        "selective scan",
+        "time travel",
+        "merge/upsert"
+      ],
+      "engines": [
+        "Parquet",
+        "Delta",
+        "Iceberg"
+      ],
+      "hardware": "Same engine and compute",
+      "lesson": "Separate file-format scan efficiency from table-format transaction/metadata features."
+    },
+    {
+      "id": "serverless-python-coldstart",
+      "name": "Python serverless cold-start / warm-run test",
+      "dataset": "Small JSON + optional 50 MB Parquet fixture",
+      "size": "request / micro-batch",
+      "operations": [
+        "import runtime",
+        "cold start",
+        "warm invocation",
+        "small transform",
+        "HTTP response"
+      ],
+      "engines": [
+        "AWS Lambda Python",
+        "Azure Functions Python",
+        "Cloud Run FastAPI"
+      ],
+      "hardware": "Use provider defaults first; record memory/CPU allocation, region and package/image size",
+      "lesson": "For small cloud functions, startup, dependency size and network calls can matter more than Python execution speed."
+    },
+    {
+      "id": "api-polars-duckdb",
+      "name": "Polars vs DuckDB API service",
+      "dataset": "1–10 GB Parquet on object storage",
+      "size": "1–10 GB",
+      "operations": [
+        "selective scan",
+        "filter",
+        "group by",
+        "JSON response"
+      ],
+      "engines": [
+        "FastAPI + Polars",
+        "FastAPI + DuckDB"
+      ],
+      "hardware": "Same 1–2 vCPU container, same object store, same region and cold/warm request policy",
+      "lesson": "Useful for deciding whether a tiny analytical API needs a distributed engine at all."
+    }
+  ],
+  "summary": [
+    "For small local data, startup and serialization overhead often matter more than distributed scale.",
+    "For Spark DataFrames and SQL, Python and Scala frequently reach the same optimized physical engine when you stay with built-in expressions.",
+    "The largest PySpark penalty appears when work falls back into row-wise Python UDFs or excessive Python/JVM serialization.",
+    "At 100 GB–multi-TB scale, partition pruning, file sizes, join strategy, shuffle volume, skew and cluster shape usually dominate language syntax.",
+    "Every benchmark should store engine version, dataset generator, file layout, hardware, cold/warm cache state and exact query.",
+    "For serverless Python, measure cold start, package/image size, memory allocation and network latency separately from the transform itself."
+  ]
+}
