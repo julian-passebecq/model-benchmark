@@ -430,26 +430,62 @@ export function DataDashboard({
           <div className="runtime-lab-stack">
             {runtimes.length ? (
               <div>
-                <SectionHeader eyebrow="EXECUTION MODELS" title="pandas / Polars / DuckDB / PySpark / Scala Spark / Spark SQL" meta="click a row for the performance boundary" />
-                <div className="data-table-wrap">
-                  <table className="data-table runtime-table">
-                    <thead>
-                      <tr>
-                        <th>Runtime</th><th>Execution</th><th>Node model</th><th>Startup</th>
-                        <th>Parallelism</th><th>Optimizer</th><th>Python / JVM boundary</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {runtimes.map((item) => (
-                        <tr key={item.id} onClick={() => onInspect(runtimeInspector(item))}>
-                          <td><strong>{item.name}</strong><small className="table-sub">{item.language}</small></td>
-                          <td>{item.execution}</td><td>{item.nodeModel}</td><td>{item.startup}</td>
-                          <td>{item.parallelism}</td><td>{item.optimizer}</td><td>{item.pythonBoundary}</td>
-                        </tr>
-                      ))}
-                    </tbody>
-                  </table>
+                <SectionHeader eyebrow="EXECUTION MODELS" title="Start with the execution boundary, then benchmark" meta="local engines → distributed Spark" />
+                <div className="runtime-mosaic">
+                  {runtimes.map((item) => {
+                    const featured = item.id === "polars" || item.id === "duckdb" || item.id === "pyspark";
+                    return (
+                      <button
+                        type="button"
+                        className={featured ? "runtime-card featured-runtime" : "runtime-card"}
+                        key={item.id}
+                        onClick={() => onInspect(runtimeInspector(item))}
+                      >
+                        <div className="runtime-card-head">
+                          <div>
+                            <span className="micro-label">{item.language}</span>
+                            <h3>{item.name}</h3>
+                          </div>
+                          <span className={item.nodeModel.toLowerCase().includes("distributed") ? "runtime-node distributed" : "runtime-node"}>
+                            {item.nodeModel.toLowerCase().includes("distributed") ? "DISTRIBUTED" : "LOCAL"}
+                          </span>
+                        </div>
+                        <p>{item.bestFor}</p>
+                        <div className="runtime-facts">
+                          <span><small>Startup</small><strong>{item.startup}</strong></span>
+                          <span><small>Optimizer</small><strong>{item.optimizer}</strong></span>
+                        </div>
+                        <small className="runtime-watch">{item.watchFor}</small>
+                      </button>
+                    );
+                  })}
                 </div>
+
+                <details className="secondary-details">
+                  <summary>
+                    <span>Full runtime execution matrix</span>
+                    <small>Execution · node model · startup · parallelism · optimizer · Python/JVM boundary</small>
+                  </summary>
+                  <div className="data-table-wrap">
+                    <table className="data-table runtime-table">
+                      <thead>
+                        <tr>
+                          <th>Runtime</th><th>Execution</th><th>Node model</th><th>Startup</th>
+                          <th>Parallelism</th><th>Optimizer</th><th>Python / JVM boundary</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {runtimes.map((item) => (
+                          <tr key={item.id} onClick={() => onInspect(runtimeInspector(item))}>
+                            <td><strong>{item.name}</strong><small className="table-sub">{item.language}</small></td>
+                            <td>{item.execution}</td><td>{item.nodeModel}</td><td>{item.startup}</td>
+                            <td>{item.parallelism}</td><td>{item.optimizer}</td><td>{item.pythonBoundary}</td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+                </details>
               </div>
             ) : null}
 
@@ -458,7 +494,12 @@ export function DataDashboard({
                 <SectionHeader eyebrow="QUERY / DATASET RECIPES" title="Benchmarks worth measuring" meta="no fabricated timings" />
                 <div className="recipe-grid">
                   {recipes.map((item) => (
-                    <button type="button" className="recipe-card" key={item.id} onClick={() => onInspect(templateInspector(item))}>
+                    <button
+                      type="button"
+                      className={item.id === "spark-1tb" || item.id === "format-layout" ? "recipe-card featured-recipe" : "recipe-card"}
+                      key={item.id}
+                      onClick={() => onInspect(templateInspector(item))}
+                    >
                       <div className="recipe-card-head">
                         <FlaskConical size={18} />
                         <div><span className="micro-label">{item.size}</span><h3>{item.name}</h3></div>
