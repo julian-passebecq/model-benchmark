@@ -23,6 +23,7 @@ import { EvolutionDashboard } from "./views/evolution-dashboard";
 import { HardwareDashboard } from "./views/hardware-dashboard";
 import { ModelsDashboard } from "./views/models-dashboard";
 import { Inspector } from "./inspector";
+import { ThemeSwitcher } from "./theme-switcher";
 import { snapshot } from "../lib/data";
 import type { DashboardId, InspectorRecord } from "../lib/types";
 
@@ -132,6 +133,7 @@ export default function DashboardApp() {
         </div>
 
         <div className="ribbon-actions">
+          <ThemeSwitcher />
           <a
             className="icon-button"
             href="https://github.com/julian-passebecq/model-benchmark"
@@ -202,6 +204,14 @@ export default function DashboardApp() {
           <div>
             <strong>Source-aware records</strong>
             <p>Rows carry source URL, date and caveat fields so benchmarks can distinguish measured, official and illustrative data.</p>
+          </div>
+        </div>
+
+        <div className="left-panel-card navigation-tip">
+          <BrainCircuit size={16} />
+          <div>
+            <strong>Start with the question</strong>
+            <p>Each observatory now prioritizes a small set of task-oriented views before the dense comparison tables.</p>
           </div>
         </div>
       </aside>
