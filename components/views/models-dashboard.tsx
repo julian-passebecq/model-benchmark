@@ -470,7 +470,7 @@ function BrowserUseView({
 
   return (
     <>
-      <section className="metric-strip four">
+      <section className="metric-strip four model-metrics">
         <MetricCard label="VISIBLE MODELS" value={String(filtered.length)} sub={String(currentModels.length) + " marked current"} />
         <MetricCard label="TOP SCORE" value={bestScore ? bestScore.score.toFixed(1) : "—"} sub={bestScore?.label ?? "No match"} />
         <MetricCard label="LOWEST COST" value={cheapest ? "$" + cheapest.costPerTask.toFixed(3) : "—"} sub={cheapest?.label ?? "No match"} />
@@ -623,19 +623,19 @@ function TerminalBenchView({
 
   return (
     <>
-      <section className="metric-strip four">
+      <section className="metric-strip four model-metrics">
         <MetricCard label="EFFORT POINTS" value={String(points.length)} sub="low → max across five model families" />
         <MetricCard label="PUBLISHED TOP" value={best ? best.score.toFixed(1) + "%" : "—"} sub={best ? best.series + " · " + best.effort : "No match"} />
         <MetricCard label="LOWEST ATTEMPT COST" value={cheapest ? "$" + cheapest.cost.toFixed(2) : "—"} sub={cheapest ? cheapest.series + " · " + cheapest.effort : "No match"} />
         <MetricCard label="OPUS 5.5 MEDIUM" value={mediumOpus ? mediumOpus.score.toFixed(1) + "%" : "—"} sub={mediumOpus ? "≈ $" + mediumOpus.cost.toFixed(2) + " / attempt" : "Filtered out"} />
       </section>
 
-      <section className="panel span-9">
+      <section className="panel span-12 model-primary-chart">
         <SectionHeader eyebrow="TERMINAL-BENCH 4.0" title="Agentic terminal coding by effort level" meta="intermediate chart points are approximate transcriptions" />
         {points.length ? <TerminalBenchChart points={points} onInspect={onInspect} /> : <EmptyState query={query} />}
       </section>
 
-      <aside className="panel span-3">
+      <aside className="panel span-12 model-reading-guide">
         <SectionHeader eyebrow="WHY THIS VIEW MATTERS" title="Reasoning effort has a price curve" />
         <div className="knowledge-stack">
           <article><Gauge size={18} /><div><strong>Effort is not linear</strong><p>Moving from low to medium can buy a large quality jump, while xhigh to max can flatten or even regress.</p></div></article>
@@ -686,19 +686,19 @@ function CodingFrontierView({
 
   return (
     <>
-      <section className="metric-strip four">
+      <section className="metric-strip four model-metrics">
         <MetricCard label="AGENT CONFIGS" value={String(points.length)} sub="harness + model combinations" />
         <MetricCard label="TOP INDEX" value={best ? String(best.score) : "—"} sub={best ? best.agent + " · " + best.model : "No match"} />
         <MetricCard label="LOWEST COST" value={cheapest ? "$" + cheapest.cost.toFixed(2) : "—"} sub={cheapest ? cheapest.agent + " · " + cheapest.model : "No match"} />
         <MetricCard label="PARETO POINTS" value={String(frontierCount)} sub={fastest ? "fastest visible: " + fastest.timeMinutes.toFixed(1) + " min" : "No match"} />
       </section>
 
-      <section className="panel span-9">
+      <section className="panel span-12 model-primary-chart">
         <SectionHeader eyebrow="ARTIFICIAL ANALYSIS · V1.5" title="Coding agent quality / cost frontier" meta="current source-backed data" />
         {points.length ? <CodingAgentFrontierChart points={points} onInspect={onInspect} /> : <EmptyState query={query} />}
       </section>
 
-      <aside className="panel span-3">
+      <aside className="panel span-12 model-reading-guide">
         <SectionHeader eyebrow="AGENT ECONOMICS" title="Model alone is not the product" />
         <div className="knowledge-stack">
           <article><Waypoints size={18} /><div><strong>Harness matters</strong><p>Codex, Claude Code, OpenCode and Grok Build can produce different cost, token and quality outcomes with different models.</p></div></article>
@@ -801,7 +801,7 @@ function ApiPricingView({
 
   return (
     <>
-      <section className="metric-strip four">
+      <section className="metric-strip four model-metrics">
         <MetricCard label="PRICED MODEL FAMILIES" value={String(pricedModels.length)} sub="unique provider/model price records" />
         <MetricCard label="REQUEST SHAPE" value={(inputTokens / 1000).toFixed(0) + "K / " + (outputTokens / 1000).toFixed(0) + "K"} sub="input / output tokens" />
         <MetricCard label="LOWEST SCENARIO COST" value={cheapest ? "$" + cheapest.cost.toFixed(4) : "—"} sub={cheapest?.item.family ?? "No priced match"} />
@@ -904,9 +904,8 @@ export function ModelsDashboard({
       <section className="panel span-12 benchmark-overview">
         <div className="benchmark-overview-head">
           <div>
-            <span className="micro-label">MODEL / AGENT OBSERVATORY</span>
-            <h2>Choose the question first</h2>
-            <p>These datasets measure different things. Pick the view that matches the decision you are making instead of mixing scores from incompatible benchmarks.</p>
+            <span className="micro-label">BENCHMARK VIEW</span>
+            <h2>{activeChoice.title}</h2>
           </div>
           <div className="benchmark-active-summary">
             <span className="micro-label">ACTIVE VIEW</span>
@@ -923,6 +922,7 @@ export function ModelsDashboard({
               key={item.id}
               className={benchmarkView === item.id ? "benchmark-choice active" : "benchmark-choice"}
               onClick={() => setBenchmarkView(item.id)}
+              title={item.summary}
             >
               <span className="micro-label">{item.eyebrow}</span>
               <strong>{item.title}</strong>
