@@ -3973,3 +3973,620 @@ body {
     grid-template-columns: 1fr;
   }
 }
+
+
+/* -------------------------------------------------------------------------- */
+/* Visual hierarchy: fewer equal-size tiles, clearer primary content           */
+/* -------------------------------------------------------------------------- */
+
+.hierarchy-metrics {
+  grid-template-columns: 1.35fr .82fr .92fr 1.08fr !important;
+  align-items: stretch;
+}
+
+.hierarchy-metrics .metric-card {
+  min-height: 70px;
+}
+
+.hierarchy-metrics .metric-card:first-child {
+  min-height: 84px;
+  padding: 12px 14px;
+  background: color-mix(in srgb, var(--blue) 4%, var(--panel));
+}
+
+.hierarchy-metrics .metric-card:first-child > strong {
+  font-size: 25px;
+}
+
+.hierarchy-metrics .metric-card:nth-child(2),
+.hierarchy-metrics .metric-card:nth-child(3) {
+  align-self: center;
+  min-height: 66px;
+}
+
+.benchmark-choice-grid {
+  grid-template-columns: 1.15fr .92fr 1.22fr .82fr;
+}
+
+.model-family-curve {
+  fill: none;
+  stroke-width: 2.1;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  opacity: .30;
+  pointer-events: none;
+  vector-effect: non-scaling-stroke;
+}
+
+html[data-theme="fluent"] .model-family-curve {
+  opacity: .38;
+}
+
+/* Cloud: glance first, full matrix on demand. */
+.cloud-platform-mosaic {
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  gap: 9px;
+}
+
+.cloud-platform-card {
+  grid-column: span 2;
+  min-width: 0;
+  min-height: 240px;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: var(--control-bg);
+  color: var(--text);
+  padding: 13px;
+  text-align: left;
+  cursor: pointer;
+}
+
+.cloud-platform-card.featured {
+  grid-column: span 3;
+  min-height: 270px;
+  padding: 16px;
+  background:
+    linear-gradient(145deg, color-mix(in srgb, var(--blue) 7%, transparent), transparent 58%),
+    var(--control-bg);
+}
+
+.cloud-platform-card:hover {
+  border-color: color-mix(in srgb, var(--blue) 45%, var(--line-strong));
+  box-shadow: 0 3px 14px var(--shadow-color);
+}
+
+.cloud-platform-title {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.cloud-platform-title h3 {
+  margin: 4px 0 0;
+  font-size: 14px;
+  font-weight: 610;
+  letter-spacing: -.015em;
+}
+
+.cloud-platform-card.featured .cloud-platform-title h3 {
+  font-size: 17px;
+}
+
+.cloud-platform-card > p {
+  margin: 9px 0 12px;
+  color: var(--muted);
+  font-size: 9px;
+  line-height: 1.5;
+}
+
+.cloud-platform-card.featured > p {
+  max-width: 680px;
+  font-size: 10px;
+}
+
+.cloud-glance {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 5px;
+  margin-top: auto;
+}
+
+.cloud-glance span {
+  min-width: 0;
+  padding: 8px;
+  border: 1px solid var(--line);
+  border-radius: 7px;
+  background: color-mix(in srgb, var(--panel-2) 72%, transparent);
+}
+
+.cloud-glance small,
+.cloud-glance strong {
+  display: block;
+}
+
+.cloud-glance small {
+  color: var(--muted-2);
+  font-size: 7px;
+  text-transform: uppercase;
+  letter-spacing: .06em;
+}
+
+.cloud-glance strong {
+  margin-top: 4px;
+  color: var(--text);
+  font-size: 8px;
+  line-height: 1.35;
+  font-weight: 530;
+}
+
+.cloud-platform-card.featured .cloud-glance strong {
+  font-size: 8.5px;
+}
+
+.cloud-platform-footer {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+  margin-top: 9px;
+}
+
+.cloud-platform-footer span {
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--blue) 7%, var(--panel-2));
+  color: var(--muted);
+  padding: 4px 7px;
+  font-size: 7px;
+}
+
+.cloud-focus-note,
+.data-focus-note {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 8px 12px;
+  align-items: baseline;
+  padding: 10px 12px;
+  border-left: 3px solid var(--blue);
+  border-radius: 0 7px 7px 0;
+  background: color-mix(in srgb, var(--blue) 4%, var(--panel-2));
+}
+
+.cloud-focus-note strong,
+.data-focus-note strong {
+  font-size: 9px;
+  white-space: nowrap;
+}
+
+.cloud-focus-note span,
+.data-focus-note span {
+  color: var(--muted);
+  font-size: 8.5px;
+  line-height: 1.45;
+}
+
+.secondary-details {
+  border: 1px solid var(--line);
+  border-radius: 9px;
+  overflow: hidden;
+  background: var(--panel);
+}
+
+.secondary-details > summary {
+  list-style: none;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  min-height: 44px;
+  padding: 9px 12px;
+  color: var(--text);
+  cursor: pointer;
+  background: var(--panel-2);
+}
+
+.secondary-details > summary::-webkit-details-marker {
+  display: none;
+}
+
+.secondary-details > summary::after {
+  content: "+";
+  color: var(--blue);
+  font: 15px "SFMono-Regular", Consolas, monospace;
+}
+
+.secondary-details[open] > summary::after {
+  content: "−";
+}
+
+.secondary-details > summary span {
+  font-size: 9.5px;
+  font-weight: 600;
+}
+
+.secondary-details > summary small {
+  margin-left: auto;
+  color: var(--muted-2);
+  font-size: 7.5px;
+  text-align: right;
+}
+
+.secondary-details .data-table-wrap {
+  border: 0;
+  border-top: 1px solid var(--line);
+  border-radius: 0;
+}
+
+/* Data stack: featured engines and table formats get the visual weight. */
+.data-primary-panel {
+  padding: 14px;
+}
+
+.data-view-header {
+  gap: 18px;
+  align-items: flex-start;
+}
+
+.data-view-header > .toggle-group,
+.split-header > .toggle-group {
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  max-width: min(760px, 60vw);
+}
+
+.data-engine-grid {
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  grid-auto-flow: dense;
+  align-items: start;
+}
+
+.data-engine-grid .comparison-card {
+  grid-column: span 2;
+}
+
+.data-engine-grid .featured-engine {
+  min-height: 218px;
+  padding: 14px;
+  background:
+    linear-gradient(145deg, color-mix(in srgb, var(--cyan) 5%, transparent), transparent 62%),
+    var(--control-bg);
+}
+
+.data-engine-grid .featured-engine h3 {
+  font-size: 14px;
+}
+
+.data-engine-grid .compact-engine {
+  min-height: 148px;
+  padding: 11px;
+}
+
+.data-engine-grid .compact-engine .feature-matrix {
+  grid-template-columns: 1fr 1fr;
+  margin-top: 8px;
+}
+
+.data-engine-grid .compact-engine .tag-row {
+  display: none;
+}
+
+.format-stack,
+.runtime-lab-stack,
+.platform-stack {
+  display: grid;
+  gap: 14px;
+}
+
+.format-mosaic {
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  gap: 8px;
+  grid-auto-flow: dense;
+}
+
+.format-card {
+  grid-column: span 2;
+  min-width: 0;
+  min-height: 190px;
+  display: flex;
+  flex-direction: column;
+  padding: 12px;
+  border: 1px solid var(--line);
+  border-radius: 9px;
+  background: var(--control-bg);
+  color: var(--text);
+  text-align: left;
+  cursor: pointer;
+}
+
+.format-card.featured-format {
+  grid-column: span 3;
+  min-height: 215px;
+  padding: 14px;
+  background:
+    linear-gradient(145deg, color-mix(in srgb, var(--violet) 6%, transparent), transparent 65%),
+    var(--control-bg);
+}
+
+.format-card:hover,
+.runtime-card:hover {
+  border-color: var(--line-strong);
+  box-shadow: 0 3px 12px var(--shadow-color);
+}
+
+.format-card-head,
+.runtime-card-head {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  align-items: flex-start;
+}
+
+.format-card h3,
+.runtime-card h3 {
+  margin: 4px 0 0;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.format-card.featured-format h3 {
+  font-size: 16px;
+}
+
+.format-card > p,
+.runtime-card > p {
+  margin: 9px 0;
+  color: var(--muted);
+  font-size: 8.5px;
+  line-height: 1.45;
+}
+
+.format-signal,
+.runtime-node {
+  flex: none;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  padding: 4px 6px;
+  color: var(--muted-2);
+  font-size: 6.5px;
+  letter-spacing: .05em;
+}
+
+.format-signal.on,
+.runtime-node.distributed {
+  border-color: color-mix(in srgb, var(--blue) 45%, var(--line));
+  color: var(--blue);
+  background: color-mix(in srgb, var(--blue) 5%, transparent);
+}
+
+.format-facts,
+.runtime-facts {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 4px;
+  margin-top: auto;
+}
+
+.runtime-facts {
+  grid-template-columns: .7fr 1.3fr;
+}
+
+.format-facts span,
+.runtime-facts span {
+  min-width: 0;
+  padding: 7px;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  background: var(--panel-2);
+}
+
+.format-facts small,
+.format-facts strong,
+.runtime-facts small,
+.runtime-facts strong {
+  display: block;
+}
+
+.format-facts small,
+.runtime-facts small {
+  color: var(--muted-2);
+  font-size: 6.5px;
+  text-transform: uppercase;
+  letter-spacing: .05em;
+}
+
+.format-facts strong,
+.runtime-facts strong {
+  margin-top: 3px;
+  color: var(--text);
+  font-size: 7.5px;
+  line-height: 1.3;
+  font-weight: 520;
+}
+
+.format-tradeoff,
+.runtime-watch {
+  display: block;
+  margin-top: 8px;
+  color: var(--muted-2);
+  font-size: 7px;
+  line-height: 1.4;
+}
+
+.runtime-mosaic {
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  gap: 8px;
+  grid-auto-flow: dense;
+}
+
+.runtime-card {
+  grid-column: span 2;
+  min-width: 0;
+  min-height: 165px;
+  padding: 11px;
+  border: 1px solid var(--line);
+  border-radius: 9px;
+  background: var(--control-bg);
+  color: var(--text);
+  text-align: left;
+  cursor: pointer;
+}
+
+.runtime-card.featured-runtime {
+  min-height: 205px;
+  padding: 14px;
+  background:
+    linear-gradient(145deg, color-mix(in srgb, var(--green) 5%, transparent), transparent 65%),
+    var(--control-bg);
+}
+
+.runtime-card.featured-runtime h3 {
+  font-size: 15px;
+}
+
+.benchmark-grid {
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  grid-auto-flow: dense;
+}
+
+.benchmark-grid .benchmark-card {
+  grid-column: span 2;
+}
+
+.benchmark-grid .wide-benchmark {
+  grid-column: span 3;
+  min-height: 172px;
+}
+
+.recipe-grid {
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  grid-auto-flow: dense;
+}
+
+.recipe-grid .recipe-card {
+  grid-column: span 2;
+}
+
+.recipe-grid .featured-recipe {
+  grid-column: span 3;
+  background:
+    linear-gradient(145deg, color-mix(in srgb, var(--orange) 5%, transparent), transparent 65%),
+    var(--control-bg);
+}
+
+.release-grid {
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  grid-auto-flow: dense;
+}
+
+.release-grid .release-card {
+  grid-column: span 1;
+}
+
+.release-grid .release-card:first-child,
+.release-grid .release-card:nth-child(2) {
+  grid-column: span 2;
+  min-height: 150px;
+}
+
+/* Keep Fluent surfaces readable for legacy cards that predate theme variables. */
+html[data-theme="fluent"] .platform-summary-card,
+html[data-theme="fluent"] .release-card,
+html[data-theme="fluent"] .release-note-card,
+html[data-theme="fluent"] .stack-layer-card,
+html[data-theme="fluent"] .query-cost-calculator,
+html[data-theme="fluent"] .token-cost-controls {
+  background: var(--control-bg);
+}
+
+html[data-theme="fluent"] .platform-summary-card:hover,
+html[data-theme="fluent"] .release-card:hover,
+html[data-theme="fluent"] .release-note-card:hover,
+html[data-theme="fluent"] .stack-layer-card:hover {
+  background: color-mix(in srgb, var(--blue) 4%, var(--control-bg));
+}
+
+@media (max-width: 1180px) {
+  .hierarchy-metrics {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  }
+
+  .benchmark-choice-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .cloud-platform-card,
+  .cloud-platform-card.featured,
+  .format-card,
+  .format-card.featured-format,
+  .runtime-card {
+    grid-column: span 3;
+  }
+
+  .data-engine-grid .comparison-card,
+  .benchmark-grid .benchmark-card,
+  .benchmark-grid .wide-benchmark,
+  .recipe-grid .recipe-card,
+  .recipe-grid .featured-recipe {
+    grid-column: span 3;
+  }
+
+  .release-grid .release-card,
+  .release-grid .release-card:first-child,
+  .release-grid .release-card:nth-child(2) {
+    grid-column: span 2;
+  }
+}
+
+@media (max-width: 760px) {
+  .hierarchy-metrics {
+    grid-template-columns: 1fr 1fr !important;
+  }
+
+  .cloud-platform-mosaic,
+  .data-engine-grid,
+  .format-mosaic,
+  .runtime-mosaic,
+  .benchmark-grid,
+  .recipe-grid,
+  .release-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .cloud-platform-card,
+  .cloud-platform-card.featured,
+  .data-engine-grid .comparison-card,
+  .format-card,
+  .format-card.featured-format,
+  .runtime-card,
+  .benchmark-grid .benchmark-card,
+  .benchmark-grid .wide-benchmark,
+  .recipe-grid .recipe-card,
+  .recipe-grid .featured-recipe,
+  .release-grid .release-card,
+  .release-grid .release-card:first-child,
+  .release-grid .release-card:nth-child(2) {
+    grid-column: span 1;
+  }
+
+  .cloud-focus-note,
+  .data-focus-note {
+    grid-template-columns: 1fr;
+  }
+
+  .secondary-details > summary {
+    align-items: flex-start;
+  }
+
+  .secondary-details > summary small {
+    display: none;
+  }
+
+  .data-view-header > .toggle-group,
+  .split-header > .toggle-group {
+    max-width: none;
+  }
+}
