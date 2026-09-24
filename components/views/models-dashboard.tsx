@@ -169,6 +169,31 @@ function ModelScatter({
   const xTicks = [0.01, 0.02, 0.05, 0.1, 0.2, 0.5, 1, 2, 5, 10];
   const yTicks = [0, 20, 40, 60, 80];
 
+  const familyCurves = Array.from(new Set(models.map((model) => model.family)))
+    .map((family) => {
+      const rows = models
+        .filter((model) => model.family === family)
+        .toSorted((a, b) => a.costPerTask - b.costPerTask);
+      return {
+        family,
+        provider: rows[0]?.provider ?? "",
+        points: rows.map((row) => ({ x: x(row.costPerTask), y: y(row.score) }))
+      };
+    })
+    .filter((item) => item.points.length > 1);
+
+  const smoothPath = (points: Array<{ x: number; y: number }>) => {
+    if (points.length < 2) return "";
+    let d = "M " + points[0].x + " " + points[0].y;
+    for (let index = 1; index < points.length; index += 1) {
+      const previous = points[index - 1];
+      const current = points[index];
+      const midpointX = (previous.x + current.x) / 2;
+      d += " C " + midpointX + " " + previous.y + ", " + midpointX + " " + current.y + ", " + current.x + " " + current.y;
+    }
+    return d;
+  };
+
   return (
     <div className="chart-shell">
       <svg className="scatter-svg" viewBox={"0 0 " + width + " " + height} role="img" aria-label="Model benchmark score versus cost per task">
@@ -196,6 +221,15 @@ function ModelScatter({
         <text x={width / 2} y={height - 10} textAnchor="middle" className="axis-title">
           RECORDED COST / TASK · LOG SCALE
         </text>
+
+        {familyCurves.map((curve) => (
+          <path
+            key={curve.family}
+            d={smoothPath(curve.points)}
+            className="model-family-curve"
+            style={{ stroke: agentColors[curve.provider] ?? "#8d99a8" }}
+          />
+        ))}
 
         {models.map((model) => {
           const px = x(model.costPerTask);
@@ -493,7 +527,7 @@ function BrowserUseView({
           </div>
         </div>
         <div className="chart-reading-hint">
-          <strong>How to read it:</strong> higher = better benchmark score. Left = lower recorded task cost. Rings mark current-generation configurations. Click any point for source and caveats.
+          <strong>How to read it:</strong> higher = better benchmark score. Left = lower recorded task cost. Curves connect effort/configuration steps inside the same model family; rings mark current-generation configurations. Click any point for source and caveats.
         </div>
 
         {filtered.length === 0 ? <EmptyState query={query} /> : null}
