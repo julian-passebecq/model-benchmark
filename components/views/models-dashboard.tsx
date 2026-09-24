@@ -915,12 +915,11 @@ export function ModelsDashboard({
           </div>
         </div>
 
-        <div className="benchmark-choice-grid" role="tablist" aria-label="Model benchmark views">
+        <div className="benchmark-choice-grid" aria-label="Model benchmark views">
           {benchmarkChoices.map((item) => (
             <button
               type="button"
-              role="tab"
-              aria-selected={benchmarkView === item.id}
+              aria-pressed={benchmarkView === item.id}
               key={item.id}
               className={benchmarkView === item.id ? "benchmark-choice active" : "benchmark-choice"}
               onClick={() => setBenchmarkView(item.id)}
