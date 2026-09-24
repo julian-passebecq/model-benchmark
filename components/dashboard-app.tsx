@@ -11,6 +11,7 @@ import {
   Cpu,
   Database,
   Github,
+  Maximize2,
   PanelLeftClose,
   PanelRightClose,
   Search,
@@ -140,6 +141,18 @@ export default function DashboardApp() {
 
         <div className="ribbon-actions">
           <ThemeSwitcher />
+          <button
+            className="icon-button"
+            type="button"
+            aria-label="Focus central workspace"
+            title="Focus central workspace"
+            onClick={() => {
+              setLeftOpen(false);
+              setRightOpen(false);
+            }}
+          >
+            <Maximize2 size={16} />
+          </button>
           <a
             className="icon-button"
             href="https://github.com/julian-passebecq/model-benchmark"
@@ -197,29 +210,19 @@ export default function DashboardApp() {
           })}
         </nav>
 
-        <div className="left-panel-card">
-          <Box size={16} />
-          <div>
-            <strong>Git-backed JSON</strong>
-            <p>Edit <code>/data/*.json</code>. The UI updates without rewriting dashboard logic.</p>
+        <details className="left-panel-details">
+          <summary>
+            <Box size={15} />
+            <span>About the data</span>
+          </summary>
+          <div className="left-panel-card">
+            <Settings2 size={15} />
+            <div>
+              <strong>Git-backed, source-aware</strong>
+              <p>Edit <code>/data/*.json</code>. Records carry source, date and caveat metadata.</p>
+            </div>
           </div>
-        </div>
-
-        <div className="left-panel-card">
-          <Settings2 size={16} />
-          <div>
-            <strong>Source-aware records</strong>
-            <p>Rows carry source URL, date and caveat fields so benchmarks can distinguish measured, official and illustrative data.</p>
-          </div>
-        </div>
-
-        <div className="left-panel-card navigation-tip">
-          <BrainCircuit size={16} />
-          <div>
-            <strong>Start with the question</strong>
-            <p>Each observatory now prioritizes a small set of task-oriented views before the dense comparison tables.</p>
-          </div>
-        </div>
+        </details>
       </aside>
 
       {!leftOpen ? (
